@@ -1,85 +1,85 @@
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {useTheme} from "styled-components";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useTheme } from "styled-components";
 
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import {SafeArea} from "../../components/utils/safearea.component";
-import {Text} from '../../components/typography/typography.component';
-
-const HomeScreen = () => (
-    <SafeArea>
-        <Text variant="label">Home Screen</Text>
-    </SafeArea>
-)
+import { SafeArea } from "../../components/utils/safearea.component";
+import { Text } from "../../components/typography/typography.component";
+import { HomeNavigator } from "./home-navigator";
 
 const FavoritesScreen = () => (
-    <SafeArea>
-        <Text variant="label">Favorite screen</Text>
-    </SafeArea>
-)
+  <SafeArea>
+    <Text variant="label">Favorite screen</Text>
+  </SafeArea>
+);
 
 const InboxScreen = () => (
-    <SafeArea>
-        <Text variant="label">Inbox screen</Text>
-    </SafeArea>
-)
+  <SafeArea>
+    <Text variant="label">Inbox screen</Text>
+  </SafeArea>
+);
 
 const OrdersScreen = () => (
-    <SafeArea>
-        <Text variant="label">Orders Screen</Text>
-    </SafeArea>
-)
+  <SafeArea>
+    <Text variant="label">Orders Screen</Text>
+  </SafeArea>
+);
 
 const ProfileScreen = () => (
-    <SafeArea>
-        <Text variant="label">Profile screen</Text>
-    </SafeArea>
-)
+  <SafeArea>
+    <Text variant="label">Profile screen</Text>
+  </SafeArea>
+);
 
 const TAB_ICON = {
-    Explore: "home",
-    Favorites: "favorite-border",
-    Inbox: "md-chatbox-outline",
-    Orders: "scissors",
-    Account: "md-person-outline",
+  Explore: "home",
+  Favorites: "favorite-border",
+  Inbox: "md-chatbox-outline",
+  Orders: "scissors",
+  Account: "md-person-outline",
 };
 
 const getStyledScreenOptions = (theme) => {
-    return ({ route }) => {
-        const iconName = TAB_ICON[route.name];
-        return {
-            tabBarActiveTintColor: theme.colors.brand.primary,
-            tabBarInactiveTintColor: theme.colors.ui.secondary,
-            tabBarIcon: ({ size, color }) => {
-                if (iconName.startsWith("md")) {
-                    return <Ionicons name={iconName} size={size} color={color} />;
-                } else if(iconName.startsWith("home") || iconName.startsWith("scissors") ) {
-                    return <Feather name={iconName} size={size} color={color} />;
-                }
-                return <MaterialIcons name={iconName} size={size} color={color} />;
-            },
-            tabBarStyle: {
-                height: 60,
-            },
-            tabBarItemStyle: {
-                fontFamily: theme.fonts.body,
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 4,
-            },
-        };
+  return ({ route }) => {
+    const iconName = TAB_ICON[route.name];
+    return {
+      headerShown: false,
+      tabBarActiveTintColor: theme.colors.brand.primary,
+      tabBarInactiveTintColor: theme.colors.ui.secondary,
+      tabBarIcon: ({ size, color }) => {
+        if (iconName.startsWith("md")) {
+          return <Ionicons name={iconName} size={size} color={color} />;
+        } else if (
+          iconName.startsWith("home") ||
+          iconName.startsWith("scissors")
+        ) {
+          return <Feather name={iconName} size={size} color={color} />;
+        }
+        return <MaterialIcons name={iconName} size={size} color={color} />;
+      },
+      tabBarStyle: {
+        height: 60,
+      },
+      tabBarItemStyle: {
+        fontFamily: theme.fonts.body,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 4,
+      },
     };
+  };
 };
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
+
 export const AppNavigator = () => {
-    const theme = useTheme();
-    return (
-            <Tab.Navigator screenOptions={getStyledScreenOptions(theme)}>
-                <Tab.Screen name="Explore" component={HomeScreen}/>
-                <Tab.Screen name="Favorites" component={FavoritesScreen}/>
-                <Tab.Screen name="Orders" component={OrdersScreen}/>
-                <Tab.Screen name="Inbox" component={InboxScreen}/>
-                <Tab.Screen name="Account" component={ProfileScreen}/>
-            </Tab.Navigator>
-    )
-}
+  const theme = useTheme();
+  return (
+    <Tab.Navigator screenOptions={getStyledScreenOptions(theme)}>
+      <Tab.Screen name="Explore" component={HomeNavigator} />
+      <Tab.Screen name="Favorites" component={FavoritesScreen} />
+      <Tab.Screen name="Orders" component={OrdersScreen} />
+      <Tab.Screen name="Inbox" component={InboxScreen} />
+      <Tab.Screen name="Account" component={ProfileScreen} />
+    </Tab.Navigator>
+  );
+};

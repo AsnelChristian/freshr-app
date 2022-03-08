@@ -2,7 +2,6 @@ import React from "react";
 import styled, {useTheme} from "styled-components/native";
 
 const defaultTextStyles = (theme) => `
-  font-family: ${theme.fonts.body};
   font-weight: ${theme.fontWeights.regular};
   color: ${theme.colors.text.primary};
   flex-wrap: wrap;
@@ -41,11 +40,11 @@ const TextView = styled.Text`
   ${({ specificStyle }) => specificStyle}
 `;
 
-export const Text = ({variant, children}) => {
+export const Text = ({variant, children, style}) => {
   const theme = useTheme();
   const defaultStyle = defaultTextStyles(theme);
   const specificStyle = variants[variant](theme);
-  return <TextView defaultStyle={defaultStyle} specificStyle={specificStyle}>{children}</TextView>
+  return (<TextView defaultStyle={defaultStyle} specificStyle={specificStyle} style={style}>{children}</TextView>);
 }
 
 Text.defaultProps = {
