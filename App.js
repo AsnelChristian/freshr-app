@@ -7,8 +7,7 @@ import {
 } from "@expo-google-fonts/oswald";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import {theme} from "./src/infrastructure/theme";
-import {View} from 'react-native';
-import {Text} from './src/components/typography/typography.component';
+import {Navigation} from "./src/infrastructure/navigation";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -25,9 +24,7 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <View>
-          <Text>Freshr, fresh start.</Text>
-        </View>
+        <Navigation/>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
     </>
