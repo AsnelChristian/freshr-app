@@ -6,8 +6,9 @@ import {
   Oswald_400Regular,
 } from "@expo-google-fonts/oswald";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
-import {theme} from "./src/infrastructure/theme";
-import {Navigation} from "./src/infrastructure/navigation";
+import { theme } from "./src/infrastructure/theme";
+import { Navigation } from "./src/infrastructure/navigation";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -24,7 +25,9 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Navigation/>
+        <BottomSheetModalProvider>
+          <Navigation />
+        </BottomSheetModalProvider>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
     </>

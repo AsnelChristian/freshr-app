@@ -1,15 +1,11 @@
-import styled from "styled-components/native";
+import styled, { useTheme } from "styled-components/native";
 import MapView from "react-native-maps";
-import { useCallback, useMemo, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Entypo, FontAwesome, Octicons } from "@expo/vector-icons";
 import { Text } from "../../components/typography/typography.component";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { SafeArea } from "../../components/utils/safearea.component";
-import BottomSheet, {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
-import { Button, View, StyleSheet } from "react-native";
+import { PriceRangeModal } from "./components/filter-modal.component";
 
 const MapScreenContainer = styled.View`
   flex: 1;
@@ -41,10 +37,11 @@ const SearchFilter = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  background-color: ${({ variant, theme }) =>
+    variant ? theme.colors.ui.primary : theme.colors.ui.quaternary};
   padding: ${({ theme }) => theme.space[2]};
   border-radius: ${({ theme }) => theme.space[4]};
   elevation: 2;
-  background-color: white;
   margin: 1px;
 `;
 
@@ -53,53 +50,65 @@ const MapContainer = styled.View`
 `;
 
 const Map = styled(MapView)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: -1;
+  flex: 1;
 `;
 
 const FilterContainer = styled.ScrollView``;
 
 export const MapScreen = () => {
-  const bottomSheetModalRef = useRef(null);
+  const theme = useTheme();
+  const [showPriceFilter, setShowPriceFilter] = useState(false);
+  const [priceRange, setPriceRange] = useState([8, 15]);
 
-  // variables
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
+  const handlePriceFilterPress = () => {
+    setShowPriceFilter(!showPriceFilter);
+  };
 
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-  const handleSheetChanges = useCallback((index) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  const handlePriceRangeChange = (payload) => {
+    setPriceRange(payload);
+  };
 
   const filters = [
     {
       name: "Type of service",
-      right: "dropdown",
+      variant: null,
+      method: () => null,
     },
-    { name: "services", right: "count", value: 0 },
-    { name: "gender", value: "", right: "dropdown" },
-    { name: "Price range", right: "dropdown", value: "" },
+    { name: "services", value: 0, method: () => null, variant: null },
+    { name: "gender", value: "", method: () => null, variant: null },
+    {
+      name: "Price range",
+      value: "",
+      method: handlePriceFilterPress,
+      variant: showPriceFilter,
+    },
   ];
 
   const createFilterButton = (filter) => {
-    let right;
-    if (filter.right === "dropdown") {
-      right = <Entypo name="chevron-down" size={16} color="black" />;
-    } else {
-      right = <Text variant="body">({filter.value})</Text>;
-    }
     return (
       <Spacer position="right" size="small">
-        <SearchFilter onPress={handlePresentModalPress}>
-          <Text variant="body">{filter.name}</Text>
+        <SearchFilter variant={filter.variant} onPress={filter.method}>
+          <Text
+            style={{
+              fontSize: 14,
+              color: filter.variant
+                ? theme.colors.ui.quaternary
+                : theme.colors.ui.primary,
+            }}
+            variant="body"
+          >
+            {filter.name}
+          </Text>
           <Spacer position="left" size="small" />
-          {right}
+          <Entypo
+            name="chevron-down"
+            size={20}
+            color={
+              filter.variant
+                ? theme.colors.ui.quaternary
+                : theme.colors.ui.primary
+            }
+          />
         </SearchFilter>
       </Spacer>
     );
@@ -123,7 +132,7 @@ export const MapScreen = () => {
               </ResultFilterButton>
             </Spacer>
           </MapScreenSearchBar>
-          <Spacer position="top" size="medium">
+          <Spacer position="top" size="large">
             <FilterContainer
               showsHorizontalScrollIndicator={false}
               horizontal={true}
@@ -131,38 +140,18 @@ export const MapScreen = () => {
               {filters.map((filter) => createFilterButton(filter))}
             </FilterContainer>
           </Spacer>
-          <Spacer position="bottom" size="small" />
         </MapScreenHeader>
 
         <MapContainer>
           <Map />
         </MapContainer>
       </MapScreenContainer>
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-        >
-          <View style={styles.contentContainer}>
-            <Text>Awesome 🎉</Text>
-          </View>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
+      <PriceRangeModal
+        value={priceRange}
+        showModal={showPriceFilter}
+        toggleShowModal={handlePriceFilterPress}
+        updateValue={handlePriceRangeChange}
+      />
     </SafeArea>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    justifyContent: "center",
-    backgroundColor: "grey",
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-});
