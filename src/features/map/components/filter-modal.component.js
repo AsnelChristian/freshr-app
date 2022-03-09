@@ -91,18 +91,20 @@ export const PriceRangeModal = ({
     <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
       <Spacer position="top" size="large" />
       <View style={{ flex: 1 }}>
-        <Spacer position="top" size="medium" />
-        <Text style={{ fontSize: 22, fontWeight: "bold" }}>Price range</Text>
-        <Spacer position="bottom" size="large" />
-        <Text>
-          ${value[0]} - ${value[1]}
-        </Text>
+        <Spacer position="left" size="medium">
+          <Spacer position="top" size="medium" />
+          <Text style={{ fontSize: 22, fontWeight: "bold" }}>Price range</Text>
+          <Spacer position="bottom" size="large" />
+          <Text>
+            ${value[0]} - ${value[1]}
+          </Text>
+        </Spacer>
         <AreaRheostat
           values={[8, 15]}
           min={0}
           max={16}
           theme={{
-            rheostat: { themeColor: theme.colors.ui.primary, grey: "#fafafa" },
+            rheostat: { themeColor: "gray", grey: "#fafafa" },
           }}
           onValuesUpdated={onRheostatValUpdated}
           svgData={[

@@ -1,6 +1,6 @@
 import styled, { useTheme } from "styled-components/native";
 import MapView from "react-native-maps";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Entypo, FontAwesome, Octicons } from "@expo/vector-icons";
 import { Text } from "../../components/typography/typography.component";
 import { Spacer } from "../../components/spacer/spacer.component";
