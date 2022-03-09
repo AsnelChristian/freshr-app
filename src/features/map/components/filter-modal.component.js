@@ -7,6 +7,7 @@ import { BottomModal } from "../../../components/modal/bottom-sheet-modalcompone
 import { Text } from "../../../components/typography/typography.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Ionicons } from "@expo/vector-icons";
+import { CheckBoxInput } from "../../../components/form/form-checkbox.component";
 
 const ModalContent = styled.View`
   flex: 1;
@@ -16,7 +17,7 @@ const ModalContent = styled.View`
 const Separator = styled.View`
   height: 1px;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #ccc;
 `;
 
 const CloseButton = styled.TouchableOpacity`
@@ -111,6 +112,92 @@ export const PriceRangeModal = ({
             2, 10, 40, 85, 85, 91, 35, 53, 24, 50, 10, 40, 95, 85, 40, 12,
           ]}
         />
+      </View>
+      <Spacer position="bottom" size="large" />
+    </FilterModal>
+  );
+};
+
+export const GenderModal = ({
+  value,
+  showModal,
+  toggleShowModal,
+  updateValue,
+}) => {
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="top" size="large" />
+      <View style={{ flex: 1 }}>
+        <Spacer position="left" size="medium">
+          <Spacer position="top" size="medium" />
+          <Text style={{ fontSize: 22, fontWeight: "bold" }}>Pick gender</Text>
+          <Spacer position="bottom" size="large" />
+        </Spacer>
+
+        <View>
+          <CheckBoxInput
+            value={value.men}
+            handleChange={() => updateValue("men")}
+          >
+            <Text style={{ fontSize: 16 }}>Men's style</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">Haircut for men</Text>
+          </CheckBoxInput>
+          <Spacer position="bottom" size="small" />
+          <CheckBoxInput
+            value={value.women}
+            handleChange={() => updateValue("women")}
+          >
+            <Text style={{ fontSize: 16 }}>Women's style</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">Haircut for women</Text>
+          </CheckBoxInput>
+          <Spacer position="bottom" size="small" />
+          <CheckBoxInput
+            value={value.both}
+            handleChange={() => updateValue("both")}
+          >
+            <Text style={{ fontSize: 16 }}>Unspecified</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">Haircut for either</Text>
+          </CheckBoxInput>
+        </View>
+      </View>
+      <Spacer position="bottom" size="large" />
+    </FilterModal>
+  );
+};
+
+export const ServiceTypeModal = ({ showModal, toggleShowModal }) => {
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="top" size="large" />
+      <View style={{ flex: 1 }}>
+        <Text>Service Type</Text>
+      </View>
+      <Spacer position="bottom" size="large" />
+    </FilterModal>
+  );
+};
+
+export const LocationModal = ({ showModal, toggleShowModal }) => {
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="top" size="large" />
+      <View style={{ flex: 1 }}>
+        <Text>Location </Text>
+      </View>
+      <Spacer position="bottom" size="large" />
+    </FilterModal>
+  );
+};
+
+export const SortFilterModal = ({ showModal, toggleShowModal }) => {
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="top" size="large" />
+      <View style={{ flex: 1 }}>
+        <Text>Sort </Text>
       </View>
       <Spacer position="bottom" size="large" />
     </FilterModal>

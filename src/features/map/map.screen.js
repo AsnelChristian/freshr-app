@@ -5,7 +5,13 @@ import { Entypo, FontAwesome, Octicons } from "@expo/vector-icons";
 import { Text } from "../../components/typography/typography.component";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { SafeArea } from "../../components/utils/safearea.component";
-import { PriceRangeModal } from "./components/filter-modal.component";
+import {
+  GenderModal,
+  PriceRangeModal,
+  LocationModal,
+  ServiceTypeModal,
+  SortFilterModal,
+} from "./components/filter-modal.component";
 
 const MapScreenContainer = styled.View`
   flex: 1;
@@ -58,10 +64,41 @@ const FilterContainer = styled.ScrollView``;
 export const MapScreen = () => {
   const theme = useTheme();
   const [showPriceFilter, setShowPriceFilter] = useState(false);
+  const [showGenderFilter, setShowGenderFilter] = useState(false);
+  const [showServiceTypeFilter, setShowServiceTypeFilter] = useState(false);
+  const [showLocationFilter, setShowLocationFilter] = useState(false);
+  const [showSortFilter, setShowSortFilter] = useState(false);
+  const [serviceTypes, setServiceTypes] = useState([]);
+  const [locationFilter, setLocationFilter] = useState([]);
   const [priceRange, setPriceRange] = useState([8, 15]);
+  const [gender, setGender] = useState({
+    men: false,
+    women: false,
+    both: false,
+  });
 
   const handlePriceFilterPress = () => {
     setShowPriceFilter(!showPriceFilter);
+  };
+
+  const handleGenderFilterPress = () => {
+    setShowGenderFilter(!showGenderFilter);
+  };
+
+  const handleServiceTypeFilterPress = () => {
+    setShowServiceTypeFilter(!showServiceTypeFilter);
+  };
+
+  const handleLocationFilterPress = () => {
+    setShowLocationFilter(!showLocationFilter);
+  };
+
+  const handleSortFilterPress = () => {
+    setShowSortFilter(!showSortFilter);
+  };
+
+  const handleGenderChange = (payload) => {
+    setGender({ ...gender, [payload]: !gender[`${payload}`] });
   };
 
   const handlePriceRangeChange = (payload) => {
@@ -71,22 +108,29 @@ export const MapScreen = () => {
   const filters = [
     {
       name: "Type of service",
-      variant: null,
-      method: () => null,
+      variant: showServiceTypeFilter,
+      method: handleServiceTypeFilterPress,
     },
-    { name: "services", value: 0, method: () => null, variant: null },
-    { name: "gender", value: "", method: () => null, variant: null },
+    {
+      name: "Location",
+      method: handleLocationFilterPress,
+      variant: showLocationFilter,
+    },
+    {
+      name: "Gender",
+      method: handleGenderFilterPress,
+      variant: showGenderFilter,
+    },
     {
       name: "Price range",
-      value: "",
       method: handlePriceFilterPress,
       variant: showPriceFilter,
     },
   ];
 
-  const createFilterButton = (filter) => {
+  const createFilterButton = (filter, idx) => {
     return (
-      <Spacer position="right" size="small">
+      <Spacer key={`${idx}-${filter.name}`} position="right" size="small">
         <SearchFilter variant={filter.variant} onPress={filter.method}>
           <Text
             style={{
@@ -127,7 +171,7 @@ export const MapScreen = () => {
               </Spacer>
             </SearchButton>
             <Spacer position="left" size="large">
-              <ResultFilterButton>
+              <ResultFilterButton onPress={handleSortFilterPress}>
                 <Octicons name="settings" size={25} />
               </ResultFilterButton>
             </Spacer>
@@ -151,6 +195,26 @@ export const MapScreen = () => {
         showModal={showPriceFilter}
         toggleShowModal={handlePriceFilterPress}
         updateValue={handlePriceRangeChange}
+      />
+      <GenderModal
+        value={gender}
+        showModal={showGenderFilter}
+        toggleShowModal={handleGenderFilterPress}
+        updateValue={handleGenderChange}
+      />
+      <ServiceTypeModal
+        value={serviceTypes}
+        showModal={showServiceTypeFilter}
+        toggleShowModal={handleServiceTypeFilterPress}
+      />
+      <LocationModal
+        value={locationFilter}
+        showModal={showLocationFilter}
+        toggleShowModal={handleLocationFilterPress}
+      />
+      <SortFilterModal
+        showModal={showSortFilter}
+        toggleShowModal={handleSortFilterPress}
       />
     </SafeArea>
   );
