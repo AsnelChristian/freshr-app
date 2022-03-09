@@ -168,13 +168,62 @@ export const GenderModal = ({
   );
 };
 
-export const ServiceTypeModal = ({ showModal, toggleShowModal }) => {
+export const ServiceTypeModal = ({
+  value,
+  showModal,
+  toggleShowModal,
+  updateValue,
+}) => {
   return (
     <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
       <Spacer position="top" size="large" />
       <View style={{ flex: 1 }}>
-        <Text>Service Type</Text>
+        <Spacer position="left" size="medium">
+          <Spacer position="top" size="medium" />
+          <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+            Pick service type
+          </Text>
+          <Spacer position="bottom" size="large" />
+        </Spacer>
+        <View>
+          <CheckBoxInput
+            value={value.haircut}
+            handleChange={() => updateValue("haircut")}
+          >
+            <Text style={{ fontSize: 16 }}>Haircut</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">Get that new haircut</Text>
+          </CheckBoxInput>
+          <Spacer position="bottom" size="small" />
+          <CheckBoxInput
+            value={value.hairColoring}
+            handleChange={() => updateValue("hairColoring")}
+          >
+            <Text style={{ fontSize: 16 }}>Hair coloring</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">Get your right color</Text>
+          </CheckBoxInput>
+          <Spacer position="bottom" size="small" />
+          <CheckBoxInput
+            value={value.beardSculpting}
+            handleChange={() => updateValue("beardSculpting")}
+          >
+            <Text style={{ fontSize: 16 }}>Beard sculpting</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">The right shape of beard</Text>
+          </CheckBoxInput>
+          <Spacer position="bottom" size="small" />
+          <CheckBoxInput
+            value={value.scalpMassage}
+            handleChange={() => updateValue("scalpMassage")}
+          >
+            <Text style={{ fontSize: 16 }}>Scalp massage</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">Relax your head</Text>
+          </CheckBoxInput>
+        </View>
       </View>
+
       <Spacer position="bottom" size="large" />
     </FilterModal>
   );

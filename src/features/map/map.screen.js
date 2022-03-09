@@ -68,9 +68,15 @@ export const MapScreen = () => {
   const [showServiceTypeFilter, setShowServiceTypeFilter] = useState(false);
   const [showLocationFilter, setShowLocationFilter] = useState(false);
   const [showSortFilter, setShowSortFilter] = useState(false);
-  const [serviceTypes, setServiceTypes] = useState([]);
   const [locationFilter, setLocationFilter] = useState([]);
   const [priceRange, setPriceRange] = useState([8, 15]);
+  const [serviceTypes, setServiceTypes] = useState({
+    haircut: false,
+    hairColoring: false,
+    scalpMassage: false,
+    beardSculpting: false,
+  });
+
   const [gender, setGender] = useState({
     men: false,
     women: false,
@@ -99,6 +105,13 @@ export const MapScreen = () => {
 
   const handleGenderChange = (payload) => {
     setGender({ ...gender, [payload]: !gender[`${payload}`] });
+  };
+
+  const handleServiceTypeChange = (payload) => {
+    setServiceTypes({
+      ...serviceTypes,
+      [payload]: !serviceTypes[`${payload}`],
+    });
   };
 
   const handlePriceRangeChange = (payload) => {
@@ -206,6 +219,7 @@ export const MapScreen = () => {
         value={serviceTypes}
         showModal={showServiceTypeFilter}
         toggleShowModal={handleServiceTypeFilterPress}
+        updateValue={handleServiceTypeChange}
       />
       <LocationModal
         value={locationFilter}
