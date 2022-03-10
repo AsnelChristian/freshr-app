@@ -70,6 +70,11 @@ export const MapScreen = () => {
   const [showSortFilter, setShowSortFilter] = useState(false);
   const [locationFilter, setLocationFilter] = useState([]);
   const [priceRange, setPriceRange] = useState([8, 15]);
+  const [sortFilter, setSortFilter] = useState({
+    rating: false,
+    distance: false,
+    price: false,
+  });
   const [serviceTypes, setServiceTypes] = useState({
     haircut: false,
     hairColoring: false,
@@ -111,6 +116,13 @@ export const MapScreen = () => {
     setServiceTypes({
       ...serviceTypes,
       [payload]: !serviceTypes[`${payload}`],
+    });
+  };
+
+  const handleSortFilterChange = (payload) => {
+    setSortFilter({
+      ...sortFilter,
+      [payload]: !setSortFilter[`${payload}`],
     });
   };
 
@@ -227,8 +239,10 @@ export const MapScreen = () => {
         toggleShowModal={handleLocationFilterPress}
       />
       <SortFilterModal
+        value={sortFilter}
         showModal={showSortFilter}
         toggleShowModal={handleSortFilterPress}
+        updateValue={handleSortFilterChange}
       />
     </SafeArea>
   );

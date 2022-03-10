@@ -241,12 +241,49 @@ export const LocationModal = ({ showModal, toggleShowModal }) => {
   );
 };
 
-export const SortFilterModal = ({ showModal, toggleShowModal }) => {
+export const SortFilterModal = ({
+  value,
+  showModal,
+  toggleShowModal,
+  updateValue,
+}) => {
   return (
     <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
       <Spacer position="top" size="large" />
       <View style={{ flex: 1 }}>
-        <Text>Sort </Text>
+        <Spacer position="left" size="medium">
+          <Spacer position="top" size="medium" />
+          <Text style={{ fontSize: 22, fontWeight: "bold" }}>Sort by</Text>
+          <Spacer position="bottom" size="large" />
+        </Spacer>
+        <View>
+          <CheckBoxInput
+            value={value.rating}
+            handleChange={() => updateValue("rating")}
+          >
+            <Text style={{ fontSize: 16 }}>Rating</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">The best of the best</Text>
+          </CheckBoxInput>
+          <Spacer position="bottom" size="small" />
+          <CheckBoxInput
+            value={value.distance}
+            handleChange={() => updateValue("distance")}
+          >
+            <Text style={{ fontSize: 16 }}>Distance</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">Close to you</Text>
+          </CheckBoxInput>
+          <Spacer position="bottom" size="small" />
+          <CheckBoxInput
+            value={value.price}
+            handleChange={() => updateValue("price")}
+          >
+            <Text style={{ fontSize: 16 }}>Sort by price</Text>
+            <Spacer position="bottom" size="small" />
+            <Text variant="caption">The best deals</Text>
+          </CheckBoxInput>
+        </View>
       </View>
       <Spacer position="bottom" size="large" />
     </FilterModal>
