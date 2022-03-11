@@ -1,13 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { useTheme } from "styled-components/native";
 
 import { AreaRheostat } from "react-native-rheostat";
-import { View } from "react-native";
+import { Dimensions, View } from "react-native";
+import { Searchbar } from "react-native-paper";
+
 import { BottomModal } from "../../../components/modal/bottom-sheet-modalcomponent";
 import { Text } from "../../../components/typography/typography.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Ionicons } from "@expo/vector-icons";
 import { CheckBoxInput } from "../../../components/form/form-checkbox.component";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 const ModalContent = styled.View`
   flex: 1;
@@ -229,18 +232,6 @@ export const ServiceTypeModal = ({
   );
 };
 
-export const LocationModal = ({ showModal, toggleShowModal }) => {
-  return (
-    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
-      <Spacer position="top" size="large" />
-      <View style={{ flex: 1 }}>
-        <Text>Location </Text>
-      </View>
-      <Spacer position="bottom" size="large" />
-    </FilterModal>
-  );
-};
-
 export const SortFilterModal = ({
   value,
   showModal,
@@ -283,6 +274,77 @@ export const SortFilterModal = ({
             <Spacer position="bottom" size="small" />
             <Text variant="caption">The best deals</Text>
           </CheckBoxInput>
+        </View>
+      </View>
+      <Spacer position="bottom" size="large" />
+    </FilterModal>
+  );
+};
+
+const GOOGLE_PLACES_API_KEY = "API_KEY_ID";
+
+const Search = styled(Searchbar).attrs((props) => ({
+  selectionColor: "black",
+}))`
+  border-radius: ${({ theme }) => theme.sizes[2]};
+  elevation: 0;
+  background-color: ${({ theme }) => theme.colors.ui.quaternary};
+  color: ${({ theme }) => theme.colors.ui.primary};
+  font-size: 12px;
+`;
+
+export const LocationModal = ({ value, showModal, toggleShowModal }) => {
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current?.setAddressText(value);
+  }, [value]);
+
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="top" size="large" />
+      <View style={{ flex: 1, height: Dimensions.get("window").height * 0.9 }}>
+        <Spacer position="left" size="medium">
+          <Spacer position="top" size="medium" />
+          <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+            Change location
+          </Text>
+          <Spacer position="bottom" size="large" />
+        </Spacer>
+        <View>
+          <GooglePlacesAutocomplete
+            query={{
+              key: GOOGLE_PLACES_API_KEY,
+              language: "en", // language of the results
+            }}
+            onPress={(data, details) => console.log(data, details)}
+            textInputProps={{
+              InputComp: Search,
+            }}
+            suppressDefaultStyles
+            placeholder="search location"
+          />
+        </View>
+      </View>
+      <Spacer position="bottom" size="large" />
+    </FilterModal>
+  );
+};
+
+export const ServicesModal = ({ value, showModal, toggleShowModal }) => {
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="top" size="large" />
+      <View style={{ flex: 1, height: Dimensions.get("window").height * 0.9 }}>
+        <Spacer position="left" size="medium">
+          <Spacer position="top" size="medium" />
+          <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+            Browse services
+          </Text>
+          <Spacer position="bottom" size="large" />
+        </Spacer>
+        <View>
+          <Search placeholder="search services" />
         </View>
       </View>
       <Spacer position="bottom" size="large" />

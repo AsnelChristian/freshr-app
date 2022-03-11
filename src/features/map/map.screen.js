@@ -11,6 +11,7 @@ import {
   LocationModal,
   ServiceTypeModal,
   SortFilterModal,
+  ServicesModal,
 } from "./components/filter-modal.component";
 
 const MapScreenContainer = styled.View`
@@ -67,6 +68,7 @@ export const MapScreen = () => {
   const [showGenderFilter, setShowGenderFilter] = useState(false);
   const [showServiceTypeFilter, setShowServiceTypeFilter] = useState(false);
   const [showLocationFilter, setShowLocationFilter] = useState(false);
+  const [showServicesFilter, setShowServicesFilter] = useState(false);
   const [showSortFilter, setShowSortFilter] = useState(false);
   const [locationFilter, setLocationFilter] = useState([]);
   const [priceRange, setPriceRange] = useState([8, 15]);
@@ -106,6 +108,10 @@ export const MapScreen = () => {
 
   const handleSortFilterPress = () => {
     setShowSortFilter(!showSortFilter);
+  };
+
+  const handleShowServicesFilterPress = () => {
+    setShowServicesFilter(!showServicesFilter);
   };
 
   const handleGenderChange = (payload) => {
@@ -187,7 +193,7 @@ export const MapScreen = () => {
       <MapScreenContainer>
         <MapScreenHeader>
           <MapScreenSearchBar>
-            <SearchButton>
+            <SearchButton onPress={handleShowServicesFilterPress}>
               <FontAwesome name="search" size={20} />
               <Spacer position="left" size="medium">
                 <Text variant="body" style={{ color: "gray" }}>
@@ -243,6 +249,10 @@ export const MapScreen = () => {
         showModal={showSortFilter}
         toggleShowModal={handleSortFilterPress}
         updateValue={handleSortFilterChange}
+      />
+      <ServicesModal
+        showModal={showServicesFilter}
+        toggleShowModal={handleShowServicesFilterPress}
       />
     </SafeArea>
   );
