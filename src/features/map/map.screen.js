@@ -1,5 +1,4 @@
 import styled, { useTheme } from "styled-components/native";
-import MapView from "react-native-maps";
 import React, { useState } from "react";
 import { Entypo, FontAwesome, Octicons } from "@expo/vector-icons";
 import { Text } from "../../components/typography/typography.component";
@@ -13,6 +12,7 @@ import {
   SortFilterModal,
   ServicesModal,
 } from "./components/filter-modal.component";
+import { Map } from "./components/map.component";
 
 const MapScreenContainer = styled.View`
   flex: 1;
@@ -53,10 +53,6 @@ const SearchFilter = styled.TouchableOpacity`
 `;
 
 const MapContainer = styled.View`
-  flex: 1;
-`;
-
-const Map = styled(MapView)`
   flex: 1;
 `;
 

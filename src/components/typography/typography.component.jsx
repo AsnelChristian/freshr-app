@@ -40,12 +40,13 @@ const TextView = styled.Text`
   ${({ specificStyle }) => specificStyle}
 `;
 
-export const Text = ({variant, children, style}) => {
+export const Text = ({variant, children, style, ...restProps} ) => {
   const theme = useTheme();
   const defaultStyle = defaultTextStyles(theme);
   const specificStyle = variants[variant](theme);
-  return (<TextView defaultStyle={defaultStyle} specificStyle={specificStyle} style={style}>{children}</TextView>);
+  return (<TextView defaultStyle={defaultStyle} specificStyle={specificStyle} style={style} {...restProps}>{children}</TextView>);
 }
+
 
 Text.defaultProps = {
   variant : "body"

@@ -11,8 +11,9 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { Ionicons } from "@expo/vector-icons";
 import { CheckBoxInput } from "../../../components/form/form-checkbox.component";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { Suggestion } from "./suggestion.component";
 
-const ModalContent = styled.View`
+const ModalContent = styled.ScrollView`
   flex: 1;
   padding: 0px ${({ theme }) => theme.space[3]};
 `;
@@ -65,9 +66,13 @@ export const FilterModal = ({ showModal, toggleShowModal, children }) => {
           <Ionicons name="close" size={20} />
         </CloseButton>
       </Spacer>
-      <Spacer position="top" size="medium" />
-      <ModalContent>{children}</ModalContent>
-      <Spacer position="bottom" size="large" />
+
+      <ModalContent showsVerticalScrollIndicator={false}>
+        <Spacer position="top" size="medium" />
+        {children}
+        <Spacer position="bottom" size="large" />
+      </ModalContent>
+
       <Separator />
       <ModalFooter>
         <ModalButton>
@@ -137,34 +142,32 @@ export const GenderModal = ({
           <Spacer position="bottom" size="large" />
         </Spacer>
 
-        <View>
-          <CheckBoxInput
-            value={value.men}
-            handleChange={() => updateValue("men")}
-          >
-            <Text style={{ fontSize: 16 }}>Men's style</Text>
-            <Spacer position="bottom" size="small" />
-            <Text variant="caption">Haircut for men</Text>
-          </CheckBoxInput>
+        <CheckBoxInput
+          value={value.men}
+          handleChange={() => updateValue("men")}
+        >
+          <Text style={{ fontSize: 16 }}>Men's style</Text>
           <Spacer position="bottom" size="small" />
-          <CheckBoxInput
-            value={value.women}
-            handleChange={() => updateValue("women")}
-          >
-            <Text style={{ fontSize: 16 }}>Women's style</Text>
-            <Spacer position="bottom" size="small" />
-            <Text variant="caption">Haircut for women</Text>
-          </CheckBoxInput>
+          <Text variant="caption">Haircut for men</Text>
+        </CheckBoxInput>
+        <Spacer position="bottom" size="small" />
+        <CheckBoxInput
+          value={value.women}
+          handleChange={() => updateValue("women")}
+        >
+          <Text style={{ fontSize: 16 }}>Women's style</Text>
           <Spacer position="bottom" size="small" />
-          <CheckBoxInput
-            value={value.both}
-            handleChange={() => updateValue("both")}
-          >
-            <Text style={{ fontSize: 16 }}>Unspecified</Text>
-            <Spacer position="bottom" size="small" />
-            <Text variant="caption">Haircut for either</Text>
-          </CheckBoxInput>
-        </View>
+          <Text variant="caption">Haircut for women</Text>
+        </CheckBoxInput>
+        <Spacer position="bottom" size="small" />
+        <CheckBoxInput
+          value={value.both}
+          handleChange={() => updateValue("both")}
+        >
+          <Text style={{ fontSize: 16 }}>Unspecified</Text>
+          <Spacer position="bottom" size="small" />
+          <Text variant="caption">Haircut for either</Text>
+        </CheckBoxInput>
       </View>
       <Spacer position="bottom" size="large" />
     </FilterModal>
@@ -303,7 +306,7 @@ export const LocationModal = ({ value, showModal, toggleShowModal }) => {
   return (
     <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
       <Spacer position="top" size="large" />
-      <View style={{ flex: 1, height: Dimensions.get("window").height * 0.9 }}>
+      <View style={{ flex: 1 }}>
         <Spacer position="left" size="medium">
           <Spacer position="top" size="medium" />
           <Text style={{ fontSize: 22, fontWeight: "bold" }}>
@@ -325,6 +328,50 @@ export const LocationModal = ({ value, showModal, toggleShowModal }) => {
             placeholder="search location"
           />
         </View>
+
+        <View>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+          <Suggestion value="Koblenz metternich">
+            <Ionicons name="location" size={20} />
+          </Suggestion>
+          <Spacer position="bottom" size="small" />
+        </View>
       </View>
       <Spacer position="bottom" size="large" />
     </FilterModal>
@@ -335,7 +382,7 @@ export const ServicesModal = ({ value, showModal, toggleShowModal }) => {
   return (
     <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
       <Spacer position="top" size="large" />
-      <View style={{ flex: 1, height: Dimensions.get("window").height * 0.9 }}>
+      <View style={{ flex: 1 }}>
         <Spacer position="left" size="medium">
           <Spacer position="top" size="medium" />
           <Text style={{ fontSize: 22, fontWeight: "bold" }}>

@@ -5,16 +5,17 @@ import {
 } from "@gorhom/bottom-sheet";
 import { useMemo } from "react";
 import styled from "styled-components/native";
-import { Ionicons } from "@expo/vector-icons";
-
-import { Text } from "../typography/typography.component";
-import { Spacer } from "../spacer/spacer.component";
+import { Dimensions } from "react-native";
 
 const ModalBackground = styled.View`
   border-radius: ${({ theme }) => theme.sizes[2]};
   background-color: white;
 `;
-const BackdropContentContainer = styled.View`
+
+const { height } = Dimensions.get("window");
+const BackdropContentContainer = styled.ScrollView.attrs((props) => ({
+  maxHeight: height,
+}))`
   flex: 1;
 `;
 
