@@ -45,7 +45,7 @@ const SearchFilter = styled.TouchableOpacity`
   align-items: center;
   justify-content: space-between;
   background-color: ${({ variant, theme }) =>
-    variant ? theme.colors.ui.primary : theme.colors.ui.quaternary};
+    variant ? theme.colors.ui.primary : "white"};
   padding: ${({ theme }) => theme.space[2]};
   border-radius: ${({ theme }) => theme.space[4]};
   elevation: 2;

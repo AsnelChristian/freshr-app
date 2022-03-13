@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SliderBox } from "react-native-image-slider-box";
 import styled, { useTheme } from "styled-components/native";
 import { Dimensions } from "react-native";
 import { Rating } from "react-native-elements";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { rgba } from "polished";
 
 import { SpecialistCard } from "../features/map/components/specialist-card.component";
 import { Spacer } from "../components/spacer/spacer.component";
 import { Text } from "../components/typography/typography.component";
 import { Suggestion } from "../features/map/components/suggestion.component";
+import { ServiceCard } from "../components/service/service-card.component";
+import { ServiceDetailsModal } from "../components/service/service-info-modal.component";
 
 const PageContainer = styled.View`
   flex: 1;
@@ -61,14 +64,16 @@ const MoreInfoButton = styled.TouchableOpacity`
 
 const DescriptionContainer = styled.View`
   padding: ${({ theme }) => theme.space[3]};
-  background-color: white;
+  background-color: ${({ theme }) =>
+    `${rgba(theme.colors.ui.quaternary, 0.9)}`};
   border-radius: ${({ theme }) => theme.space[2]};
   overflow: hidden;
 `;
 
 const QuoteIconContainer = styled.View`
   padding: ${({ theme }) => theme.space[1]};
-  background-color: rgba(128, 128, 128, 0.1);
+  background-color: ${({ theme }) =>
+    `${rgba(theme.colors.brand.primary, 0.1)}`};
   border-radius: 5px;
   position: absolute;
   flex: 1;
@@ -78,10 +83,17 @@ const QuoteIconContainer = styled.View`
 const { height } = Dimensions.get("window");
 export const SpecialistScreen = ({ route }) => {
   const theme = useTheme();
-  const { specialist } = route.params;
+  const [selectedService, setSelectedService] = useState(null);
 
+  const { specialist } = route.params;
   const { name, gallery, rating, ratingCnt, address } = specialist;
 
+  const handleShowViewMore = (service) => {
+    setSelectedService(service);
+  };
+  const handleCloseViewMore = () => {
+    setSelectedService(null);
+  };
   useEffect(() => {
     console.log(route);
   }, []);
@@ -139,6 +151,7 @@ export const SpecialistScreen = ({ route }) => {
             <Rating
               type="star"
               ratingColor={theme.colors.brand.primary}
+              ratingBackgroundColor={theme.colors.brand.primary}
               fractions={1}
               startingValue={rating}
               readonly
@@ -175,18 +188,7 @@ export const SpecialistScreen = ({ route }) => {
           <Ionicons name="location" size={22} />
         </Suggestion>
         <Spacer position="bottom" size="medium" />
-        <DescriptionContainer
-          style={{
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.34,
-            shadowRadius: 6.27,
-            elevation: 6,
-          }}
-        >
+        <DescriptionContainer>
           <QuoteIconContainer style={{ bottom: 0, right: 0 }}>
             <MaterialIcons name="format-quote" size={45} color={"white"} />
           </QuoteIconContainer>
@@ -199,7 +201,15 @@ export const SpecialistScreen = ({ route }) => {
         <Spacer position="bottom" size="large" />
         <SectionTitle>Services</SectionTitle>
         {/*<SpecialistCard specialist={specialist} />*/}
+        <ServiceCard onMorePress={handleShowViewMore} />
       </PageContentContainer>
+      {selectedService && (
+        <ServiceDetailsModal
+          showModal={true}
+          toggleShowModal={handleCloseViewMore}
+          service={selectedService}
+        />
+      )}
     </PageContainer>
   );
 };

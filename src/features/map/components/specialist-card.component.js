@@ -2,8 +2,6 @@ import styled, { useTheme } from "styled-components/native";
 import { View, Dimensions } from "react-native";
 import { Rating } from "react-native-elements";
 import { rgba as rgbaConverter } from "polished";
-// import { Text } from "react-native";
-
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/typography.component";
 import { Suggestion } from "./suggestion.component";
@@ -12,7 +10,8 @@ import React from "react";
 
 const { width } = Dimensions.get("window");
 
-const SpecialistCardContainer = styled.TouchableOpacity`
+const Wrapper = styled.TouchableWithoutFeedback``;
+const SpecialistCardContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -75,70 +74,71 @@ export const SpecialistCard = ({ specialist, ...restProps }) => {
     serviceCnt = 20,
   } = specialist;
   return (
-    <SpecialistCardContainer
-      style={{
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
-        elevation: 10,
-        width: width - 50,
-      }}
-      {...restProps}
-    >
-      <SpecialistCardImage source={{ uri: coverImage }} />
-      <Spacer position="right" size="medium" />
-      <SpecialistCardInfoContainer>
-        <View>
-          <Spacer variant="caption" position="bottom" size="large">
-            <Title numberOfLines={1} ellipsizeMode="tail">
-              {name}
-            </Title>
-          </Spacer>
-          <Spacer position="bottom" size="medium">
-            <RatingContainer>
-              <Spacer position="right" size="small">
-                <Text variant="caption" style={{ fontSize: 16 }}>
-                  {rating}
-                </Text>
+    <Wrapper {...restProps}>
+      <SpecialistCardContainer
+        style={{
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 5,
+          },
+          shadowOpacity: 0.34,
+          shadowRadius: 6.27,
+          elevation: 10,
+          width: width - 50,
+        }}
+      >
+        <SpecialistCardImage source={{ uri: coverImage }} />
+        <Spacer position="right" size="medium" />
+        <SpecialistCardInfoContainer>
+          <View>
+            <Spacer variant="caption" position="bottom" size="large">
+              <Title numberOfLines={1} ellipsizeMode="tail">
+                {name}
+              </Title>
+            </Spacer>
+            <Spacer position="bottom" size="medium">
+              <RatingContainer>
+                <Spacer position="right" size="small">
+                  <Text variant="caption" style={{ fontSize: 16 }}>
+                    {rating}
+                  </Text>
+                </Spacer>
+                <Rating
+                  type="star"
+                  ratingColor={theme.colors.brand.primary}
+                  fractions={1}
+                  startingValue={rating}
+                  readonly
+                  imageSize={16}
+                />
+                <Spacer position="right" size="small" />
+                <Text variant="caption">{ratingCnt} ratings</Text>
+              </RatingContainer>
+            </Spacer>
+            <InformationRow>
+              <Spacer position="right" size="medium">
+                <InformationChip>
+                  <Text>{serviceCnt} services</Text>
+                </InformationChip>
               </Spacer>
-              <Rating
-                type="star"
-                ratingColor={theme.colors.brand.primary}
-                fractions={1}
-                startingValue={rating}
-                readonly
-                imageSize={16}
-              />
-              <Spacer position="right" size="small" />
-              <Text variant="caption">{ratingCnt} ratings</Text>
-            </RatingContainer>
-          </Spacer>
-          <InformationRow>
-            <Spacer position="right" size="medium">
-              <InformationChip>
-                <Text>{serviceCnt} services</Text>
-              </InformationChip>
+              <Spacer position="right" size="medium">
+                <InformationChip>
+                  <Text>
+                    ${priceRange[0]} - ${priceRange[1]}
+                  </Text>
+                </InformationChip>
+              </Spacer>
+            </InformationRow>
+            <Spacer position="bottom" size="medium" />
+            <Spacer position="bottom" size="small">
+              <Suggestion value={address}>
+                <Ionicons name="location" size={12} />
+              </Suggestion>
             </Spacer>
-            <Spacer position="right" size="medium">
-              <InformationChip>
-                <Text>
-                  ${priceRange[0]} - ${priceRange[1]}
-                </Text>
-              </InformationChip>
-            </Spacer>
-          </InformationRow>
-          <Spacer position="bottom" size="medium" />
-          <Spacer position="bottom" size="small">
-            <Suggestion value={address}>
-              <Ionicons name="location" size={12} />
-            </Suggestion>
-          </Spacer>
-        </View>
-      </SpecialistCardInfoContainer>
-    </SpecialistCardContainer>
+          </View>
+        </SpecialistCardInfoContainer>
+      </SpecialistCardContainer>
+    </Wrapper>
   );
 };
