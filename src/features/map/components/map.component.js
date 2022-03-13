@@ -38,6 +38,40 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         "https://ak.picdn.net/shutterstock/videos/9643772/thumb/1.jpg",
         "https://www.thebarbersinc.com/cwsd.php?Z3AuPTQ0MQ/NDM/Zmp8ZClraXIjNit4f2Q.jpg",
       ],
+      services: [
+        {
+          id: "service-1",
+          name: "Dreadlocks",
+          price: 30,
+          gender: "male",
+          coverImage:
+            "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+        },
+        {
+          id: "service-2",
+          name: "Clean shave",
+          price: 40,
+          gender: "both",
+          coverImage:
+            "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+        },
+        {
+          id: "service-3",
+          name: "Braids",
+          price: 50,
+          gender: "female",
+          coverImage:
+            "https://swivelbeauty.com/blog/wp-content/uploads/2020/08/IMG_6398E64B4B52-1.jpeg",
+        },
+        {
+          id: "service-4",
+          name: "Undercut",
+          price: 30,
+          gender: "both",
+          coverImage:
+            "https://i2.wp.com/www.hadviser.com/wp-content/uploads/2020/03/1-asymmetrical-pixie-bob-CJa6ijwrUGZ.jpg?resize=769%2C768&ssl=1",
+        },
+      ],
       serviceCnt: 20,
     },
     {
@@ -61,6 +95,40 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         "https://ak.picdn.net/shutterstock/videos/9643772/thumb/1.jpg",
         "https://www.thebarbersinc.com/cwsd.php?Z3AuPTQ0MQ/NDM/Zmp8ZClraXIjNit4f2Q.jpg",
       ],
+      services: [
+        {
+          id: "service-5",
+          name: "Dreadlocks",
+          price: 30,
+          gender: "male",
+          coverImage:
+            "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+        },
+        {
+          id: "service-6",
+          name: "Clean shave",
+          price: 40,
+          gender: "both",
+          coverImage:
+            "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+        },
+        {
+          id: "service-7",
+          name: "Braids",
+          price: 50,
+          gender: "female",
+          coverImage:
+            "https://swivelbeauty.com/blog/wp-content/uploads/2020/08/IMG_6398E64B4B52-1.jpeg",
+        },
+        {
+          id: "service-8",
+          name: "Undercut",
+          price: 30,
+          gender: "both",
+          coverImage:
+            "https://i2.wp.com/www.hadviser.com/wp-content/uploads/2020/03/1-asymmetrical-pixie-bob-CJa6ijwrUGZ.jpg?resize=769%2C768&ssl=1",
+        },
+      ],
     },
     {
       id: "1236",
@@ -82,6 +150,40 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         "https://st2.depositphotos.com/2931363/9695/i/950/depositphotos_96952024-stock-photo-young-handsome-man-in-barbershop.jpg",
         "https://ak.picdn.net/shutterstock/videos/9643772/thumb/1.jpg",
         "https://www.thebarbersinc.com/cwsd.php?Z3AuPTQ0MQ/NDM/Zmp8ZClraXIjNit4f2Q.jpg",
+      ],
+      services: [
+        {
+          id: "service-9",
+          name: "Dreadlocks",
+          price: 30,
+          gender: "male",
+          coverImage:
+            "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+        },
+        {
+          id: "service-10",
+          name: "Clean shave",
+          price: 40,
+          gender: "both",
+          coverImage:
+            "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+        },
+        {
+          id: "service-11",
+          name: "Braids",
+          price: 50,
+          gender: "female",
+          coverImage:
+            "https://swivelbeauty.com/blog/wp-content/uploads/2020/08/IMG_6398E64B4B52-1.jpeg",
+        },
+        {
+          id: "service-12",
+          name: "Undercut",
+          price: 30,
+          gender: "both",
+          coverImage:
+            "https://i2.wp.com/www.hadviser.com/wp-content/uploads/2020/03/1-asymmetrical-pixie-bob-CJa6ijwrUGZ.jpg?resize=769%2C768&ssl=1",
+        },
       ],
     },
   ];

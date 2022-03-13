@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { SliderBox } from "react-native-image-slider-box";
 import styled, { useTheme } from "styled-components/native";
-import { Dimensions } from "react-native";
+import { Dimensions, View } from "react-native";
 import { Rating } from "react-native-elements";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { rgba } from "polished";
@@ -88,6 +88,20 @@ const QuoteIconContainer = styled.View`
 
 const FavButton = styled.TouchableOpacity``;
 
+const CartButtonContainer = styled.TouchableOpacity`
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.brand.primary};
+  padding: ${({ theme }) => theme.space[3]} ${({ theme }) => theme.space[2]};
+  position: absolute;
+  height: 80px;
+  bottom: 0px;
+  left: 0;
+  z-index: 99999;
+`;
+
 const { height } = Dimensions.get("window");
 export const SpecialistScreen = ({ route }) => {
   const theme = useTheme();
@@ -98,12 +112,30 @@ export const SpecialistScreen = ({ route }) => {
     rating,
     ratingCnt,
     address,
+    services,
     isFavorite = false,
   } = specialist;
 
+  const [cartItems, setCartItems] = useState([]);
+  const [showCartButton, setShowCartButton] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [isFav, setIsFav] = useState(isFavorite);
 
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      setShowCartButton(true);
+    } else {
+      setShowCartButton(false);
+    }
+  }, [cartItems]);
+
+  const addOrRemoveFromCart = (service, add) => {
+    if (add) {
+      setCartItems([...cartItems, service]);
+    } else {
+      setCartItems((cart) => cart.filter((item) => item.id !== service.id));
+    }
+  };
   const handleFavButtonPress = () => {
     setIsFav(!isFav);
   };
@@ -118,120 +150,131 @@ export const SpecialistScreen = ({ route }) => {
   }, []);
 
   return (
-    <PageContainer>
-      <SliderContainer>
-        <SliderBox
-          images={gallery}
-          sliderBoxHeight={height * 0.3}
-          dotColor={theme.colors.brand.primary}
-          paginationBoxVerticalPadding={20}
-          autoplay
-          circleLoop
-          resizeMethod={"resize"}
-          resizeMode={"cover"}
-          paginationBoxStyle={{
-            position: "absolute",
-            bottom: 0,
-            padding: 0,
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            paddingVertical: 10,
-          }}
-          dotStyle={{
-            width: 10,
-            height: 10,
-            borderRadius: 5,
-            marginHorizontal: 0,
-            padding: 0,
-            margin: 0,
-            backgroundColor: "rgba(128, 128, 128, 0.92)",
-          }}
-          ImageComponentStyle={{ borderRadius: 15, width: "97%", marginTop: 5 }}
-          imageLoadingColor="#2196F3"
-        />
-      </SliderContainer>
+    <>
+      <PageContainer>
+        <SliderContainer>
+          <SliderBox
+            images={gallery}
+            sliderBoxHeight={height * 0.3}
+            dotColor={theme.colors.brand.primary}
+            paginationBoxVerticalPadding={20}
+            autoplay
+            circleLoop
+            resizeMethod={"resize"}
+            resizeMode={"cover"}
+            paginationBoxStyle={{
+              position: "absolute",
+              bottom: 0,
+              padding: 0,
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              paddingVertical: 10,
+            }}
+            dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              marginHorizontal: 0,
+              padding: 0,
+              margin: 0,
+              backgroundColor: "rgba(128, 128, 128, 0.92)",
+            }}
+            ImageComponentStyle={{
+              borderRadius: 15,
+              width: "97%",
+              marginTop: 5,
+            }}
+            imageLoadingColor="#2196F3"
+          />
+        </SliderContainer>
 
-      <PageContentContainer>
-        <Spacer position="top" size="medium" />
-        <TitleContainer>
-          <Title>{name}</Title>
+        <PageContentContainer>
+          <Spacer position="top" size="medium" />
+          <TitleContainer>
+            <Title>{name}</Title>
 
-          <FavButton onPress={handleFavButtonPress}>
-            <MaterialIcons
-              name={isFav ? "favorite" : "favorite-outline"}
-              size={30}
-            />
-          </FavButton>
-        </TitleContainer>
-        <Spacer position="top" size="large" />
-        <RatingRow>
-          <RatingContainer>
-            <Spacer position="right" size="medium">
+            <FavButton onPress={handleFavButtonPress}>
+              <MaterialIcons
+                name={isFav ? "favorite" : "favorite-outline"}
+                size={30}
+              />
+            </FavButton>
+          </TitleContainer>
+          <Spacer position="top" size="large" />
+          <RatingRow>
+            <RatingContainer>
+              <Spacer position="right" size="medium">
+                <Text
+                  variant="caption"
+                  style={{ color: theme.colors.brand.primary, fontSize: 22 }}
+                >
+                  {rating}
+                </Text>
+              </Spacer>
+              <Rating
+                type="star"
+                ratingColor={theme.colors.brand.primary}
+                ratingBackgroundColor={theme.colors.brand.primary}
+                fractions={1}
+                startingValue={rating}
+                readonly
+                imageSize={20}
+              />
+            </RatingContainer>
+            <MoreInfoButton>
               <Text
                 variant="caption"
-                style={{ color: theme.colors.brand.primary, fontSize: 22 }}
+                numberOfLines={1}
+                ellipsis="tail"
+                style={{ fontSize: 16 }}
               >
-                {rating}
+                {ratingCnt} reviews
               </Text>
-            </Spacer>
-            <Rating
-              type="star"
-              ratingColor={theme.colors.brand.primary}
-              ratingBackgroundColor={theme.colors.brand.primary}
-              fractions={1}
-              startingValue={rating}
-              readonly
-              imageSize={20}
-            />
-          </RatingContainer>
-          <MoreInfoButton>
-            <Text
-              variant="caption"
-              numberOfLines={1}
-              ellipsis="tail"
-              style={{ fontSize: 16 }}
-            >
-              {ratingCnt} reviews
+              <Spacer position="right" size="medium" />
+              <AntDesign
+                name="arrowright"
+                size={24}
+                color={theme.colors.ui.primary}
+              />
+            </MoreInfoButton>
+          </RatingRow>
+          <Suggestion value={address}>
+            <Ionicons name="location" size={22} />
+          </Suggestion>
+          <Spacer position="bottom" size="medium" />
+          <DescriptionContainer>
+            <QuoteIconContainer style={{ bottom: 0, right: 0 }}>
+              <MaterialIcons name="format-quote" size={45} color={"white"} />
+            </QuoteIconContainer>
+            <Text style={{ lineHeight: 22 }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+              feugiat justo ac tortor hendrerit mollis et in nunc.
             </Text>
-            <Spacer position="right" size="medium" />
-            <AntDesign
-              name="arrowright"
-              size={24}
-              color={theme.colors.ui.primary}
-            />
-          </MoreInfoButton>
-        </RatingRow>
-        <Suggestion value={address}>
-          <Ionicons name="location" size={22} />
-        </Suggestion>
-        <Spacer position="bottom" size="medium" />
-        <DescriptionContainer>
-          <QuoteIconContainer style={{ bottom: 0, right: 0 }}>
-            <MaterialIcons name="format-quote" size={45} color={"white"} />
-          </QuoteIconContainer>
-          <Text style={{ lineHeight: 22 }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-            feugiat justo ac tortor hendrerit mollis et in nunc.
-          </Text>
-        </DescriptionContainer>
-        <Spacer position="bottom" size="large" />
-        <Spacer position="bottom" size="large" />
-        <SectionTitle>Services</SectionTitle>
-        <Spacer position="bottom" size="large" />
+          </DescriptionContainer>
+          <Spacer position="bottom" size="large" />
+          <Spacer position="bottom" size="large" />
+          <SectionTitle>Services</SectionTitle>
+          <Spacer position="bottom" size="large" />
 
-        {/*<SpecialistCard specialist={specialist} />*/}
-        <ServiceCard onMorePress={handleShowViewMore} />
-        <Spacer position="bottom" size="medium" />
-        <ServiceCard onMorePress={handleShowViewMore} />
-        <Spacer position="bottom" size="medium" />
-        <ServiceCard onMorePress={handleShowViewMore} />
-        <Spacer position="bottom" size="medium" />
-        <ServiceCard onMorePress={handleShowViewMore} />
-        <Spacer position="bottom" size="medium" />
-        <ServiceCard onMorePress={handleShowViewMore} />
-        <Spacer position="bottom" size="medium" />
-      </PageContentContainer>
+          {/*<SpecialistCard specialist={specialist} />*/}
+          {services.map((serviceItem) => (
+            <View key={serviceItem.id}>
+              <ServiceCard
+                service={serviceItem}
+                onMorePress={handleShowViewMore}
+                addToCart={(add) => addOrRemoveFromCart(serviceItem, add)}
+              />
+              <Spacer position="bottom" size="medium" />
+            </View>
+          ))}
+        </PageContentContainer>
+        {showCartButton && (
+          <CartButtonContainer>
+            <Text style={{ color: "white" }}>Proceed to booking</Text>
+          </CartButtonContainer>
+        )}
+      </PageContainer>
       {selectedService && (
         <ServiceDetailsModal
           showModal={true}
@@ -239,6 +282,6 @@ export const SpecialistScreen = ({ route }) => {
           service={selectedService}
         />
       )}
-    </PageContainer>
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled, { useTheme } from "styled-components/native";
 import { rgba } from "polished";
 import { Checkbox } from "react-native-paper";
@@ -102,12 +102,25 @@ const FloatingMoreButton = styled.TouchableOpacity`
   z-index: 1;
 `;
 
-export const ServiceCard = ({ service = {}, onMorePress, info = false }) => {
+export const ServiceCard = ({
+  service = {},
+  onMorePress,
+  info = false,
+  addToCart,
+}) => {
   const theme = useTheme();
   const [checked, setChecked] = useState(false);
   const handlePress = () => {
     setChecked(!checked);
   };
+
+  useEffect(() => {
+    if (checked) {
+      addToCart(true);
+    } else {
+      addToCart(false);
+    }
+  }, [checked]);
 
   const {
     name = "Dreadlocks",
