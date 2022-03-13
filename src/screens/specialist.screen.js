@@ -25,6 +25,12 @@ const PageContentContainer = styled.View`
   padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[3]};
 `;
 
+const TitleContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const Title = styled(Text).attrs((props) => ({
   numberOfLines: 2,
   ellipsis: "tail",
@@ -80,14 +86,27 @@ const QuoteIconContainer = styled.View`
   justify-content: center;
 `;
 
+const FavButton = styled.TouchableOpacity``;
+
 const { height } = Dimensions.get("window");
 export const SpecialistScreen = ({ route }) => {
   const theme = useTheme();
-  const [selectedService, setSelectedService] = useState(null);
-
   const { specialist } = route.params;
-  const { name, gallery, rating, ratingCnt, address } = specialist;
+  const {
+    name,
+    gallery,
+    rating,
+    ratingCnt,
+    address,
+    isFavorite = false,
+  } = specialist;
 
+  const [selectedService, setSelectedService] = useState(null);
+  const [isFav, setIsFav] = useState(isFavorite);
+
+  const handleFavButtonPress = () => {
+    setIsFav(!isFav);
+  };
   const handleShowViewMore = (service) => {
     setSelectedService(service);
   };
@@ -135,9 +154,17 @@ export const SpecialistScreen = ({ route }) => {
 
       <PageContentContainer>
         <Spacer position="top" size="medium" />
+        <TitleContainer>
+          <Title>{name}</Title>
 
-        <Title>{name}</Title>
-        <Spacer position="top" size="medium" />
+          <FavButton onPress={handleFavButtonPress}>
+            <MaterialIcons
+              name={isFav ? "favorite" : "favorite-outline"}
+              size={30}
+            />
+          </FavButton>
+        </TitleContainer>
+        <Spacer position="top" size="large" />
         <RatingRow>
           <RatingContainer>
             <Spacer position="right" size="medium">
@@ -163,18 +190,9 @@ export const SpecialistScreen = ({ route }) => {
               variant="caption"
               numberOfLines={1}
               ellipsis="tail"
-              style={{ fontSize: 16, color: theme.colors.brand.primary }}
-            >
-              {ratingCnt}
-            </Text>
-            <Text
-              variant="caption"
-              numberOfLines={1}
-              ellipsis="tail"
               style={{ fontSize: 16 }}
             >
-              {" "}
-              reviews
+              {ratingCnt} reviews
             </Text>
             <Spacer position="right" size="medium" />
             <AntDesign
