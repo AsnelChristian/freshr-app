@@ -13,7 +13,7 @@ import { Suggestion } from "../features/map/components/suggestion.component";
 import { ServiceCard } from "../components/service/service-card.component";
 import { ServiceDetailsModal } from "../components/service/service-info-modal.component";
 
-const PageContainer = styled.View`
+const PageContainer = styled.ScrollView`
   flex: 1;
   background-color: white;
 `;
@@ -194,14 +194,25 @@ export const SpecialistScreen = ({ route }) => {
           </QuoteIconContainer>
           <Text style={{ lineHeight: 22 }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-            feugiat justo ac tortor hendrerit mollis et in nunc. Pellentesque
-            faucibus metus auctor euismod convallis
+            feugiat justo ac tortor hendrerit mollis et in nunc.
           </Text>
         </DescriptionContainer>
         <Spacer position="bottom" size="large" />
+        <Spacer position="bottom" size="large" />
         <SectionTitle>Services</SectionTitle>
+        <Spacer position="bottom" size="large" />
+
         {/*<SpecialistCard specialist={specialist} />*/}
         <ServiceCard onMorePress={handleShowViewMore} />
+        <Spacer position="bottom" size="medium" />
+        <ServiceCard onMorePress={handleShowViewMore} />
+        <Spacer position="bottom" size="medium" />
+        <ServiceCard onMorePress={handleShowViewMore} />
+        <Spacer position="bottom" size="medium" />
+        <ServiceCard onMorePress={handleShowViewMore} />
+        <Spacer position="bottom" size="medium" />
+        <ServiceCard onMorePress={handleShowViewMore} />
+        <Spacer position="bottom" size="medium" />
       </PageContentContainer>
       {selectedService && (
         <ServiceDetailsModal

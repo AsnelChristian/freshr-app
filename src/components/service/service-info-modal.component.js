@@ -35,7 +35,7 @@ export const ServiceDetailsModal = ({
   };
 
   return (
-    <BottomModal ref={bottomSheetModalRef}>
+    <BottomModal ref={bottomSheetModalRef} onClose={handleClose}>
       <Spacer position="bottom" size="small">
         <CloseButton onPress={handleClose}>
           <Ionicons name="close" size={20} />

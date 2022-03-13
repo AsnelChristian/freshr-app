@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   useBottomSheetDynamicSnapPoints,
 } from "@gorhom/bottom-sheet";
@@ -19,7 +20,7 @@ const BackdropContentContainer = styled.ScrollView.attrs((props) => ({
   flex: 1;
 `;
 
-export const BottomModal = React.forwardRef(({ children }, ref) => {
+export const BottomModal = React.forwardRef(({ children, onClose }, ref) => {
   const initialSnapPoints = useMemo(() => ["5%", "CONTENT_HEIGHT"], []);
   const {
     animatedHandleHeight,
@@ -28,10 +29,22 @@ export const BottomModal = React.forwardRef(({ children }, ref) => {
     handleContentLayout,
   } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
 
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        {...props}
+        animatedIndex={animatedContentHeight}
+        pressBehavior="close"
+      />
+    ),
+    [animatedContentHeight]
+  );
   return (
     <BottomSheetModal
       ref={ref}
       index={1}
+      onClose={onClose}
+      backdropComponent={renderBackdrop}
       backgroundComponent={ModalBackground}
       snapPoints={animatedSnapPoints}
       handleHeight={animatedHandleHeight}
