@@ -5,7 +5,6 @@ import { Text } from "../../../components/typography/typography.component";
 const SuggestionContainer = styled.TouchableOpacity`
   background-color: ${({ theme, active }) =>
     active ? theme.colors.ui.quaternary : "white"};
-  padding: ${({ theme }) => theme.space[2]} 0px;
   flex-direction: row;
   align-items: center;
 `;
@@ -24,14 +23,18 @@ const Separator = styled.View`
   background-color: ${({ theme }) => theme.colors.ui.quaternary};
 `;
 
-export const Suggestion = ({ value, children }) => {
+export const Suggestion = ({ value, children, size }) => {
   return (
     <>
       <Separator />
       <SuggestionContainer>
         <SuggestionIconContainer>{children}</SuggestionIconContainer>
         <Spacer position="left" size="small" />
-        <Text numberOfLines={1} ellipsis="tail">
+        <Text
+          numberOfLines={1}
+          ellipsis="tail"
+          style={{ fontSize: size ? size : 12 }}
+        >
           {value}
         </Text>
       </SuggestionContainer>

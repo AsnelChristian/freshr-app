@@ -1,9 +1,9 @@
 import styled, { useTheme } from "styled-components/native";
 import React, { useState } from "react";
 import { Entypo, FontAwesome, Octicons } from "@expo/vector-icons";
-import { Text } from "../../components/typography/typography.component";
-import { Spacer } from "../../components/spacer/spacer.component";
-import { SafeArea } from "../../components/utils/safearea.component";
+import { Text } from "../components/typography/typography.component";
+import { Spacer } from "../components/spacer/spacer.component";
+import { SafeArea } from "../components/utils/safearea.component";
 import {
   GenderModal,
   PriceRangeModal,
@@ -11,8 +11,8 @@ import {
   ServiceTypeModal,
   SortFilterModal,
   ServicesModal,
-} from "./components/filter-modal.component";
-import { Map } from "./components/map.component";
+} from "../features/map/components/filter-modal.component";
+import { Map } from "../features/map/components/map.component";
 
 const MapScreenContainer = styled.View`
   flex: 1;
@@ -58,7 +58,7 @@ const MapContainer = styled.View`
 
 const FilterContainer = styled.ScrollView``;
 
-export const MapScreen = () => {
+export const MapScreen = ({ navigation }) => {
   const theme = useTheme();
   const [showPriceFilter, setShowPriceFilter] = useState(false);
   const [showGenderFilter, setShowGenderFilter] = useState(false);
@@ -214,7 +214,11 @@ export const MapScreen = () => {
         </MapScreenHeader>
 
         <MapContainer>
-          <Map />
+          <Map
+            onItemPress={(item) =>
+              navigation.navigate("SpecialistDetails", { specialist: item })
+            }
+          />
         </MapContainer>
       </MapScreenContainer>
       <PriceRangeModal

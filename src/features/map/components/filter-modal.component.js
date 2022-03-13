@@ -330,47 +330,46 @@ export const LocationModal = ({ value, showModal, toggleShowModal }) => {
         </View>
 
         <View>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
+          <Spacer position="bottom" size="medium" />
           <Suggestion value="Koblenz metternich">
             <Ionicons name="location" size={20} />
           </Suggestion>
-          <Spacer position="bottom" size="small" />
         </View>
       </View>
       <Spacer position="bottom" size="large" />

@@ -16,7 +16,7 @@ const DataContainer = styled.View`
   bottom: ${({ theme }) => theme.space[2]};
 `;
 
-export const Map = ({ location = {}, renderItem }) => {
+export const Map = ({ location = {}, renderItem, onItemPress }) => {
   const data = [
     {
       id: "1234",
@@ -31,6 +31,13 @@ export const Map = ({ location = {}, renderItem }) => {
         lat: 46.829853,
         lng: -71.254028,
       },
+      gallery: [
+        "https://i2-prod.manchestereveningnews.co.uk/incoming/article21411590.ece/ALTERNATES/s615/0_gettyimages-1207048163-170667a.jpg",
+        "https://media.beam.usnews.com/d7/18/446edaba4d22a0da5d6f382c5e54/hairdresser.jpg",
+        "https://st2.depositphotos.com/2931363/9695/i/950/depositphotos_96952024-stock-photo-young-handsome-man-in-barbershop.jpg",
+        "https://ak.picdn.net/shutterstock/videos/9643772/thumb/1.jpg",
+        "https://www.thebarbersinc.com/cwsd.php?Z3AuPTQ0MQ/NDM/Zmp8ZClraXIjNit4f2Q.jpg",
+      ],
       serviceCnt: 20,
     },
     {
@@ -47,6 +54,13 @@ export const Map = ({ location = {}, renderItem }) => {
         lat: 46.629853,
         lng: -71.354028,
       },
+      gallery: [
+        "https://i2-prod.manchestereveningnews.co.uk/incoming/article21411590.ece/ALTERNATES/s615/0_gettyimages-1207048163-170667a.jpg",
+        "https://media.beam.usnews.com/d7/18/446edaba4d22a0da5d6f382c5e54/hairdresser.jpg",
+        "https://st2.depositphotos.com/2931363/9695/i/950/depositphotos_96952024-stock-photo-young-handsome-man-in-barbershop.jpg",
+        "https://ak.picdn.net/shutterstock/videos/9643772/thumb/1.jpg",
+        "https://www.thebarbersinc.com/cwsd.php?Z3AuPTQ0MQ/NDM/Zmp8ZClraXIjNit4f2Q.jpg",
+      ],
     },
     {
       id: "1236",
@@ -62,9 +76,16 @@ export const Map = ({ location = {}, renderItem }) => {
         lat: 46.529853,
         lng: -71.154028,
       },
+      gallery: [
+        "https://i2-prod.manchestereveningnews.co.uk/incoming/article21411590.ece/ALTERNATES/s615/0_gettyimages-1207048163-170667a.jpg",
+        "https://media.beam.usnews.com/d7/18/446edaba4d22a0da5d6f382c5e54/hairdresser.jpg",
+        "https://st2.depositphotos.com/2931363/9695/i/950/depositphotos_96952024-stock-photo-young-handsome-man-in-barbershop.jpg",
+        "https://ak.picdn.net/shutterstock/videos/9643772/thumb/1.jpg",
+        "https://www.thebarbersinc.com/cwsd.php?Z3AuPTQ0MQ/NDM/Zmp8ZClraXIjNit4f2Q.jpg",
+      ],
     },
   ];
-  const { lat = 28.3279822, lng = -16.5124847 } = location;
+  const { lat = 46.829853, lng = -71.254028 } = location;
   const [selectedDataId, setSelectedDataId] = useState(null);
   const flatList = useRef();
   const map = useRef();
@@ -121,7 +142,12 @@ export const Map = ({ location = {}, renderItem }) => {
         <FlatList
           ref={flatList}
           data={data}
-          renderItem={({ item }) => <SpecialistCard specialist={item} />}
+          renderItem={({ item }) => (
+            <SpecialistCard
+              onPress={() => onItemPress(item)}
+              specialist={item}
+            />
+          )}
           keyExtractor={(item) => `bottom-flat-map-${item.id}`}
           horizontal
           showsHorizontalScrollIndicator={false}

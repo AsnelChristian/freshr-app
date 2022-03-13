@@ -63,7 +63,7 @@ const InformationChip = styled.View`
   border-radius: 5px;
 `;
 
-export const SpecialistCard = ({ specialist }) => {
+export const SpecialistCard = ({ specialist, ...restProps }) => {
   const theme = useTheme();
   const {
     coverImage = "http://americanbarber.org/wp-content/uploads/2021/09/iStock-1302315949-Copy-scaled.jpg",
@@ -87,6 +87,7 @@ export const SpecialistCard = ({ specialist }) => {
         elevation: 10,
         width: width - 50,
       }}
+      {...restProps}
     >
       <SpecialistCardImage source={{ uri: coverImage }} />
       <Spacer position="right" size="medium" />
@@ -130,6 +131,7 @@ export const SpecialistCard = ({ specialist }) => {
               </InformationChip>
             </Spacer>
           </InformationRow>
+          <Spacer position="bottom" size="medium" />
           <Spacer position="bottom" size="small">
             <Suggestion value={address}>
               <Ionicons name="location" size={12} />
