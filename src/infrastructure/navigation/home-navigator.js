@@ -3,8 +3,8 @@ import { TouchableOpacity } from "react-native";
 
 import { SafeArea } from "../../components/utils/safearea.component";
 import { Text } from "../../components/typography/typography.component";
-import { MapScreen } from "../../screens/map.screen";
-import { SpecialistScreen } from "../../screens/specialist.screen";
+import SpecialistsMapScreen from "../../screens/specialists-map.screen";
+import SpecialistScreen from "../../screens/specialist.screen";
 
 const HomeScreen = ({ navigation }) => (
   <SafeArea>
@@ -24,7 +24,7 @@ export const HomeNavigator = () => {
       initialRouteName="Home"
     >
       <HomeStack.Screen name="Home" component={HomeScreen} />
-      <HomeStack.Screen name="Map" component={MapScreen} />
+      <HomeStack.Screen name="Map" component={SpecialistsMapScreen} />
       <HomeStack.Screen
         name="SpecialistDetails"
         options={{ headerShown: true, headerTitle: "" }}

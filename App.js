@@ -7,8 +7,10 @@ import {
 } from "@expo-google-fonts/oswald";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import { theme } from "./src/infrastructure/theme";
-import { Navigation } from "./src/infrastructure/navigation";
+import Navigation from "./src/infrastructure/navigation";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -24,11 +26,13 @@ export default function App() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <BottomSheetModalProvider>
-          <Navigation />
-        </BottomSheetModalProvider>
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <BottomSheetModalProvider>
+            <Navigation />
+          </BottomSheetModalProvider>
+        </ThemeProvider>
+      </Provider>
       <ExpoStatusBar style="auto" />
     </>
   );

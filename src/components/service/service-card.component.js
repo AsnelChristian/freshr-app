@@ -115,6 +115,9 @@ export const ServiceCard = ({
   };
 
   useEffect(() => {
+    if (info) {
+      return;
+    }
     if (checked) {
       addToCart(true);
     } else {

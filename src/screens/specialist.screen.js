@@ -6,12 +6,18 @@ import { Rating } from "react-native-elements";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { rgba } from "polished";
 
-import { SpecialistCard } from "../features/map/components/specialist-card.component";
 import { Spacer } from "../components/spacer/spacer.component";
 import { Text } from "../components/typography/typography.component";
 import { Suggestion } from "../features/map/components/suggestion.component";
 import { ServiceCard } from "../components/service/service-card.component";
 import { ServiceDetailsModal } from "../components/service/service-info-modal.component";
+import { connect } from "react-redux";
+import {
+  addServiceToCart,
+  clearCart,
+  removeServiceFromCart,
+  toggleCart,
+} from "../redux/booking/booking.actions";
 
 const PageContainer = styled.ScrollView`
   flex: 1;
@@ -103,37 +109,35 @@ const CartButtonContainer = styled.TouchableOpacity`
 `;
 
 const { height } = Dimensions.get("window");
-export const SpecialistScreen = ({ route }) => {
+
+const SpecialistScreen = ({
+  specialist,
+  cart,
+  addCartItem,
+  removeCartItem,
+  showCart,
+}) => {
   const theme = useTheme();
-  const { specialist } = route.params;
+
   const {
     name,
     gallery,
     rating,
     ratingCnt,
     address,
+    about,
     services,
     isFavorite = false,
   } = specialist;
 
-  const [cartItems, setCartItems] = useState([]);
-  const [showCartButton, setShowCartButton] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [isFav, setIsFav] = useState(isFavorite);
 
-  useEffect(() => {
-    if (cartItems.length > 0) {
-      setShowCartButton(true);
-    } else {
-      setShowCartButton(false);
-    }
-  }, [cartItems]);
-
   const addOrRemoveFromCart = (service, add) => {
     if (add) {
-      setCartItems([...cartItems, service]);
+      addCartItem(service);
     } else {
-      setCartItems((cart) => cart.filter((item) => item.id !== service.id));
+      removeCartItem(service);
     }
   };
   const handleFavButtonPress = () => {
@@ -145,8 +149,12 @@ export const SpecialistScreen = ({ route }) => {
   const handleCloseViewMore = () => {
     setSelectedService(null);
   };
+
   useEffect(() => {
-    console.log(route);
+    showCart(true);
+    return () => {
+      showCart(false);
+    };
   }, []);
 
   return (
@@ -247,33 +255,24 @@ export const SpecialistScreen = ({ route }) => {
             <QuoteIconContainer style={{ bottom: 0, right: 0 }}>
               <MaterialIcons name="format-quote" size={45} color={"white"} />
             </QuoteIconContainer>
-            <Text style={{ lineHeight: 22 }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-              feugiat justo ac tortor hendrerit mollis et in nunc.
-            </Text>
+            <Text style={{ lineHeight: 22 }}>{about}</Text>
           </DescriptionContainer>
           <Spacer position="bottom" size="large" />
           <Spacer position="bottom" size="large" />
           <SectionTitle>Services</SectionTitle>
           <Spacer position="bottom" size="large" />
 
-          {/*<SpecialistCard specialist={specialist} />*/}
           {services.map((serviceItem) => (
             <View key={serviceItem.id}>
               <ServiceCard
                 service={serviceItem}
-                onMorePress={handleShowViewMore}
+                onMorePress={() => handleShowViewMore(serviceItem)}
                 addToCart={(add) => addOrRemoveFromCart(serviceItem, add)}
               />
               <Spacer position="bottom" size="medium" />
             </View>
           ))}
         </PageContentContainer>
-        {showCartButton && (
-          <CartButtonContainer>
-            <Text style={{ color: "white" }}>Proceed to booking</Text>
-          </CartButtonContainer>
-        )}
       </PageContainer>
       {selectedService && (
         <ServiceDetailsModal
@@ -285,3 +284,16 @@ export const SpecialistScreen = ({ route }) => {
     </>
   );
 };
+
+const mapStateToProps = (state) => ({
+  specialist: state.booking.specialist,
+  cart: state.booking.services,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addCartItem: (service) => dispatch(addServiceToCart(service)),
+  removeCartItem: (service) => dispatch(removeServiceFromCart(service)),
+  showCart: (value) => dispatch(toggleCart(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SpecialistScreen);

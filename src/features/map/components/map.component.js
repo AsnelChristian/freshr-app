@@ -24,6 +24,8 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         "https://media.gq-magazine.co.uk/photos/5efcae3187e549a3c5063a64/master/w_1920,h_1280,c_limit/20200701-barbers-02.jpg",
       name: "John doe",
       address: "Koblenz metternich",
+      about:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc.",
       rating: 4.3,
       ratingCnt: 1003,
       priceRange: [15, 60],
@@ -49,11 +51,11 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         },
         {
           id: "service-2",
-          name: "Clean shave",
+          name: "Curly cut",
           price: 40,
           gender: "both",
           coverImage:
-            "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+            "https://www.toptrendsguide.com/wp-content/uploads/2020/01/Short-Curly-Hair-with-Shaved-Sides.jpg",
         },
         {
           id: "service-3",
@@ -80,6 +82,8 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         "http://americanbarber.org/wp-content/uploads/2021/09/iStock-1302315949-Copy-scaled.jpg",
       name: "Philips McGood",
       address: "Utah washington",
+      about:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc.",
       rating: 4.3,
       ratingCnt: 1003,
       priceRange: [15, 60],
@@ -106,11 +110,11 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         },
         {
           id: "service-6",
-          name: "Clean shave",
+          name: "Curly cut",
           price: 40,
           gender: "both",
           coverImage:
-            "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+            "https://www.toptrendsguide.com/wp-content/uploads/2020/01/Short-Curly-Hair-with-Shaved-Sides.jpg",
         },
         {
           id: "service-7",
@@ -136,6 +140,9 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         "https://www.betterteam.com/images/barber-job-description-5184x3456-20201124.jpeg?crop=40:21,smart&width=1200&dpr=2",
       name: "Paul walker",
       address: "Munich planegg campus",
+      about:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc.",
+
       rating: 4.3,
       ratingCnt: 1003,
       priceRange: [15, 60],
@@ -162,11 +169,11 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         },
         {
           id: "service-10",
-          name: "Clean shave",
+          name: "Curly cut",
           price: 40,
           gender: "both",
           coverImage:
-            "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+            "https://www.toptrendsguide.com/wp-content/uploads/2020/01/Short-Curly-Hair-with-Shaved-Sides.jpg",
         },
         {
           id: "service-11",

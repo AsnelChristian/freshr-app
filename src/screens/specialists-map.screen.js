@@ -1,6 +1,10 @@
 import styled, { useTheme } from "styled-components/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Entypo, FontAwesome, Octicons } from "@expo/vector-icons";
+
+import { connect } from "react-redux";
+import { clearCart, setSpecialist } from "../redux/booking/booking.actions";
+
 import { Text } from "../components/typography/typography.component";
 import { Spacer } from "../components/spacer/spacer.component";
 import { SafeArea } from "../components/utils/safearea.component";
@@ -58,7 +62,7 @@ const MapContainer = styled.View`
 
 const FilterContainer = styled.ScrollView``;
 
-export const MapScreen = ({ navigation }) => {
+const SpecialistsMapScreen = ({ navigation, ...props }) => {
   const theme = useTheme();
   const [showPriceFilter, setShowPriceFilter] = useState(false);
   const [showGenderFilter, setShowGenderFilter] = useState(false);
@@ -131,6 +135,11 @@ export const MapScreen = ({ navigation }) => {
   const handlePriceRangeChange = (payload) => {
     setPriceRange(payload);
   };
+
+  useEffect(() => {
+    props.setSpecialist(null);
+    props.clearCart();
+  }, []);
 
   const filters = [
     {
@@ -215,9 +224,10 @@ export const MapScreen = ({ navigation }) => {
 
         <MapContainer>
           <Map
-            onItemPress={(item) =>
-              navigation.navigate("SpecialistDetails", { specialist: item })
-            }
+            onItemPress={(item) => {
+              props.setSpecialist(item);
+              navigation.navigate("SpecialistDetails");
+            }}
           />
         </MapContainer>
       </MapScreenContainer>
@@ -257,3 +267,10 @@ export const MapScreen = ({ navigation }) => {
     </SafeArea>
   );
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  setSpecialist: (specialist) => dispatch(setSpecialist(specialist)),
+  clearCart: () => dispatch(clearCart()),
+});
+
+export default connect(null, mapDispatchToProps)(SpecialistsMapScreen);
