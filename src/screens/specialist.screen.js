@@ -145,9 +145,11 @@ const SpecialistScreen = ({
   };
   const handleShowViewMore = (service) => {
     setSelectedService(service);
+    showCart(false);
   };
   const handleCloseViewMore = () => {
     setSelectedService(null);
+    showCart(true);
   };
 
   useEffect(() => {

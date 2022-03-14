@@ -1,6 +1,6 @@
 import { AppNavigator } from "./app-navigator";
 import React, { useEffect, useRef } from "react";
-import { Platform, StatusBar, View } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Text } from "../../components/typography/typography.component";
 import styled from "styled-components/native";
@@ -14,7 +14,7 @@ const CartButtonContainer = styled.View`
   bottom: 0px;
   left: 0;
   position: absolute;
-  z-index: 99999;
+  z-index: 1;
   padding: ${({ theme }) => theme.space[3]};
 `;
 
@@ -90,17 +90,6 @@ const Navigation = ({ cart, showCart }) => {
           </CartButton>
         </CartButtonContainer>
       )}
-      {/*<View*/}
-      {/*  style={{*/}
-      {/*    position: "absolute",*/}
-      {/*    bottom: 0,*/}
-      {/*    left: 0,*/}
-      {/*    zIndex: 9999,*/}
-      {/*    height: 100,*/}
-      {/*    width: 1000,*/}
-      {/*    backgroundColor: "black",*/}
-      {/*  }}*/}
-      {/*/>*/}
     </NavigationContainer>
   );
 };

@@ -5,7 +5,6 @@ import styled from "styled-components/native";
 import { ServiceCard } from "./service-card.component";
 import { BottomModal } from "../modal/bottom-sheet-modalcomponent";
 import { Spacer } from "../spacer/spacer.component";
-import { Text } from "../typography/typography.component";
 
 const CloseButton = styled.TouchableOpacity`
   margin-left: ${({ theme }) => theme.space[3]};

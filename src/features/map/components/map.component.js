@@ -3,15 +3,15 @@ import MapView from "react-native-maps";
 
 import styled from "styled-components/native";
 import { SpecialistCard } from "./specialist-card.component";
-import { Dimensions, FlatList } from "react-native";
+import { Dimensions } from "react-native";
 import { MapMarker } from "./map-marker.component";
+import Carousel from "react-native-snap-carousel";
 
 const MapContainer = styled(MapView)`
   flex: 1;
 `;
 
 const DataContainer = styled.View`
-  padding: 0px ${({ theme }) => theme.space[2]};
   position: absolute;
   bottom: ${({ theme }) => theme.space[2]};
 `;
@@ -199,20 +199,12 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
   const flatList = useRef();
   const map = useRef();
 
-  const viewConfig = useRef({ itemVisiblePercentThreshold: 70 });
-  const onViewChanged = useRef(({ viewableItems }) => {
-    if (viewableItems.length > 0) {
-      const selectedData = viewableItems[0].item;
-      setSelectedDataId(selectedData.id);
-    }
-  });
-
   useEffect(() => {
     if (!selectedDataId || !flatList) {
       return;
     }
     const index = data.findIndex((item) => item.id === selectedDataId);
-    flatList.current?.scrollToIndex({ index });
+    flatList.current?.snapToItem(index);
 
     const selectedData = data[index];
     const region = {
@@ -248,7 +240,7 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
         ))}
       </MapContainer>
       <DataContainer>
-        <FlatList
+        <Carousel
           ref={flatList}
           data={data}
           renderItem={({ item }) => (
@@ -260,11 +252,9 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           keyExtractor={(item) => `bottom-flat-map-${item.id}`}
           horizontal
           showsHorizontalScrollIndicator={false}
-          snapToInterval={Dimensions.get("window").width - 70}
-          snapToAlignment={"center"}
-          decelerationRate={"fast"}
-          viewabilityConfig={viewConfig.current}
-          onViewableItemsChanged={onViewChanged.current}
+          sliderWidth={Dimensions.get("window").width}
+          itemWidth={Dimensions.get("window").width - 60}
+          onSnapToItem={(index) => setSelectedDataId(data[index].id)}
         />
       </DataContainer>
     </>

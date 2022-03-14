@@ -21,7 +21,6 @@ const SpecialistCardContainer = styled.View`
   overflow: hidden;
   background-color: white;
   height: 175px;
-  margin-right: ${({ theme }) => theme.space[2]};
 `;
 
 const SpecialistCardImage = styled.Image.attrs((props) => ({

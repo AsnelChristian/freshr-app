@@ -139,7 +139,7 @@ export const ServiceCard = ({
           <MaterialIcons name="more-horiz" size={20} />
         </FloatingMoreButton>
       )}
-      <ServiceCardContainer onPress={handlePress} active={checked}>
+      <ServiceCardContainer onPress={handlePress} active={!info && checked}>
         <ServiceImage source={{ uri: coverImage }} />
         <Spacer position="left" size="medium" />
         <ServiceCardContentContainer>
