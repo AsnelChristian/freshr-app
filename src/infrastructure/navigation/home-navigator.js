@@ -5,6 +5,7 @@ import { SafeArea } from "../../components/utils/safearea.component";
 import { Text } from "../../components/typography/typography.component";
 import SpecialistsMapScreen from "../../screens/specialists-map.screen";
 import SpecialistScreen from "../../screens/specialist.screen";
+import FacilitySelectionScreen from "../../screens/facility-selection.screen";
 
 const HomeScreen = ({ navigation }) => (
   <SafeArea>
@@ -29,6 +30,11 @@ export const HomeNavigator = () => {
         name="SpecialistDetails"
         options={{ headerShown: true, headerTitle: "" }}
         component={SpecialistScreen}
+      />
+      <HomeStack.Screen
+        name="SelectFacility"
+        options={{ headerShown: true, headerTitle: "Select facility" }}
+        component={FacilitySelectionScreen}
       />
     </HomeStack.Navigator>
   );

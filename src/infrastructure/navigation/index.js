@@ -49,7 +49,7 @@ const CartItemCountContainer = styled.View`
 `;
 
 const Navigation = ({ cart, showCart }) => {
-  const navigationRef = useRef(null);
+  const navigationRef = useRef();
 
   useEffect(() => {
     Platform.OS === "android" && StatusBar.setTranslucent(true);
@@ -76,7 +76,9 @@ const Navigation = ({ cart, showCart }) => {
             elevation: 10,
           }}
         >
-          <CartButton>
+          <CartButton
+            onPress={() => navigationRef.current?.navigate("SelectFacility")}
+          >
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
               Proceed to booking
             </Text>

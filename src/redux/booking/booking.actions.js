@@ -23,3 +23,8 @@ export const toggleCart = (show) => ({
 export const clearCart = () => ({
   type: BookingActionTypes.CLEAR_CART,
 });
+
+export const selectFacility = (facility) => ({
+  type: BookingActionTypes.SELECT_FACILITY,
+  payload: facility,
+});

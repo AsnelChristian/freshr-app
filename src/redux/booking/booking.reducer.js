@@ -60,9 +60,11 @@ export const bookingReducer = (state = INITIAL_STATE, action) => {
       };
     }
     case BookingActionTypes.CLEAR_CART:
-      return { ...state, services: [] };
+      return { ...INITIAL_STATE };
     case BookingActionTypes.SET_SHOW_CART:
       return { ...state, showCart: action.payload };
+    case BookingActionTypes.SELECT_FACILITY:
+      return { ...state, facility: action.payload };
     default:
       return state;
   }

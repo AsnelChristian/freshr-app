@@ -17,6 +17,10 @@ import {
   ServicesModal,
 } from "../features/map/components/filter-modal.component";
 import { Map } from "../features/map/components/map.component";
+import { specialistsMock } from "./specialists.mock";
+import { setMatchingSpecialists } from "../redux/specialists/specialists.action";
+import { SpecialistCard } from "../features/map/components/specialist-card.component";
+import { Dimensions } from "react-native";
 
 const MapScreenContainer = styled.View`
   flex: 1;
@@ -137,6 +141,7 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
   };
 
   useEffect(() => {
+    props.setMatchingSpecialists(specialistsMock);
     props.setSpecialist(null);
     props.clearCart();
   }, []);
@@ -224,10 +229,17 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
 
         <MapContainer>
           <Map
-            onItemPress={(item) => {
-              props.setSpecialist(item);
-              navigation.navigate("SpecialistDetails");
-            }}
+            data={props.matchingSpecialists}
+            itemWidth={Dimensions.get("window").width - 60}
+            renderItem={({ item }) => (
+              <SpecialistCard
+                onPress={() => {
+                  props.setSpecialist(item);
+                  navigation.navigate("SpecialistDetails");
+                }}
+                specialist={item}
+              />
+            )}
           />
         </MapContainer>
       </MapScreenContainer>
@@ -268,9 +280,18 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  matchingSpecialists: state.specialists.specialists,
+});
+
 const mapDispatchToProps = (dispatch) => ({
+  setMatchingSpecialists: (specialists) =>
+    dispatch(setMatchingSpecialists(specialists)),
   setSpecialist: (specialist) => dispatch(setSpecialist(specialist)),
   clearCart: () => dispatch(clearCart()),
 });
 
-export default connect(null, mapDispatchToProps)(SpecialistsMapScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SpecialistsMapScreen);

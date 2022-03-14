@@ -17,6 +17,7 @@ import { ServiceDetailsModal } from "../components/service/service-info-modal.co
 import { connect } from "react-redux";
 import {
   addServiceToCart,
+  clearCart,
   removeServiceFromCart,
   toggleCart,
 } from "../redux/booking/booking.actions";
@@ -132,7 +133,12 @@ const camelize = (text) => {
 
 const { height } = Dimensions.get("window");
 
-const SpecialistScreen = ({ specialist, showCart, servicesPerCategoryCnt }) => {
+const SpecialistScreen = ({
+  specialist,
+  showCart,
+  servicesPerCategoryCnt,
+  resetCart,
+}) => {
   const theme = useTheme();
 
   const {
@@ -178,6 +184,7 @@ const SpecialistScreen = ({ specialist, showCart, servicesPerCategoryCnt }) => {
     showCart(true);
     return () => {
       showCart(false);
+      resetCart();
     };
   }, []);
 
@@ -367,6 +374,7 @@ const mapDispatchToProps = (dispatch) => ({
   addCartItem: (service) => dispatch(addServiceToCart(service)),
   removeCartItem: (service) => dispatch(removeServiceFromCart(service)),
   showCart: (value) => dispatch(toggleCart(value)),
+  resetCart: () => dispatch(clearCart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SpecialistScreen);
