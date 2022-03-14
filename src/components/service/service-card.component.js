@@ -6,6 +6,13 @@ import { Checkbox } from "react-native-paper";
 import { Text } from "../typography/typography.component";
 import { Spacer } from "../spacer/spacer.component";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import { SpecialistCard } from "../../features/map/components/specialist-card.component";
+import {
+  addServiceToCart,
+  removeServiceFromCart,
+  toggleCart,
+} from "../../redux/booking/booking.actions";
 
 const Container = styled.View`
   flex: 1;
@@ -102,28 +109,33 @@ const FloatingMoreButton = styled.TouchableOpacity`
   z-index: 1;
 `;
 
-export const ServiceCard = ({
+const ServiceCard = ({
   service = {},
   onMorePress,
   info = false,
-  addToCart,
+  cart,
+  addCartItem,
+  removeCartItem,
 }) => {
   const theme = useTheme();
   const [checked, setChecked] = useState(false);
+
   const handlePress = () => {
-    setChecked(!checked);
+    setChecked((oldValue) => {
+      if (!info) {
+        if (oldValue) {
+          removeCartItem(service);
+        } else {
+          addCartItem(service);
+        }
+      }
+      return !checked;
+    });
   };
 
   useEffect(() => {
-    if (info) {
-      return;
-    }
-    if (checked) {
-      addToCart(true);
-    } else {
-      addToCart(false);
-    }
-  }, [checked]);
+    setChecked(cart.filter((item) => item.id === service.id).length > 0);
+  }, []);
 
   const {
     name = "Dreadlocks",
@@ -194,3 +206,13 @@ export const ServiceCard = ({
     </Container>
   );
 };
+
+const mapStateToProps = (state) => ({
+  cart: state.booking.services,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addCartItem: (service) => dispatch(addServiceToCart(service)),
+  removeCartItem: (service) => dispatch(removeServiceFromCart(service)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceCard);

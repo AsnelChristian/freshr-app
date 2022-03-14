@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import styled, { useTheme } from "styled-components/native";
 
-import { ServiceCard } from "./service-card.component";
+import ServiceCard from "./service-card.component";
 import { BottomModal } from "../modal/bottom-sheet-modalcomponent";
 import { Spacer } from "../spacer/spacer.component";
 import { Rating } from "react-native-elements";

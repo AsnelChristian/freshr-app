@@ -12,12 +12,11 @@ import {
   Text,
 } from "../components/typography/typography.component";
 import { Suggestion } from "../features/map/components/suggestion.component";
-import { ServiceCard } from "../components/service/service-card.component";
+import ServiceCard from "../components/service/service-card.component";
 import { ServiceDetailsModal } from "../components/service/service-info-modal.component";
 import { connect } from "react-redux";
 import {
   addServiceToCart,
-  clearCart,
   removeServiceFromCart,
   toggleCart,
 } from "../redux/booking/booking.actions";
@@ -87,17 +86,53 @@ const QuoteIconContainer = styled.View`
   justify-content: center;
 `;
 
+const CategoryButtonsContainer = styled.ScrollView`
+  flex: 1;
+  background-color: ${({ theme }) => theme.colors.ui.quaternary};
+  padding: ${({ theme }) => theme.space[3]} ${({ theme }) => theme.space[2]};
+`;
+
+const CategoryButton = styled.TouchableOpacity`
+  height: 60px;
+  padding: 0px ${({ theme }) => theme.space[3]};
+  border-radius: ${({ theme }) => theme.sizes[1]};
+  background-color: ${({ active, theme }) =>
+    active ? theme.colors.ui.primary : "white"};
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid ${({ theme }) => theme.colors.ui.primary};
+  margin-right: ${({ theme }) => theme.space[2]};
+`;
+
+const CategorySelectedCount = styled.View`
+  height: 30px;
+  width: 30px;
+  border-radius: 100px;
+  background-color: ${({ active, theme }) =>
+    active ? "white" : theme.colors.ui.primary};
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
 const FavButton = styled.TouchableOpacity``;
+
+const camelize = (text) => {
+  return text.replace(
+    /^([A-Z])|[\s-_]+(\w)/g,
+    function (match, p1, p2, offset) {
+      if (p2) {
+        return p2.toUpperCase();
+      }
+      return p1.toLowerCase();
+    }
+  );
+};
 
 const { height } = Dimensions.get("window");
 
-const SpecialistScreen = ({
-  specialist,
-  cart,
-  addCartItem,
-  removeCartItem,
-  showCart,
-}) => {
+const SpecialistScreen = ({ specialist, showCart, servicesPerCategoryCnt }) => {
   const theme = useTheme();
 
   const {
@@ -111,16 +146,22 @@ const SpecialistScreen = ({
     isFavorite = false,
   } = specialist;
 
+  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [shownServices, setShownServices] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
   const [isFav, setIsFav] = useState(isFavorite);
 
-  const addOrRemoveFromCart = (service, add) => {
-    if (add) {
-      addCartItem(service);
-    } else {
-      removeCartItem(service);
-    }
-  };
+  const categories = [
+    "Haircut",
+    "Hair coloring",
+    "Scalp massage",
+    "Beard sculpting",
+  ];
+
+  useEffect(() => {
+    setShownServices(services[`${camelize(categories[selectedCategory])}`]);
+  }, [selectedCategory]);
+
   const handleFavButtonPress = () => {
     setIsFav(!isFav);
   };
@@ -243,14 +284,61 @@ const SpecialistScreen = ({
           <Spacer position="bottom" size="large" />
           <Spacer position="bottom" size="large" />
           <SectionTitle>Services</SectionTitle>
+
           <Spacer position="bottom" size="large" />
 
-          {services.map((serviceItem) => (
+          <CategoryButtonsContainer
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          >
+            {categories.map((category, index) => (
+              <CategoryButton
+                key={`${specialist.id}-category-${index}`}
+                active={category === categories[selectedCategory]}
+                onPress={() => setSelectedCategory(index)}
+              >
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                    letterSpacing: 1,
+                    color:
+                      category === categories[selectedCategory]
+                        ? "white"
+                        : theme.colors.ui.primary,
+                  }}
+                >
+                  {category}
+                </Text>
+                <Spacer position="left" size="medium" />
+                {servicesPerCategoryCnt[`${camelize(category)}`] > 0 && (
+                  <CategorySelectedCount
+                    active={category === categories[selectedCategory]}
+                  >
+                    <Text
+                      style={{
+                        color:
+                          category === categories[selectedCategory]
+                            ? theme.colors.ui.primary
+                            : "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {servicesPerCategoryCnt[`${camelize(category)}`]}
+                    </Text>
+                  </CategorySelectedCount>
+                )}
+              </CategoryButton>
+            ))}
+          </CategoryButtonsContainer>
+
+          <Spacer position="bottom" size="large" />
+
+          {shownServices.map((serviceItem) => (
             <View key={serviceItem.id}>
               <ServiceCard
                 service={serviceItem}
                 onMorePress={() => handleShowViewMore(serviceItem)}
-                addToCart={(add) => addOrRemoveFromCart(serviceItem, add)}
               />
               <Spacer position="bottom" size="medium" />
             </View>
@@ -272,6 +360,7 @@ const SpecialistScreen = ({
 const mapStateToProps = (state) => ({
   specialist: state.booking.specialist,
   cart: state.booking.services,
+  servicesPerCategoryCnt: state.booking.servicesPerCategoryCnt,
 });
 
 const mapDispatchToProps = (dispatch) => ({
