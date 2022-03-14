@@ -1,5 +1,6 @@
 import React from "react";
 import styled, {useTheme} from "styled-components/native";
+import {rgba} from "polished";
 
 const defaultTextStyles = (theme) => `
   font-weight: ${theme.fontWeights.regular};
@@ -47,6 +48,13 @@ export const Text = ({variant, children, style, ...restProps} ) => {
   return (<TextView defaultStyle={defaultStyle} specificStyle={specificStyle} style={style} {...restProps}>{children}</TextView>);
 }
 
+export const DescriptionContainer = styled.View`
+  padding: ${({ theme }) => theme.space[3]};
+  background-color: ${({ theme }) =>
+    `${rgba(theme.colors.ui.quaternary, 0.9)}`};
+  border-radius: ${({ theme }) => theme.space[2]};
+  overflow: hidden;
+`;
 
 Text.defaultProps = {
   variant : "body"

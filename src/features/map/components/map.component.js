@@ -48,6 +48,10 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "male",
           coverImage:
             "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+          rating: 4.4,
+          time: "45 minutes",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc",
         },
         {
           id: "service-2",
@@ -56,6 +60,10 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "both",
           coverImage:
             "https://www.toptrendsguide.com/wp-content/uploads/2020/01/Short-Curly-Hair-with-Shaved-Sides.jpg",
+          rating: 4.4,
+          time: "45 minutes",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc",
         },
         {
           id: "service-3",
@@ -64,6 +72,10 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "female",
           coverImage:
             "https://swivelbeauty.com/blog/wp-content/uploads/2020/08/IMG_6398E64B4B52-1.jpeg",
+          rating: 4.4,
+          time: "45 minutes",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc",
         },
         {
           id: "service-4",
@@ -72,6 +84,10 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "both",
           coverImage:
             "https://i2.wp.com/www.hadviser.com/wp-content/uploads/2020/03/1-asymmetrical-pixie-bob-CJa6ijwrUGZ.jpg?resize=769%2C768&ssl=1",
+          rating: 4.4,
+          time: "45 minutes",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc",
         },
       ],
       serviceCnt: 20,
@@ -107,6 +123,10 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "male",
           coverImage:
             "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+          rating: 4.4,
+          time: "45 minutes",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc",
         },
         {
           id: "service-6",
@@ -115,6 +135,10 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "both",
           coverImage:
             "https://www.toptrendsguide.com/wp-content/uploads/2020/01/Short-Curly-Hair-with-Shaved-Sides.jpg",
+          rating: 4.4,
+          time: "45 minutes",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc",
         },
         {
           id: "service-7",
@@ -123,6 +147,10 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "female",
           coverImage:
             "https://swivelbeauty.com/blog/wp-content/uploads/2020/08/IMG_6398E64B4B52-1.jpeg",
+          rating: 4.4,
+          time: "45 minutes",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc",
         },
         {
           id: "service-8",
@@ -131,6 +159,10 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "both",
           coverImage:
             "https://i2.wp.com/www.hadviser.com/wp-content/uploads/2020/03/1-asymmetrical-pixie-bob-CJa6ijwrUGZ.jpg?resize=769%2C768&ssl=1",
+          rating: 4.4,
+          time: "45 minutes",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc",
         },
       ],
     },
@@ -166,6 +198,7 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "male",
           coverImage:
             "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg",
+          rating: 4.4,
         },
         {
           id: "service-10",
@@ -174,6 +207,7 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "both",
           coverImage:
             "https://www.toptrendsguide.com/wp-content/uploads/2020/01/Short-Curly-Hair-with-Shaved-Sides.jpg",
+          rating: 4.4,
         },
         {
           id: "service-11",
@@ -182,6 +216,7 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "female",
           coverImage:
             "https://swivelbeauty.com/blog/wp-content/uploads/2020/08/IMG_6398E64B4B52-1.jpeg",
+          rating: 4.4,
         },
         {
           id: "service-12",
@@ -190,6 +225,7 @@ export const Map = ({ location = {}, renderItem, onItemPress }) => {
           gender: "both",
           coverImage:
             "https://i2.wp.com/www.hadviser.com/wp-content/uploads/2020/03/1-asymmetrical-pixie-bob-CJa6ijwrUGZ.jpg?resize=769%2C768&ssl=1",
+          rating: 4.4,
         },
       ],
     },

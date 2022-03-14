@@ -7,7 +7,10 @@ import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { rgba } from "polished";
 
 import { Spacer } from "../components/spacer/spacer.component";
-import { Text } from "../components/typography/typography.component";
+import {
+  DescriptionContainer,
+  Text,
+} from "../components/typography/typography.component";
 import { Suggestion } from "../features/map/components/suggestion.component";
 import { ServiceCard } from "../components/service/service-card.component";
 import { ServiceDetailsModal } from "../components/service/service-info-modal.component";
@@ -74,14 +77,6 @@ const MoreInfoButton = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.ui.quaternary};
 `;
 
-const DescriptionContainer = styled.View`
-  padding: ${({ theme }) => theme.space[3]};
-  background-color: ${({ theme }) =>
-    `${rgba(theme.colors.ui.quaternary, 0.9)}`};
-  border-radius: ${({ theme }) => theme.space[2]};
-  overflow: hidden;
-`;
-
 const QuoteIconContainer = styled.View`
   padding: ${({ theme }) => theme.space[1]};
   background-color: ${({ theme }) =>
@@ -93,20 +88,6 @@ const QuoteIconContainer = styled.View`
 `;
 
 const FavButton = styled.TouchableOpacity``;
-
-const CartButtonContainer = styled.TouchableOpacity`
-  flex-direction: row;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.colors.brand.primary};
-  padding: ${({ theme }) => theme.space[3]} ${({ theme }) => theme.space[2]};
-  position: absolute;
-  height: 80px;
-  bottom: 0px;
-  left: 0;
-  z-index: 99999;
-`;
 
 const { height } = Dimensions.get("window");
 
