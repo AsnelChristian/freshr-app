@@ -28,3 +28,13 @@ export const selectFacility = (facility) => ({
   type: BookingActionTypes.SELECT_FACILITY,
   payload: facility,
 });
+
+export const setShowNext = (value) => ({
+  type: BookingActionTypes.SET_SHOW_NEXT,
+  payload: value,
+});
+
+export const setAllowNext = (value) => ({
+  type: BookingActionTypes.SET_ALLOW_NEXT,
+  payload: value,
+});

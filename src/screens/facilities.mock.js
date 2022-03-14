@@ -2,7 +2,7 @@ export const facilitiesMock = [
   {
     id: "facility-1",
     coverImage:
-      "https://media.gq-magazine.co.uk/photos/5efcae3187e549a3c5063a64/master/w_1920,h_1280,c_limit/20200701-barbers-02.jpg",
+      "https://captainsbarbershop.de/wp-content/uploads/2019/09/Location-Herrenfriseur-Barber-Captains-Barber-Shop.jpg",
     name: "The best barbershop 1",
     address: "Koblenz metternich",
     about:
@@ -18,11 +18,12 @@ export const facilitiesMock = [
       car: 5,
       bicycle: 10,
     },
+    ratingCnt: 121,
   },
   {
     id: "facility-2",
     coverImage:
-      "https://media.gq-magazine.co.uk/photos/5efcae3187e549a3c5063a64/master/w_1920,h_1280,c_limit/20200701-barbers-02.jpg",
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/89/1e/d1/caption.jpg",
     name: "The best barbershop 2",
     address: "Koblenz metternich",
     about:
@@ -38,11 +39,12 @@ export const facilitiesMock = [
       car: 5,
       bicycle: 10,
     },
+    ratingCnt: 121,
   },
   {
     id: "facility-3",
     coverImage:
-      "https://media.gq-magazine.co.uk/photos/5efcae3187e549a3c5063a64/master/w_1920,h_1280,c_limit/20200701-barbers-02.jpg",
+      "https://www.americanexpress.com/de-de/amexcited/media/cache/default/cms/2021/10/Barber-Shops-Berlin-Titelbild.jpg",
     name: "The best barbershop 3",
     address: "Koblenz metternich",
     about:
@@ -58,5 +60,6 @@ export const facilitiesMock = [
       car: 5,
       bicycle: 10,
     },
+    ratingCnt: 121,
   },
 ];

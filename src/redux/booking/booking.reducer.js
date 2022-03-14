@@ -12,6 +12,8 @@ const INITIAL_STATE = {
   facility: null,
   meetingTime: null,
   showCart: false,
+  showNext: false,
+  next: false,
   cartActionDesc: "",
   cartAction: {
     navigate: "",
@@ -65,6 +67,10 @@ export const bookingReducer = (state = INITIAL_STATE, action) => {
       return { ...state, showCart: action.payload };
     case BookingActionTypes.SELECT_FACILITY:
       return { ...state, facility: action.payload };
+    case BookingActionTypes.SET_SHOW_NEXT:
+      return { ...state, showNext: action.payload };
+    case BookingActionTypes.SET_ALLOW_NEXT:
+      return { ...state, next: action.payload };
     default:
       return state;
   }

@@ -6,7 +6,7 @@ import { Text } from "../../components/typography/typography.component";
 import styled from "styled-components/native";
 import { connect } from "react-redux";
 
-const CartButtonContainer = styled.View`
+const ButtonContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -18,16 +18,15 @@ const CartButtonContainer = styled.View`
   padding: ${({ theme }) => theme.space[3]};
 `;
 
-const CartButton = styled.TouchableOpacity`
+const ActionButton = styled.TouchableOpacity`
   position: relative;
   flex-direction: row;
   width: 100%;
-  height: 55px;
+  height: ${({ height }) => `${height}px`};
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.brand.primary};
   border-radius: ${({ theme }) => theme.sizes[1]};
-  padding: ${({ theme }) => theme.space[3]} ${({ theme }) => theme.space[2]};
 `;
 
 const PositioningContainer = styled.View`
@@ -48,7 +47,7 @@ const CartItemCountContainer = styled.View`
   background-color: ${({ theme }) => theme.colors.ui.primary};
 `;
 
-const Navigation = ({ cart, showCart }) => {
+const Navigation = ({ cart, showCart, showNext }) => {
   const navigationRef = useRef();
 
   useEffect(() => {
@@ -64,7 +63,7 @@ const Navigation = ({ cart, showCart }) => {
     <NavigationContainer ref={navigationRef}>
       <AppNavigator />
       {showCart && cart.length > 0 && (
-        <CartButtonContainer
+        <ButtonContainer
           style={{
             shadowColor: "#000",
             shadowOffset: {
@@ -76,7 +75,8 @@ const Navigation = ({ cart, showCart }) => {
             elevation: 10,
           }}
         >
-          <CartButton
+          <ActionButton
+            height={55}
             onPress={() => navigationRef.current?.navigate("SelectFacility")}
           >
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
@@ -89,8 +89,38 @@ const Navigation = ({ cart, showCart }) => {
                 </Text>
               </CartItemCountContainer>
             </PositioningContainer>
-          </CartButton>
-        </CartButtonContainer>
+          </ActionButton>
+        </ButtonContainer>
+      )}
+      {showNext && (
+        <ButtonContainer
+          style={{
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 5,
+            },
+            shadowOpacity: 0.34,
+            shadowRadius: 6.27,
+            elevation: 10,
+          }}
+        >
+          <ActionButton
+            height={50}
+            onPress={() => navigationRef.current?.navigate("SelectFacility")}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 16,
+                textTransform: "uppercase",
+              }}
+            >
+              Proceed
+            </Text>
+          </ActionButton>
+        </ButtonContainer>
       )}
     </NavigationContainer>
   );
@@ -99,6 +129,7 @@ const Navigation = ({ cart, showCart }) => {
 const mapStateToProps = (state) => ({
   cart: state.booking.services,
   showCart: state.booking.showCart,
+  showNext: state.booking.showNext,
 });
 
 export default connect(mapStateToProps, null)(Navigation);

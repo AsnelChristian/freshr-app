@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import MapView from "react-native-maps";
 
-import styled from "styled-components/native";
-import { SpecialistCard } from "./specialist-card.component";
+import styled, { useTheme } from "styled-components/native";
 import { Dimensions } from "react-native";
 import { MapMarker } from "./map-marker.component";
 import Carousel from "react-native-snap-carousel";
@@ -16,7 +15,14 @@ const DataContainer = styled.View`
   bottom: ${({ theme }) => theme.space[2]};
 `;
 
-export const Map = ({ location = {}, data, renderItem, itemWidth }) => {
+export const Map = ({
+  location = {},
+  data,
+  renderItem,
+  itemWidth,
+  bottomMargin = null,
+}) => {
+  const theme = useTheme();
   const { lat = 46.829853, lng = -71.254028 } = location;
   const [selectedDataId, setSelectedDataId] = useState(null);
   const flatList = useRef();
@@ -62,7 +68,7 @@ export const Map = ({ location = {}, data, renderItem, itemWidth }) => {
           />
         ))}
       </MapContainer>
-      <DataContainer>
+      <DataContainer style={{ bottom: bottomMargin ? bottomMargin : 10 }}>
         <Carousel
           ref={flatList}
           data={data}

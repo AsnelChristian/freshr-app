@@ -1,12 +1,11 @@
 import styled from "styled-components/native";
 import { connect } from "react-redux";
 import React, { useEffect } from "react";
-import { selectFacility, toggleCart } from "../redux/booking/booking.actions";
+import { setShowNext, toggleCart } from "../redux/booking/booking.actions";
 import { Map } from "../features/map/components/map.component";
-import { SpecialistCard } from "../features/map/components/specialist-card.component";
 import { setMatchinFacilities } from "../redux/facilities/facilities.actions";
 import { facilitiesMock } from "./facilities.mock";
-import { FacilityCard } from "../components/facilities/facility-card.component";
+import FacilityCard from "../components/facilities/facility-card.component";
 import { Dimensions } from "react-native";
 
 const PageContainer = styled.View`
@@ -23,21 +22,16 @@ const FacilitySelectionScreen = ({ showCart, ...restProps }) => {
     restProps.setMatchingFacilities(facilitiesMock);
     // restProps.setSelectedFacility(restProps.matchingFacilities[0]);
     showCart(false);
+    restProps.setShowAction(true);
   }, []);
   return (
     <PageContainer>
       <MapContainer>
         <Map
           data={restProps.matchingFacilities}
+          bottomMargin={30}
           itemWidth={Dimensions.get("window").width - 60}
-          renderItem={({ item }) => (
-            <FacilityCard
-              onPress={() => {
-                restProps.setSelectedFacility(item);
-              }}
-              facility={item}
-            />
-          )}
+          renderItem={({ item }) => <FacilityCard facility={item} />}
         />
       </MapContainer>
     </PageContainer>
@@ -53,7 +47,7 @@ const mapDispatchToProps = (dispatch) => ({
   showCart: (value) => dispatch(toggleCart(value)),
   setMatchingFacilities: (facilities) =>
     dispatch(setMatchinFacilities(facilities)),
-  setSelectedFacility: (facility) => dispatch(selectFacility(facility)),
+  setShowAction: (value) => dispatch(setShowNext(value)),
 });
 
 export default connect(
