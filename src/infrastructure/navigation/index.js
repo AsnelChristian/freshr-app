@@ -19,14 +19,33 @@ const CartButtonContainer = styled.View`
 `;
 
 const CartButton = styled.TouchableOpacity`
+  position: relative;
   flex-direction: row;
   width: 100%;
-  height: 50px;
+  height: 55px;
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.brand.primary};
   border-radius: ${({ theme }) => theme.sizes[1]};
   padding: ${({ theme }) => theme.space[3]} ${({ theme }) => theme.space[2]};
+`;
+
+const PositioningContainer = styled.View`
+  height: 55px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: ${({ theme }) => theme.space[3]};
+`;
+
+const CartItemCountContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  border-radius: ${({ theme }) => theme.sizes[4]};
+  background-color: ${({ theme }) => theme.colors.ui.primary};
 `;
 
 const Navigation = ({ cart, showCart }) => {
@@ -58,7 +77,16 @@ const Navigation = ({ cart, showCart }) => {
           }}
         >
           <CartButton>
-            <Text style={{ color: "white" }}>Proceed to booking</Text>
+            <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
+              Proceed to booking
+            </Text>
+            <PositioningContainer>
+              <CartItemCountContainer>
+                <Text style={{ color: "white", fontWeight: "bold" }}>
+                  {cart.length}
+                </Text>
+              </CartItemCountContainer>
+            </PositioningContainer>
           </CartButton>
         </CartButtonContainer>
       )}

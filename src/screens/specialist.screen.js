@@ -159,7 +159,7 @@ const SpecialistScreen = ({
 
   return (
     <>
-      <PageContainer>
+      <PageContainer showsVerticalScrollIndicator={false}>
         <SliderContainer>
           <SliderBox
             images={gallery}
@@ -272,6 +272,7 @@ const SpecialistScreen = ({
               <Spacer position="bottom" size="medium" />
             </View>
           ))}
+          <Spacer position="bottom" size="large" />
         </PageContentContainer>
       </PageContainer>
       {selectedService && (
