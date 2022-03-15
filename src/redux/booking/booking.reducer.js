@@ -1,4 +1,5 @@
 import { BookingActionTypes } from "./booking.types";
+import { camelize } from "../../utils/string-formatting";
 
 const INITIAL_STATE = {
   specialist: null,
@@ -11,18 +12,6 @@ const INITIAL_STATE = {
   },
   facility: null,
   meetingTime: null,
-};
-
-const camelize = (text) => {
-  return text.replace(
-    /^([A-Z])|[\s-_]+(\w)/g,
-    function (match, p1, p2, offset) {
-      if (p2) {
-        return p2.toUpperCase();
-      }
-      return p1.toLowerCase();
-    }
-  );
 };
 
 export const bookingReducer = (state = INITIAL_STATE, action) => {

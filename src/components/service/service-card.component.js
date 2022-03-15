@@ -7,11 +7,9 @@ import { Text } from "../typography/typography.component";
 import { Spacer } from "../spacer/spacer.component";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { connect } from "react-redux";
-import { SpecialistCard } from "../../features/map/components/specialist-card.component";
 import {
   addServiceToCart,
   removeServiceFromCart,
-  toggleCart,
 } from "../../redux/booking/booking.actions";
 
 const Container = styled.View`
@@ -155,7 +153,7 @@ const ServiceCard = ({
         <ServiceImage source={{ uri: coverImage }} />
         <Spacer position="left" size="medium" />
         <ServiceCardContentContainer>
-          <Title>{name}</Title>
+          <Title numberOfLines={1}>{name}</Title>
           <Spacer position="bottom" size="medium" />
           <TileContainer>
             <Tile active={gender === "male" || gender === "both"}>

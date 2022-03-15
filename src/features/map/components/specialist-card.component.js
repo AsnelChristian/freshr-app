@@ -131,7 +131,7 @@ export const SpecialistCard = ({ specialist, ...restProps }) => {
             </InformationRow>
             <Spacer position="bottom" size="medium" />
             <Spacer position="bottom" size="small">
-              <Suggestion value={address}>
+              <Suggestion value={address} pressable={false}>
                 <Ionicons name="location" size={12} />
               </Suggestion>
             </Spacer>

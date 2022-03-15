@@ -2,6 +2,13 @@ import styled from "styled-components/native";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/typography.component";
 
+const NotPressableSuggestionContainer = styled.View`
+  background-color: ${({ theme, active }) =>
+    active ? theme.colors.ui.quaternary : "white"};
+  flex-direction: row;
+  align-items: center;
+`;
+
 const SuggestionContainer = styled.TouchableOpacity`
   background-color: ${({ theme, active }) =>
     active ? theme.colors.ui.quaternary : "white"};
@@ -23,21 +30,31 @@ const Separator = styled.View`
   background-color: ${({ theme }) => theme.colors.ui.quaternary};
 `;
 
-export const Suggestion = ({ value, children, size }) => {
+export const Suggestion = ({ value, children, size, pressable = true }) => {
+  const content = (
+    <>
+      <SuggestionIconContainer>{children}</SuggestionIconContainer>
+      <Spacer position="left" size="small" />
+      <Text
+        variant="caption"
+        numberOfLines={1}
+        ellipsis="tail"
+        style={{ fontSize: size ? size : 14 }}
+      >
+        {value}
+      </Text>
+    </>
+  );
   return (
     <>
       <Separator />
-      <SuggestionContainer>
-        <SuggestionIconContainer>{children}</SuggestionIconContainer>
-        <Spacer position="left" size="small" />
-        <Text
-          numberOfLines={1}
-          ellipsis="tail"
-          style={{ fontSize: size ? size : 12 }}
-        >
-          {value}
-        </Text>
-      </SuggestionContainer>
+      {pressable ? (
+        <SuggestionContainer>{content}</SuggestionContainer>
+      ) : (
+        <NotPressableSuggestionContainer>
+          {content}
+        </NotPressableSuggestionContainer>
+      )}
     </>
   );
 };

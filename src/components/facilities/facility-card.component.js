@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { Rating } from "react-native-elements";
 import { connect } from "react-redux";
 import { selectFacility } from "../../redux/booking/booking.actions";
+import { TimeItemContainer } from "../chip/chip.component";
 
 const { width } = Dimensions.get("window");
 
@@ -74,17 +75,6 @@ const Title = styled(Text)`
   font-weight: bold;
 `;
 
-const TimeItemContainer = styled.View`
-  background-color: ${({ theme }) =>
-    `${rgba(theme.colors.brand.primary, 0.15)}`};
-  border-radius: ${({ theme }) => theme.sizes[1]};
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: ${({ theme }) => theme.space[1]} ${({ theme }) => theme.space[2]};
-  margin-top: ${({ theme }) => theme.space[2]};
-`;
-
 const FacilityCard = ({
   facility,
   selectedFacility,
@@ -126,7 +116,7 @@ const FacilityCard = ({
         <Spacer position="left" size="medium" />
         <ContentContainer>
           <Spacer position="top" size="small" />
-          <Title>{name}</Title>
+          <Title numberOfLines={1}>{name}</Title>
           <Spacer position="bottom" size="large" />
           <Row>
             <Spacer position="right" size="small">
@@ -146,7 +136,7 @@ const FacilityCard = ({
           <Spacer position="bottom" size="medium" />
 
           <Spacer position="bottom" size="small">
-            <Suggestion value={address}>
+            <Suggestion value={address} pressable={false}>
               <Ionicons name="location" size={12} />
             </Suggestion>
           </Spacer>
@@ -158,23 +148,11 @@ const FacilityCard = ({
               <Text variant="caption">{distance} km</Text>
             </TimeItemContainer>
             <Spacer position="right" size="medium" />
-            {/*<TimeItemContainer>*/}
-            {/*  <Ionicons name="md-bicycle-sharp" size={20} />*/}
-            {/*  <Spacer position="left" size="small" />*/}
-            {/*  <Text variant="caption">{time.bicycle} min</Text>*/}
-            {/*</TimeItemContainer>*/}
-            {/*<Spacer position="right" size="medium" />*/}
             <TimeItemContainer>
               <Ionicons name="md-walk-sharp" size={20} />
               <Spacer position="left" size="small" />
               <Text variant="caption">{time.foot} min</Text>
             </TimeItemContainer>
-            {/*<Spacer position="right" size="medium" />*/}
-            {/*<TimeItemContainer>*/}
-            {/*  <Ionicons name="md-car-sharp" size={20} />*/}
-            {/*  <Spacer position="left" size="small" />*/}
-            {/*  <Text variant="caption">{time.car} min</Text>*/}
-            {/*</TimeItemContainer>*/}
           </Row>
         </ContentContainer>
       </Button>

@@ -40,10 +40,12 @@ const FacilitySelectionScreen = ({ showCart, navigation, ...restProps }) => {
           <Map
             data={restProps.matchingFacilities}
             bottomMargin={30}
-            itemWidth={Dimensions.get("window").width - 60}
+            itemWidth={Dimensions.get("window").width - 50}
             renderItem={({ item }) => (
               <FacilityCard
-                handleMorePress={() => navigation.navigate("FacilityDetails")}
+                handleMorePress={() =>
+                  navigation.navigate("FacilityDetails", { facility: item })
+                }
                 facility={item}
               />
             )}

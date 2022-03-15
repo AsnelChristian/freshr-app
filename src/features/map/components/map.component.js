@@ -14,6 +14,8 @@ const MapContainer = styled(MapView)`
 const DataContainer = styled.View`
   position: absolute;
   bottom: ${({ theme }) => theme.space[3]};
+  left: 0;
+  right: 0;
   ${({ facilitySelected }) => (facilitySelected ? "bottom: 100px" : "10px")};
 `;
 
@@ -22,7 +24,6 @@ const Map = ({
   data,
   renderItem,
   itemWidth,
-  bottomMargin = null,
   selectedFacility,
 }) => {
   const { lat = 46.829853, lng = -71.254028 } = location;

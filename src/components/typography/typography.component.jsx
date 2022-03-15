@@ -54,7 +54,18 @@ export const DescriptionContainer = styled.View`
     `${rgba(theme.colors.ui.quaternary, 0.9)}`};
   border-radius: ${({ theme }) => theme.space[2]};
   overflow: hidden;
+  border: 2px solid ${({theme}) => `${rgba(theme.colors.brand.primary, 0.15)}`};
 `;
+export const QuoteIconContainer = styled.View`
+  padding: ${({ theme }) => theme.space[1]};
+  background-color: ${({ theme }) =>
+    `${rgba(theme.colors.brand.primary, 0.1)}`};
+  border-radius: 5px;
+  position: absolute;
+  flex: 1;
+  justify-content: center;
+`;
+
 
 Text.defaultProps = {
   variant : "body"

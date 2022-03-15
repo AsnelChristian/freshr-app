@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { SliderBox } from "react-native-image-slider-box";
 import styled, { useTheme } from "styled-components/native";
-import { Dimensions, View } from "react-native";
-import { Rating } from "react-native-elements";
+import { View } from "react-native";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { rgba } from "polished";
 
 import { Spacer } from "../components/spacer/spacer.component";
 import {
   DescriptionContainer,
+  QuoteIconContainer,
   Text,
 } from "../components/typography/typography.component";
 import { Suggestion } from "../features/map/components/suggestion.component";
@@ -22,72 +21,20 @@ import {
   CartItemCountContainer,
   PositioningContainer,
 } from "../components/button/process-action-button.component";
-
-const PageContainer = styled.ScrollView`
-  flex: 1;
-  background-color: white;
-`;
-const SliderContainer = styled.View`
-  background-color: white;
-`;
-
-const PageContentContainer = styled.View`
-  padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[3]};
-  ${({ showActionButton }) => (showActionButton ? "margin-bottom: 60px" : "")};
-`;
-
-const TitleContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Title = styled(Text).attrs((props) => ({
-  numberOfLines: 2,
-  ellipsis: "tail",
-}))`
-  font-size: ${({ theme }) => theme.fontSizes.h4};
-  font-weight: bold;
-  letter-spacing: 1px;
-`;
-
-const SectionTitle = styled(Text).attrs((props) => ({
-  numberOfLines: 1,
-  ellipsis: "tail",
-}))`
-  font-size: ${({ theme }) => theme.fontSizes.h5};
-  font-weight: bold;
-  letter-spacing: 1px;
-`;
-
-const RatingRow = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const RatingContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const MoreInfoButton = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-  padding: ${({ theme }) => theme.space[2]};
-  border-radius: 5px;
-  background-color: ${({ theme }) => theme.colors.ui.quaternary};
-`;
-
-const QuoteIconContainer = styled.View`
-  padding: ${({ theme }) => theme.space[1]};
-  background-color: ${({ theme }) =>
-    `${rgba(theme.colors.brand.primary, 0.1)}`};
-  border-radius: 5px;
-  position: absolute;
-  flex: 1;
-  justify-content: center;
-`;
+import {
+  PageContainer,
+  SectionTitle,
+  Title,
+  TitleContainer,
+  FavButton,
+  PageContentContainer,
+  ReviewButton,
+  ReviewButtonText,
+} from "./components/details-screen.component";
+import { camelize } from "../utils/string-formatting";
+import { Gallery } from "./components/gallery.component";
+import { RatingComponent } from "./components/rating.component";
+import { RatingRow } from "../components/rating/rating.component";
 
 const CategoryButtonsContainer = styled.ScrollView`
   flex: 1;
@@ -118,22 +65,6 @@ const CategorySelectedCount = styled.View`
   align-items: center;
   justify-content: center;
 `;
-
-const FavButton = styled.TouchableOpacity``;
-
-const camelize = (text) => {
-  return text.replace(
-    /^([A-Z])|[\s-_]+(\w)/g,
-    function (match, p1, p2, offset) {
-      if (p2) {
-        return p2.toUpperCase();
-      }
-      return p1.toLowerCase();
-    }
-  );
-};
-
-const { height } = Dimensions.get("window");
 
 const SpecialistDetailsScreen = ({
   specialist,
@@ -190,48 +121,12 @@ const SpecialistDetailsScreen = ({
   return (
     <>
       <PageContainer showsVerticalScrollIndicator={false}>
-        <SliderContainer>
-          <SliderBox
-            images={gallery}
-            sliderBoxHeight={height * 0.3}
-            dotColor={theme.colors.brand.primary}
-            paginationBoxVerticalPadding={20}
-            autoplay
-            circleLoop
-            resizeMethod={"resize"}
-            resizeMode={"cover"}
-            paginationBoxStyle={{
-              position: "absolute",
-              bottom: 0,
-              padding: 0,
-              alignItems: "center",
-              alignSelf: "center",
-              justifyContent: "center",
-              paddingVertical: 10,
-            }}
-            dotStyle={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              marginHorizontal: 0,
-              padding: 0,
-              margin: 0,
-              backgroundColor: "rgba(128, 128, 128, 0.92)",
-            }}
-            ImageComponentStyle={{
-              borderRadius: 15,
-              width: "97%",
-              marginTop: 5,
-            }}
-            imageLoadingColor="#2196F3"
-          />
-        </SliderContainer>
+        <Gallery images={gallery} />
 
         <PageContentContainer showActionButton={cart.length > 0}>
           <Spacer position="top" size="medium" />
           <TitleContainer>
             <Title>{name}</Title>
-
             <FavButton onPress={handleFavButtonPress}>
               <MaterialIcons
                 name={isFav ? "favorite" : "favorite-outline"}
@@ -241,43 +136,20 @@ const SpecialistDetailsScreen = ({
           </TitleContainer>
           <Spacer position="top" size="large" />
           <RatingRow>
-            <RatingContainer>
-              <Spacer position="right" size="medium">
-                <Text
-                  variant="caption"
-                  style={{ color: theme.colors.brand.primary, fontSize: 22 }}
-                >
-                  {rating}
-                </Text>
-              </Spacer>
-              <Rating
-                type="star"
-                ratingColor={theme.colors.brand.primary}
-                ratingBackgroundColor={theme.colors.brand.primary}
-                fractions={1}
-                startingValue={rating}
-                readonly
-                imageSize={20}
-              />
-            </RatingContainer>
-            <MoreInfoButton>
-              <Text
-                variant="caption"
-                numberOfLines={1}
-                ellipsis="tail"
-                style={{ fontSize: 16 }}
-              >
-                {ratingCnt} reviews
-              </Text>
+            <RatingComponent rating={rating} />
+            <ReviewButton>
+              <ReviewButtonText>{ratingCnt}</ReviewButtonText>
+              <Spacer position="right" size="small" />
+              <ReviewButtonText>reviews</ReviewButtonText>
               <Spacer position="right" size="medium" />
               <AntDesign
                 name="arrowright"
                 size={24}
                 color={theme.colors.ui.primary}
               />
-            </MoreInfoButton>
+            </ReviewButton>
           </RatingRow>
-          <Suggestion value={address}>
+          <Suggestion value={address} pressable={false} size={16}>
             <Ionicons name="location" size={22} />
           </Suggestion>
           <Spacer position="bottom" size="medium" />
