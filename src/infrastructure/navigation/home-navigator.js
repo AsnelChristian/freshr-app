@@ -26,16 +26,6 @@ export const HomeNavigator = () => {
     >
       <HomeStack.Screen name="Home" component={HomeScreen} />
       <HomeStack.Screen name="Map" component={SpecialistsMapScreen} />
-      <HomeStack.Screen
-        name="SpecialistDetails"
-        options={{ headerShown: true, headerTitle: "" }}
-        component={SpecialistScreen}
-      />
-      <HomeStack.Screen
-        name="SelectFacility"
-        options={{ headerShown: true, headerTitle: "Select facility" }}
-        component={FacilitySelectionScreen}
-      />
     </HomeStack.Navigator>
   );
 };

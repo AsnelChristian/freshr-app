@@ -11,13 +11,6 @@ const INITIAL_STATE = {
   },
   facility: null,
   meetingTime: null,
-  showCart: false,
-  showNext: false,
-  next: false,
-  cartActionDesc: "",
-  cartAction: {
-    navigate: "",
-  },
 };
 
 const camelize = (text) => {
@@ -63,14 +56,9 @@ export const bookingReducer = (state = INITIAL_STATE, action) => {
     }
     case BookingActionTypes.CLEAR_CART:
       return { ...INITIAL_STATE };
-    case BookingActionTypes.SET_SHOW_CART:
-      return { ...state, showCart: action.payload };
+
     case BookingActionTypes.SELECT_FACILITY:
       return { ...state, facility: action.payload };
-    case BookingActionTypes.SET_SHOW_NEXT:
-      return { ...state, showNext: action.payload };
-    case BookingActionTypes.SET_ALLOW_NEXT:
-      return { ...state, next: action.payload };
     default:
       return state;
   }

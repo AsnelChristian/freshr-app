@@ -15,12 +15,13 @@ import { Suggestion } from "../features/map/components/suggestion.component";
 import ServiceCard from "../components/service/service-card.component";
 import { ServiceDetailsModal } from "../components/service/service-info-modal.component";
 import { connect } from "react-redux";
+import { clearCart } from "../redux/booking/booking.actions";
 import {
-  addServiceToCart,
-  clearCart,
-  removeServiceFromCart,
-  toggleCart,
-} from "../redux/booking/booking.actions";
+  ActionButton,
+  ButtonContainer,
+  CartItemCountContainer,
+  PositioningContainer,
+} from "../components/button/process-action-button.component";
 
 const PageContainer = styled.ScrollView`
   flex: 1;
@@ -32,6 +33,7 @@ const SliderContainer = styled.View`
 
 const PageContentContainer = styled.View`
   padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[3]};
+  ${({ showActionButton }) => (showActionButton ? "margin-bottom: 60px" : "")};
 `;
 
 const TitleContainer = styled.View`
@@ -135,9 +137,10 @@ const { height } = Dimensions.get("window");
 
 const SpecialistScreen = ({
   specialist,
-  showCart,
   servicesPerCategoryCnt,
   resetCart,
+  cart,
+  navigation,
 }) => {
   const theme = useTheme();
 
@@ -173,17 +176,13 @@ const SpecialistScreen = ({
   };
   const handleShowViewMore = (service) => {
     setSelectedService(service);
-    showCart(false);
   };
   const handleCloseViewMore = () => {
     setSelectedService(null);
-    showCart(true);
   };
 
   useEffect(() => {
-    showCart(true);
     return () => {
-      showCart(false);
       resetCart();
     };
   }, []);
@@ -228,7 +227,7 @@ const SpecialistScreen = ({
           />
         </SliderContainer>
 
-        <PageContentContainer>
+        <PageContentContainer showActionButton={cart.length > 0}>
           <Spacer position="top" size="medium" />
           <TitleContainer>
             <Title>{name}</Title>
@@ -350,9 +349,40 @@ const SpecialistScreen = ({
               <Spacer position="bottom" size="medium" />
             </View>
           ))}
+
           <Spacer position="bottom" size="large" />
         </PageContentContainer>
       </PageContainer>
+      {cart.length > 0 && (
+        <ButtonContainer
+          style={{
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 5,
+            },
+            shadowOpacity: 0.34,
+            shadowRadius: 6.27,
+            elevation: 10,
+          }}
+        >
+          <ActionButton
+            height={55}
+            onPress={() => navigation.navigate("SelectFacility")}
+          >
+            <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
+              Proceed to booking
+            </Text>
+            <PositioningContainer>
+              <CartItemCountContainer>
+                <Text style={{ color: "white", fontWeight: "bold" }}>
+                  {cart.length}
+                </Text>
+              </CartItemCountContainer>
+            </PositioningContainer>
+          </ActionButton>
+        </ButtonContainer>
+      )}
       {selectedService && (
         <ServiceDetailsModal
           showModal={true}
@@ -371,9 +401,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addCartItem: (service) => dispatch(addServiceToCart(service)),
-  removeCartItem: (service) => dispatch(removeServiceFromCart(service)),
-  showCart: (value) => dispatch(toggleCart(value)),
   resetCart: () => dispatch(clearCart()),
 });
 
