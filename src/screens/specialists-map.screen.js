@@ -16,7 +16,7 @@ import {
   SortFilterModal,
   ServicesModal,
 } from "../features/map/components/filter-modal.component";
-import { Map } from "../features/map/components/map.component";
+import Map from "../features/map/components/map.component";
 import { specialistsMock } from "./specialists.mock";
 import { setMatchingSpecialists } from "../redux/specialists/specialists.action";
 import { SpecialistCard } from "../features/map/components/specialist-card.component";

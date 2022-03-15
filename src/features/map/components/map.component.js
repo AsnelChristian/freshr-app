@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import MapView from "react-native-maps";
 
-import styled, { useTheme } from "styled-components/native";
+import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 import { MapMarker } from "./map-marker.component";
 import Carousel from "react-native-snap-carousel";
+import { connect } from "react-redux";
 
 const MapContainer = styled(MapView)`
   flex: 1;
@@ -12,17 +13,18 @@ const MapContainer = styled(MapView)`
 
 const DataContainer = styled.View`
   position: absolute;
-  bottom: ${({ theme }) => theme.space[2]};
+  bottom: ${({ theme }) => theme.space[3]};
+  ${({ facilitySelected }) => (facilitySelected ? "bottom: 100px" : "10px")};
 `;
 
-export const Map = ({
+const Map = ({
   location = {},
   data,
   renderItem,
   itemWidth,
   bottomMargin = null,
+  selectedFacility,
 }) => {
-  const theme = useTheme();
   const { lat = 46.829853, lng = -71.254028 } = location;
   const [selectedDataId, setSelectedDataId] = useState(null);
   const flatList = useRef();
@@ -68,7 +70,7 @@ export const Map = ({
           />
         ))}
       </MapContainer>
-      <DataContainer style={{ bottom: bottomMargin ? bottomMargin : 10 }}>
+      <DataContainer facilitySelected={selectedFacility}>
         <Carousel
           ref={flatList}
           data={data}
@@ -84,3 +86,9 @@ export const Map = ({
     </>
   );
 };
+
+const mapStateToProps = (state) => ({
+  selectedFacility: state.booking.facility,
+});
+
+export default connect(mapStateToProps, null)(Map);

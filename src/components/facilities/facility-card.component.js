@@ -16,7 +16,7 @@ import { selectFacility } from "../../redux/booking/booking.actions";
 
 const { width } = Dimensions.get("window");
 
-const Container = styled.TouchableOpacity`
+const Container = styled.View`
   height: 180px;
   width: ${width - 50}px;
   padding: ${({ theme }) => theme.space[2]};
@@ -30,7 +30,7 @@ const Container = styled.TouchableOpacity`
     ${({ active, theme }) => (active ? theme.colors.ui.primary : "white")};
 `;
 
-const Button = styled.View`
+const Button = styled.TouchableOpacity`
   width: 100%;
   height: 100%;
   flex-direction: row;
@@ -47,6 +47,7 @@ const MoreButton = styled.TouchableOpacity`
   padding: ${({ theme }) => theme.space[2]};
   top: 0;
   right: 0;
+  z-index: 10;
 `;
 
 const CoverImage = styled.Image.attrs((props) => ({
@@ -84,7 +85,12 @@ const TimeItemContainer = styled.View`
   margin-top: ${({ theme }) => theme.space[2]};
 `;
 
-const FacilityCard = ({ facility, selectedFacility, setSelectedFacility }) => {
+const FacilityCard = ({
+  facility,
+  selectedFacility,
+  setSelectedFacility,
+  handleMorePress,
+}) => {
   const theme = useTheme();
   const [selected, setSelected] = useState(false);
   const { name, address, coverImage, time, rating, distance, ratingCnt } =
@@ -102,8 +108,8 @@ const FacilityCard = ({ facility, selectedFacility, setSelectedFacility }) => {
   }, [selectedFacility]);
 
   return (
-    <Container onPress={handlePress} active={selected}>
-      <MoreButton>
+    <Container active={selected}>
+      <MoreButton onPress={handleMorePress}>
         <MaterialIcons name="more-vert" size={24} />
       </MoreButton>
 
@@ -115,7 +121,7 @@ const FacilityCard = ({ facility, selectedFacility, setSelectedFacility }) => {
           style={{ position: "absolute", bottom: 0, right: 0, zIndex: 1 }}
         />
       )}
-      <Button>
+      <Button onPress={handlePress}>
         <CoverImage source={{ uri: coverImage }} />
         <Spacer position="left" size="medium" />
         <ContentContainer>

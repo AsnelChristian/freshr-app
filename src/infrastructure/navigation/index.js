@@ -5,7 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { connect } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import FacilitySelectionScreen from "../../screens/facility-selection.screen";
-import SpecialistScreen from "../../screens/specialist.screen";
+import SpecialistScreen from "../../screens/specialist-details.screen";
+import FacilityDetailsScreen from "../../screens/facility-details.screen";
+import MeetingTimeSelectionScreen from "../../screens/meeting-time-selection.screen";
 
 const MainStack = createStackNavigator();
 
@@ -13,15 +15,26 @@ const MainNavigator = () => {
   return (
     <MainStack.Navigator screenOptions={{ headerShown: false }}>
       <MainStack.Screen name="app" component={AppNavigator} />
+
+      <MainStack.Screen
+        name="SpecialistDetails"
+        options={{ headerShown: true, headerTitle: "" }}
+        component={SpecialistScreen}
+      />
       <MainStack.Screen
         name="SelectFacility"
         options={{ headerShown: true, headerTitle: "Select facility" }}
         component={FacilitySelectionScreen}
       />
       <MainStack.Screen
-        name="SpecialistDetails"
+        name="FacilityDetails"
         options={{ headerShown: true, headerTitle: "" }}
-        component={SpecialistScreen}
+        component={FacilityDetailsScreen}
+      />
+      <MainStack.Screen
+        name="MeetingTimeSelection"
+        options={{ headerShown: true, headerTitle: "Pick meeting time" }}
+        component={MeetingTimeSelectionScreen}
       />
     </MainStack.Navigator>
   );

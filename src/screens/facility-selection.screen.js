@@ -2,12 +2,8 @@ import styled from "styled-components/native";
 import { connect } from "react-redux";
 import React, { useEffect } from "react";
 
-import {
-  selectFacility,
-  setShowNext,
-  toggleCart,
-} from "../redux/booking/booking.actions";
-import { Map } from "../features/map/components/map.component";
+import { selectFacility } from "../redux/booking/booking.actions";
+import Map from "../features/map/components/map.component";
 import { setMatchinFacilities } from "../redux/facilities/facilities.actions";
 import { facilitiesMock } from "./facilities.mock";
 import FacilityCard from "../components/facilities/facility-card.component";
@@ -45,41 +41,45 @@ const FacilitySelectionScreen = ({ showCart, navigation, ...restProps }) => {
             data={restProps.matchingFacilities}
             bottomMargin={30}
             itemWidth={Dimensions.get("window").width - 60}
-            renderItem={({ item }) => <FacilityCard facility={item} />}
+            renderItem={({ item }) => (
+              <FacilityCard
+                handleMorePress={() => navigation.navigate("FacilityDetails")}
+                facility={item}
+              />
+            )}
           />
         </MapContainer>
-      </PageContainer>
-
-      {restProps.selectedFacility && (
-        <ButtonContainer
-          style={{
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.34,
-            shadowRadius: 6.27,
-            elevation: 10,
-          }}
-        >
-          <ActionButton
-            height={50}
-            onPress={() => navigation.navigate("SelectFacility")}
+        {restProps.selectedFacility && (
+          <ButtonContainer
+            style={{
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 5,
+              },
+              shadowOpacity: 0.34,
+              shadowRadius: 6.27,
+              elevation: 10,
+            }}
           >
-            <Text
-              style={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: 16,
-                textTransform: "uppercase",
-              }}
+            <ActionButton
+              height={50}
+              onPress={() => navigation.navigate("MeetingTimeSelection")}
             >
-              Proceed to next step
-            </Text>
-          </ActionButton>
-        </ButtonContainer>
-      )}
+              <Text
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: 16,
+                  textTransform: "uppercase",
+                }}
+              >
+                Proceed to next step
+              </Text>
+            </ActionButton>
+          </ButtonContainer>
+        )}
+      </PageContainer>
     </>
   );
 };

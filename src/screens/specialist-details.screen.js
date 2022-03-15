@@ -135,7 +135,7 @@ const camelize = (text) => {
 
 const { height } = Dimensions.get("window");
 
-const SpecialistScreen = ({
+const SpecialistDetailsScreen = ({
   specialist,
   servicesPerCategoryCnt,
   resetCart,
@@ -404,4 +404,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetCart: () => dispatch(clearCart()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SpecialistScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SpecialistDetailsScreen);
