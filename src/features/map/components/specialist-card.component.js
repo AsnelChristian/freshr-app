@@ -17,10 +17,11 @@ const SpecialistCardContainer = styled.View`
   justify-content: center;
   border-radius: ${({ theme }) => theme.sizes[1]};
   padding: 0px ${({ theme }) => theme.space[2]};
-
+  border: 2px solid
+    ${({ active, theme }) => (active ? theme.colors.ui.primary : "white")};
   overflow: hidden;
   background-color: white;
-  height: 175px;
+  height: 180px;
 `;
 
 const SpecialistCardImage = styled.Image.attrs((props) => ({
@@ -62,7 +63,11 @@ const InformationChip = styled.View`
   border-radius: ${({ theme }) => theme.sizes[2]};
 `;
 
-export const SpecialistCard = ({ specialist, ...restProps }) => {
+export const SpecialistCard = ({
+  specialist,
+  active = false,
+  ...restProps
+}) => {
   const theme = useTheme();
   const {
     coverImage = "http://americanbarber.org/wp-content/uploads/2021/09/iStock-1302315949-Copy-scaled.jpg",
@@ -87,7 +92,16 @@ export const SpecialistCard = ({ specialist, ...restProps }) => {
           elevation: 10,
           width: 350,
         }}
+        active={active}
       >
+        {active && (
+          <Ionicons
+            name="checkmark-circle"
+            size={24}
+            color={theme.colors.ui.primary}
+            style={{ position: "absolute", bottom: 0, right: 0, zIndex: 1 }}
+          />
+        )}
         <SpecialistCardImage source={{ uri: coverImage }} />
         <Spacer position="right" size="medium" />
         <SpecialistCardInfoContainer>
@@ -113,7 +127,9 @@ export const SpecialistCard = ({ specialist, ...restProps }) => {
                   imageSize={16}
                 />
                 <Spacer position="right" size="small" />
-                <Text variant="caption">{ratingCnt} votes</Text>
+                <Text variant="caption" style={{ marginTop: 4 }}>
+                  ({ratingCnt})
+                </Text>
               </RatingContainer>
             </Spacer>
             <InformationRow>

@@ -230,12 +230,12 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
         <MapContainer>
           <Map
             data={props.matchingSpecialists}
-            itemWidth={350}
+            itemWidth={340}
             renderItem={({ item }) => (
               <SpecialistCard
                 onPress={() => {
                   props.setSpecialist(item);
-                  navigation.navigate("SpecialistDetails");
+                  navigation.navigate("SpecialistDetails", { edit: false });
                 }}
                 specialist={item}
               />

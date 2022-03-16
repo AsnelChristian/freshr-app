@@ -22,6 +22,7 @@ const Container = styled.ScrollView`
 
 const PageContentContainer = styled.View`
   flex: 1;
+  margin-bottom: 100px;
 `;
 
 const SelectionSectionContainer = styled.View`
@@ -314,7 +315,7 @@ const MeetingTimeSelectionScreen = ({
       >
         <ActionButton
           height={50}
-          onPress={() => navigation.navigate("MeetingTimeSelection")}
+          onPress={() => navigation.navigate("BookingReview")}
         >
           <Text
             style={{
@@ -323,7 +324,7 @@ const MeetingTimeSelectionScreen = ({
               fontSize: 16,
             }}
           >
-            Proceed to next step
+            Next step
           </Text>
           <TotalTimeContainer>
             <TotalTimeChip>

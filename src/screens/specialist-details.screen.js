@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled, { useTheme } from "styled-components/native";
-import { View } from "react-native";
+import { Button, View } from "react-native";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { rgba } from "polished";
+import Modal from "react-native-modal";
 
 import { Spacer } from "../components/spacer/spacer.component";
 import {
@@ -66,13 +67,51 @@ const CategorySelectedCount = styled.View`
   justify-content: center;
 `;
 
+const ModalViewPositioning = styled.View`
+  flex-direction: row;
+  justify-content: center;
+`
+const ModalView = styled.View`
+  width: 250px;
+  background-color: white;
+  border-radius: ${({theme}) => theme.sizes[1]};
+`
+
+const ModalCloseButton = styled.TouchableOpacity`
+  position: absolute;
+  top: ${({theme}) => theme.space[2]};;
+  right: ${({theme}) => theme.space[2]};;
+  padding: ${({theme}) => theme.space[2]};
+  border-radius: 100px;
+  background-color: ${({theme}) => theme.colors.ui.quaternary};;
+`
+
+const Separator = styled.View`
+  height: 2px;
+  width: 100%;
+  background-color: ${({theme}) => rgba(theme.colors.ui.primary, 0.06)};
+`
+
+const ModalContent = styled.View`
+  padding: ${({theme}) => theme.space[3]};
+`
+
+const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+`
+
+
+
 const SpecialistDetailsScreen = ({
   specialist,
   servicesPerCategoryCnt,
   resetCart,
   cart,
+  route,
   navigation,
 }) => {
+  const editBooking = route.params.edit;
   const theme = useTheme();
 
   const {
@@ -90,6 +129,12 @@ const SpecialistDetailsScreen = ({
   const [shownServices, setShownServices] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
   const [isFav, setIsFav] = useState(isFavorite);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
 
   const categories = [
     "Haircut",
@@ -113,6 +158,13 @@ const SpecialistDetailsScreen = ({
   };
 
   useEffect(() => {
+    if (!editBooking) {
+      return;
+    }
+    setModalVisible(cart.length <= 0);
+  }, [cart]);
+
+  useEffect(() => {
     return () => {
       resetCart();
     };
@@ -121,6 +173,30 @@ const SpecialistDetailsScreen = ({
   return (
     <>
       <PageContainer showsVerticalScrollIndicator={false}>
+        <Modal isVisible={isModalVisible}>
+
+          <ModalViewPositioning>
+            <ModalView>
+              <ModalContent>
+                <Row>
+                  <Ionicons name="md-warning" size={40}/>
+                  <Spacer position="left" size="medium"/>
+                  <Text variant="caption" style={{fontSize: 18}}> Warning</Text>
+                </Row>
+                <Spacer position="bottom" size="large"/>
+                <Separator/>
+                <Spacer position="bottom" size="large"/>
+                <Text>Emptying the cart will cancel booking</Text>
+                <Spacer position="bottom" size="large"/>
+                <Spacer position="bottom" size="medium"/>
+                <ModalCloseButton onPress={toggleModal}>
+                  <Ionicons name="close" size={20}/>
+                </ModalCloseButton>
+              </ModalContent>
+            </ModalView>
+          </ModalViewPositioning>
+        </Modal>
+
         <Gallery images={gallery} />
 
         <PageContentContainer showActionButton={cart.length > 0}>
@@ -241,10 +317,14 @@ const SpecialistDetailsScreen = ({
         >
           <ActionButton
             height={55}
-            onPress={() => navigation.navigate("SelectFacility")}
+            onPress={() =>
+              editBooking
+                ? navigation.navigate("BookingReview")
+                : navigation.navigate("SelectFacility", { edit: false })
+            }
           >
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-              Proceed to booking
+              {editBooking ? "Back to review" : "Proceed to booking"}
             </Text>
             <PositioningContainer>
               <CartItemCountContainer>

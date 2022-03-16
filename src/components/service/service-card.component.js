@@ -114,6 +114,7 @@ const ServiceCard = ({
   cart,
   addCartItem,
   removeCartItem,
+  press = null,
 }) => {
   const theme = useTheme();
   const [checked, setChecked] = useState(false);
@@ -149,7 +150,10 @@ const ServiceCard = ({
           <MaterialIcons name="more-horiz" size={20} />
         </FloatingMoreButton>
       )}
-      <ServiceCardContainer onPress={handlePress} active={!info && checked}>
+      <ServiceCardContainer
+        onPress={press ? press : handlePress}
+        active={!info && checked}
+      >
         <ServiceImage source={{ uri: coverImage }} />
         <Spacer position="left" size="medium" />
         <ServiceCardContentContainer>

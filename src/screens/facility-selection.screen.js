@@ -23,14 +23,16 @@ const MapContainer = styled.View`
   flex: 1;
 `;
 
-const FacilitySelectionScreen = ({ showCart, navigation, ...restProps }) => {
+const FacilitySelectionScreen = ({
+  showCart,
+  navigation,
+  route,
+  ...restProps
+}) => {
+  const editBooking = route.params.edit;
   useEffect(() => {
     restProps.setMatchingFacilities(facilitiesMock);
     // restProps.setSelectedFacility(restProps.matchingFacilities[0]);
-
-    return () => {
-      restProps.setSelectedFacility(null);
-    };
   }, []);
   return (
     <>
@@ -39,7 +41,7 @@ const FacilitySelectionScreen = ({ showCart, navigation, ...restProps }) => {
           <Map
             data={restProps.matchingFacilities}
             bottomMargin={30}
-            itemWidth={350}
+            itemWidth={340}
             renderItem={({ item }) => (
               <FacilityCard
                 handleMorePress={() =>
@@ -65,7 +67,11 @@ const FacilitySelectionScreen = ({ showCart, navigation, ...restProps }) => {
           >
             <ActionButton
               height={50}
-              onPress={() => navigation.navigate("MeetingTimeSelection")}
+              onPress={() =>
+                editBooking
+                  ? navigation.navigate("BookingReview")
+                  : navigation.navigate("MeetingTimeSelection", { edit: false })
+              }
             >
               <Text
                 style={{
@@ -74,7 +80,7 @@ const FacilitySelectionScreen = ({ showCart, navigation, ...restProps }) => {
                   fontSize: 16,
                 }}
               >
-                Proceed to next step
+                {editBooking ? "Back to review" : "Next step"}
               </Text>
             </ActionButton>
           </ButtonContainer>

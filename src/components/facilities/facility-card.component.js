@@ -54,7 +54,7 @@ const MoreButton = styled.TouchableOpacity`
 const CoverImage = styled.Image.attrs((props) => ({
   resizeMode: "cover",
 }))`
-  height: 140px;
+  height: 135px;
   border-radius: ${({ theme }) => theme.sizes[1]};
   overflow: hidden;
   aspect-ratio: 1;

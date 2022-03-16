@@ -8,12 +8,19 @@ import FacilitySelectionScreen from "../../screens/facility-selection.screen";
 import SpecialistScreen from "../../screens/specialist-details.screen";
 import FacilityDetailsScreen from "../../screens/facility-details.screen";
 import MeetingTimeSelectionScreen from "../../screens/meeting-time-selection.screen";
+import BookingReviewScreen from "../../screens/booking-review.screen";
+import CheckoutScreen from "../../screens/checkout.screen";
 
 const MainStack = createStackNavigator();
 
 const MainNavigator = () => {
   return (
-    <MainStack.Navigator screenOptions={{ headerShown: false }}>
+    <MainStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerBackTitle: "",
+      }}
+    >
       <MainStack.Screen name="app" component={AppNavigator} />
 
       <MainStack.Screen
@@ -35,6 +42,22 @@ const MainNavigator = () => {
         name="MeetingTimeSelection"
         options={{ headerShown: true, headerTitle: "Pick meeting time" }}
         component={MeetingTimeSelectionScreen}
+      />
+      <MainStack.Screen
+        name="BookingReview"
+        options={{
+          headerShown: true,
+          headerTitle: "Review booking",
+        }}
+        component={BookingReviewScreen}
+      />
+      <MainStack.Screen
+        name="Checkout"
+        options={{
+          headerShown: true,
+          headerTitle: "Checkout",
+        }}
+        component={CheckoutScreen}
       />
     </MainStack.Navigator>
   );

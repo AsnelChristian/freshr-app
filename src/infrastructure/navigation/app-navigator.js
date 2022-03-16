@@ -57,7 +57,7 @@ const getStyledScreenOptions = (theme) => {
         return <MaterialIcons name={iconName} size={size} color={color} />;
       },
       tabBarStyle: {
-        height: 60,
+        paddingVertical: 4,
       },
       tabBarItemStyle: {
         fontFamily: theme.fonts.body,
