@@ -26,7 +26,7 @@ const SpecialistCardContainer = styled.View`
 const SpecialistCardImage = styled.Image.attrs((props) => ({
   resizeMode: "cover",
 }))`
-  width: 40%;
+  height: 140px;
   aspect-ratio: 1;
   border-radius: ${({ theme }) => theme.sizes[1]};
 `;
@@ -46,6 +46,7 @@ const Title = styled(Text)`
 const RatingContainer = styled.View`
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 const InformationRow = styled.View`
@@ -58,7 +59,7 @@ const InformationChip = styled.View`
   background-color: ${({ theme }) =>
     `${rgbaConverter(theme.colors.brand.primary, 0.15)}`};
   color: white;
-  border-radius: 5px;
+  border-radius: ${({ theme }) => theme.sizes[2]};
 `;
 
 export const SpecialistCard = ({ specialist, ...restProps }) => {
@@ -84,7 +85,7 @@ export const SpecialistCard = ({ specialist, ...restProps }) => {
           shadowOpacity: 0.34,
           shadowRadius: 6.27,
           elevation: 10,
-          width: width - 50,
+          width: 350,
         }}
       >
         <SpecialistCardImage source={{ uri: coverImage }} />
@@ -92,7 +93,7 @@ export const SpecialistCard = ({ specialist, ...restProps }) => {
         <SpecialistCardInfoContainer>
           <View>
             <Spacer variant="caption" position="bottom" size="large">
-              <Title numberOfLines={1} ellipsizeMode="tail">
+              <Title numberOfLines={1} ellipsizeMode="tail" width={140}>
                 {name}
               </Title>
             </Spacer>
@@ -112,29 +113,29 @@ export const SpecialistCard = ({ specialist, ...restProps }) => {
                   imageSize={16}
                 />
                 <Spacer position="right" size="small" />
-                <Text variant="caption">{ratingCnt} ratings</Text>
+                <Text variant="caption">{ratingCnt} votes</Text>
               </RatingContainer>
             </Spacer>
             <InformationRow>
               <Spacer position="right" size="medium">
                 <InformationChip>
-                  <Text>{serviceCnt} services</Text>
+                  <Text variant="caption">{serviceCnt} services</Text>
                 </InformationChip>
               </Spacer>
               <Spacer position="right" size="medium">
                 <InformationChip>
-                  <Text>
+                  <Text variant="caption">
                     ${priceRange[0]} - ${priceRange[1]}
                   </Text>
                 </InformationChip>
               </Spacer>
             </InformationRow>
             <Spacer position="bottom" size="medium" />
-            <Spacer position="bottom" size="small">
-              <Suggestion value={address} pressable={false}>
-                <Ionicons name="location" size={12} />
-              </Suggestion>
-            </Spacer>
+            <Spacer position="bottom" size="small" />
+
+            <Suggestion value={address} pressable={false} width={140}>
+              <Ionicons name="location" size={12} />
+            </Suggestion>
           </View>
         </SpecialistCardInfoContainer>
       </SpecialistCardContainer>

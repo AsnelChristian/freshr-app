@@ -177,6 +177,7 @@ const SpecialistDetailsScreen = ({
               >
                 <Text
                   style={{
+                    fontSize: 14,
                     fontWeight: "bold",
                     textTransform: "uppercase",
                     letterSpacing: 1,

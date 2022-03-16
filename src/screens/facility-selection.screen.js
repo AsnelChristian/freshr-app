@@ -40,7 +40,7 @@ const FacilitySelectionScreen = ({ showCart, navigation, ...restProps }) => {
           <Map
             data={restProps.matchingFacilities}
             bottomMargin={30}
-            itemWidth={Dimensions.get("window").width - 50}
+            itemWidth={340}
             renderItem={({ item }) => (
               <FacilityCard
                 handleMorePress={() =>
@@ -73,7 +73,6 @@ const FacilitySelectionScreen = ({ showCart, navigation, ...restProps }) => {
                   color: "white",
                   fontWeight: "bold",
                   fontSize: 16,
-                  textTransform: "uppercase",
                 }}
               >
                 Proceed to next step

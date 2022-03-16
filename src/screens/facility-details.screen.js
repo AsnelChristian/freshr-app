@@ -50,8 +50,8 @@ const ChipsRow = styled.View`
 const ChipsRowDotted = styled(DashedLine)`
   position: absolute;
   top: 55%;
-  left: 0;
-  width: 100%;
+  left: 5px;
+  width: 90%;
   height: 3px;
   z-index: -1;
 `;

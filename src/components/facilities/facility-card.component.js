@@ -18,8 +18,8 @@ import { TimeItemContainer } from "../chip/chip.component";
 const { width } = Dimensions.get("window");
 
 const Container = styled.View`
-  height: 180px;
-  width: ${width - 50}px;
+  height: 150px;
+  width: 340px;
   padding: ${({ theme }) => theme.space[2]};
   background-color: white;
   border-radius: ${({ theme }) => theme.sizes[1]};

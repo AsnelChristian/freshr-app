@@ -14,6 +14,7 @@ const SuggestionContainer = styled.TouchableOpacity`
     active ? theme.colors.ui.quaternary : "white"};
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 const SuggestionIconContainer = styled.View`
@@ -30,7 +31,13 @@ const Separator = styled.View`
   background-color: ${({ theme }) => theme.colors.ui.quaternary};
 `;
 
-export const Suggestion = ({ value, children, size, pressable = true }) => {
+export const Suggestion = ({
+  value,
+  children,
+  size,
+  pressable = true,
+  width = "100%",
+}) => {
   const content = (
     <>
       <SuggestionIconContainer>{children}</SuggestionIconContainer>
@@ -39,7 +46,7 @@ export const Suggestion = ({ value, children, size, pressable = true }) => {
         variant="caption"
         numberOfLines={1}
         ellipsis="tail"
-        style={{ fontSize: size ? size : 14 }}
+        style={{ fontSize: size ? size : 14, width: width }}
       >
         {value}
       </Text>

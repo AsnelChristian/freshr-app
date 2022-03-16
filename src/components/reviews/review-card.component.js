@@ -11,10 +11,11 @@ import { rgba } from "polished";
 const { width } = Dimensions.get("window");
 const ReviewContainer = styled.ScrollView`
   padding: ${({ theme }) => theme.space[3]};
-  height: 200px;
+  max-height: 280px;
   width: ${width - 60}px;
   border-radius: ${({ theme }) => theme.sizes[1]};
   border: 2px solid ${({ theme }) => `${rgba(theme.colors.ui.primary, 0.15)}`};
+  overflow: hidden;
 `;
 
 const ReviewHeaderContainer = styled.View`
@@ -61,7 +62,9 @@ export const ReviewCard = ({ review }) => {
       </ReviewHeaderContainer>
       <Spacer position="bottom" size="large" />
       <View style={{ padding: 4 }}>
-        <Text style={{ lineHeight: 22 }}>{description}</Text>
+        <Text numberOfLines={6} ellipsis="tail" style={{ lineHeight: 22 }}>
+          {description}
+        </Text>
       </View>
     </ReviewContainer>
   );

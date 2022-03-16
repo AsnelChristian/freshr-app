@@ -494,7 +494,7 @@ export const specialistsMock = [
     coverImage:
       "https://www.betterteam.com/images/barber-job-description-5184x3456-20201124.jpeg?crop=40:21,smart&width=1200&dpr=2",
     name: "Paul walker",
-    address: "Munich planegg campus",
+    address: "Munich planegg campus kj; j;kl",
     about:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit mollis et in nunc.",
 

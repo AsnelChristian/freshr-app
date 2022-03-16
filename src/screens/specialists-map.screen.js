@@ -230,7 +230,7 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
         <MapContainer>
           <Map
             data={props.matchingSpecialists}
-            itemWidth={Dimensions.get("window").width - 50}
+            itemWidth={350}
             renderItem={({ item }) => (
               <SpecialistCard
                 onPress={() => {
