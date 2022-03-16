@@ -186,7 +186,7 @@ const SpecialistDetailsScreen = ({
                 <Spacer position="bottom" size="large"/>
                 <Separator/>
                 <Spacer position="bottom" size="large"/>
-                <Text>Emptying the cart will cancel booking</Text>
+                <Text>Emptying the cart will cancel the ongoing booking process</Text>
                 <Spacer position="bottom" size="large"/>
                 <Spacer position="bottom" size="medium"/>
                 <ModalCloseButton onPress={toggleModal}>
