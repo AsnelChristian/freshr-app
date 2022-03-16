@@ -18,8 +18,8 @@ import { TimeItemContainer } from "../chip/chip.component";
 const { width } = Dimensions.get("window");
 
 const Container = styled.View`
-  height: 150px;
-  width: 340px;
+  height: 175px;
+  width: 350px;
   padding: ${({ theme }) => theme.space[2]};
   background-color: white;
   border-radius: ${({ theme }) => theme.sizes[1]};
@@ -54,7 +54,7 @@ const MoreButton = styled.TouchableOpacity`
 const CoverImage = styled.Image.attrs((props) => ({
   resizeMode: "cover",
 }))`
-  height: 95%;
+  height: 140px;
   border-radius: ${({ theme }) => theme.sizes[1]};
   overflow: hidden;
   aspect-ratio: 1;

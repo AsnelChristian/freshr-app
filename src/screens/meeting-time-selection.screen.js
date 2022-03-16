@@ -6,12 +6,13 @@ import { Spacer } from "../components/spacer/spacer.component";
 import { Text } from "../components/typography/typography.component";
 import DashedLine from "react-native-dashed-line";
 import { rgba } from "polished";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SectionTitle } from "./components/details-screen.component";
 import {
   ActionButton,
   ButtonContainer,
 } from "../components/button/process-action-button.component";
+import { setMeetingTime } from "../redux/booking/booking.actions";
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -57,6 +58,23 @@ const VerticalDashed = styled(DashedLine)`
   height: 90%;
 `;
 
+const TotalTimeContainer = styled.View`
+  height: 100%;
+  position: absolute;
+  right: 16px;
+  top: 0;
+  justify-content: center;
+`;
+
+const TotalTimeChip = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.ui.primary};
+  padding: ${({ theme }) => theme.space[2]};
+  border-radius: ${({ theme }) => theme.sizes[2]};
+`;
+
 const RadioButtonContainer = styled.TouchableOpacity`
   padding: ${({ theme }) => theme.space[2]};
   border: 2px solid
@@ -71,9 +89,27 @@ const RadioButtonContainer = styled.TouchableOpacity`
   margin-top: ${({ theme }) => theme.space[2]};
 `;
 
-const MeetingTimeSelectionScreen = ({ selectedFacility, navigation }) => {
-  const [travelWay, setTravelWay] = useState("walking");
+const MeetingTimeSelectionScreen = ({
+  selectedFacility,
+  navigation,
+  ...restProps
+}) => {
+  const [travelWay, setTravelWay] = useState("foot");
   const [additionalTime, setAdditionalTime] = useState(null);
+
+  useEffect(() => {
+    const currentAdditionalTime = additionalTime ? additionalTime : 0;
+    restProps.setMeetingTime(
+      selectedFacility.time[travelWay] + currentAdditionalTime
+    );
+  }, [travelWay, additionalTime]);
+
+  useEffect(() => {
+    restProps.setMeetingTime(selectedFacility.time[travelWay]);
+    return () => {
+      restProps.setMeetingTime(null);
+    };
+  }, []);
 
   const { time } = selectedFacility;
 
@@ -149,7 +185,7 @@ const MeetingTimeSelectionScreen = ({ selectedFacility, navigation }) => {
 
             <TravelWaysContainer style={{ marginLeft: 16 + 16 + 22 }}>
               {createRadioButton(
-                "walking",
+                "foot",
                 `~ ${time.foot} min`,
 
                 travelWay,
@@ -157,14 +193,14 @@ const MeetingTimeSelectionScreen = ({ selectedFacility, navigation }) => {
                 "md-walk-sharp"
               )}
               {createRadioButton(
-                "cycling",
+                "bicycle",
                 `~ ${time.bicycle}  min`,
                 travelWay,
                 setTravelWay,
                 "md-bicycle-sharp"
               )}
               {createRadioButton(
-                "driving",
+                "car",
                 `~ ${time.car}  min`,
 
                 travelWay,
@@ -239,29 +275,29 @@ const MeetingTimeSelectionScreen = ({ selectedFacility, navigation }) => {
           </SelectionSectionContainer>
           <Spacer position="bottom" size="large" />
 
-          <SelectionSectionContainer>
-            <Row style={{ justifyContent: "space-between" }}>
-              <Row>
-                <Feather name="target" size={22} />
-                <Spacer position="left" size="medium" />
-                <Text
-                  numberOfLines={2}
-                  variant="caption"
-                  style={{ fontSize: 16 }}
-                >
-                  In total approximately
-                </Text>
-              </Row>
-              <RadioButtonContainer active={true}>
-                <Text
-                  variant="caption"
-                  style={{ fontSize: 14, color: "white" }}
-                >
-                  45 minutes
-                </Text>
-              </RadioButtonContainer>
-            </Row>
-          </SelectionSectionContainer>
+          {/*<SelectionSectionContainer>*/}
+          {/*  <Row style={{ justifyContent: "space-between" }}>*/}
+          {/*    <Row>*/}
+          {/*      <Feather name="target" size={22} />*/}
+          {/*      <Spacer position="left" size="medium" />*/}
+          {/*      <Text*/}
+          {/*        numberOfLines={2}*/}
+          {/*        variant="caption"*/}
+          {/*        style={{ fontSize: 16 }}*/}
+          {/*      >*/}
+          {/*        In total approximately*/}
+          {/*      </Text>*/}
+          {/*    </Row>*/}
+          {/*    <RadioButtonContainer active={true}>*/}
+          {/*      <Text*/}
+          {/*        variant="caption"*/}
+          {/*        style={{ fontSize: 14, color: "white" }}*/}
+          {/*      >*/}
+          {/*        45 minutes*/}
+          {/*      </Text>*/}
+          {/*    </RadioButtonContainer>*/}
+          {/*  </Row>*/}
+          {/*</SelectionSectionContainer>*/}
         </PageContentContainer>
       </Container>
       <ButtonContainer
@@ -289,6 +325,13 @@ const MeetingTimeSelectionScreen = ({ selectedFacility, navigation }) => {
           >
             Proceed to next step
           </Text>
+          <TotalTimeContainer>
+            <TotalTimeChip>
+              <Text variant="caption" style={{ color: "white" }}>
+                {restProps.meetingTime} min
+              </Text>
+            </TotalTimeChip>
+          </TotalTimeContainer>
         </ActionButton>
       </ButtonContainer>
     </>
@@ -297,6 +340,14 @@ const MeetingTimeSelectionScreen = ({ selectedFacility, navigation }) => {
 
 const mapStateToProps = (state) => ({
   selectedFacility: state.booking.facility,
+  meetingTime: state.booking.meetingTime,
 });
 
-export default connect(mapStateToProps, null)(MeetingTimeSelectionScreen);
+const mapDispatchToProps = (dispatch) => ({
+  setMeetingTime: (time) => dispatch(setMeetingTime(time)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MeetingTimeSelectionScreen);

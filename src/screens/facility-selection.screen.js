@@ -7,7 +7,6 @@ import Map from "../features/map/components/map.component";
 import { setMatchinFacilities } from "../redux/facilities/facilities.actions";
 import { facilitiesMock } from "./facilities.mock";
 import FacilityCard from "../components/facilities/facility-card.component";
-import { Dimensions } from "react-native";
 import {
   ActionButton,
   ButtonContainer,
@@ -40,7 +39,7 @@ const FacilitySelectionScreen = ({ showCart, navigation, ...restProps }) => {
           <Map
             data={restProps.matchingFacilities}
             bottomMargin={30}
-            itemWidth={340}
+            itemWidth={350}
             renderItem={({ item }) => (
               <FacilityCard
                 handleMorePress={() =>

@@ -23,3 +23,8 @@ export const selectFacility = (facility) => ({
   type: BookingActionTypes.SELECT_FACILITY,
   payload: facility,
 });
+
+export const setMeetingTime = (time) => ({
+  type: BookingActionTypes.SET_MEETING_TIME,
+  payload: time,
+});

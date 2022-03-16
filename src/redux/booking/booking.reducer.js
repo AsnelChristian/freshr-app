@@ -45,9 +45,10 @@ export const bookingReducer = (state = INITIAL_STATE, action) => {
     }
     case BookingActionTypes.CLEAR_CART:
       return { ...INITIAL_STATE };
-
     case BookingActionTypes.SELECT_FACILITY:
       return { ...state, facility: action.payload };
+    case BookingActionTypes.SET_MEETING_TIME:
+      return { ...state, meetingTime: action.payload };
     default:
       return state;
   }
