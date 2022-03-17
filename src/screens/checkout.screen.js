@@ -6,17 +6,16 @@ import {PaymentIcon} from 'react-native-payment-icons';
 import {Spacer} from "../components/spacer/spacer.component";
 import {Text} from '../components/typography/typography.component';
 import {SectionTitle} from "./components/details-screen.component";
-import React from "react";
+import React, {useEffect} from "react";
 import {View} from "react-native";
 import {Entypo} from "@expo/vector-icons";
 import {
   ActionButton, ButtonContainer,
-  CartItemCountContainer,
-  PositioningContainer
 } from "../components/button/process-action-button.component";
+import {useStripe} from "@stripe/react-stripe-js";
 
 
-const Container = styled.View`
+const Container = styled.ScrollView`
   flex: 1;
   background-color: white;
 `;
@@ -72,7 +71,7 @@ const CheckoutScreen = ({ booking, navigation }) => {
   const theme = useTheme();
   return (
   <>
-  <Container>
+  <Container showsVerticalScrollIndicator={false}>
     <Content>
       <Spacer position="top" size="large"/>
       <SectionTitle>Choose payment method</SectionTitle>
@@ -134,6 +133,7 @@ const CheckoutScreen = ({ booking, navigation }) => {
         </PaymentMethodRadio>
       </PaymentMethodContainer>
     </Content>
+    <Spacer position="bottom" size="large"/>
   </Container>
     <ButtonContainer
         style={{

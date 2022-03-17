@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { Text } from "../../components/typography/typography.component";
+import {rgba} from "polished";
 
 export const PageContainer = styled.ScrollView`
   flex: 1;
@@ -19,8 +20,8 @@ export const ReviewButton = styled.TouchableOpacity`
   align-items: center;
   padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[3]};
   border-radius: ${({ theme }) => theme.sizes[2]};
-  border: 3px solid ${({ theme }) => theme.colors.ui.primary};
-  background-color: white;
+  border: 2px solid ${({ theme }) => rgba(theme.colors.ui.primary, 0.1)};
+  background-color: ${({ theme }) => rgba(theme.colors.ui.quaternary, 1)};
 `;
 
 export const ReviewButtonText = styled(Text).attrs((props) => ({

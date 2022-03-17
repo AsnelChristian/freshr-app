@@ -21,6 +21,7 @@ import { specialistsMock } from "./specialists.mock";
 import { setMatchingSpecialists } from "../redux/specialists/specialists.action";
 import { SpecialistCard } from "../features/map/components/specialist-card.component";
 import { Dimensions } from "react-native";
+import {rgba} from "polished";
 
 const MapScreenContainer = styled.View`
   flex: 1;
@@ -42,6 +43,8 @@ const SearchButton = styled.TouchableOpacity`
   padding: ${({ theme }) => theme.space[3]};
   border-radius: ${({ theme }) => theme.space[4]};
   background-color: ${({ theme }) => theme.colors.ui.quaternary};
+  border: 2px solid ${({theme}) => rgba(theme.colors.ui.primary, 0.08)};
+
   flex-direction: row;
   align-items: center;
 `;
@@ -56,7 +59,7 @@ const SearchFilter = styled.TouchableOpacity`
     variant ? theme.colors.ui.primary : "white"};
   padding: ${({ theme }) => theme.space[2]};
   border-radius: ${({ theme }) => theme.space[4]};
-  elevation: 2;
+  border: 2px solid ${({theme}) => rgba(theme.colors.ui.primary, 0.1)};
   margin: 1px;
 `;
 

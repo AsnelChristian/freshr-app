@@ -19,6 +19,7 @@
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^5.9.8",
     "@react-navigation/stack": "^5.9.8",
+    "@stripe/stripe-react-native": "0.2.3",
     "camelize": "^1.0.0",
     "expo": "~44.0.0",
     "expo-font": "~10.0.4",
@@ -49,6 +50,7 @@
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "redux-logger": "^3.0.6",
+    "stripe": "^8.209.0",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
