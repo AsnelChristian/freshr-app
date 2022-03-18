@@ -1,20 +1,22 @@
 import { connect } from "react-redux";
 import styled, { useTheme } from "styled-components/native";
-import { SpecialistCard } from "../features/map/components/specialist-card.component";
-import FacilityCard from "../components/facilities/facility-card.component";
-import { Spacer } from "../components/spacer/spacer.component";
-import { SectionTitle } from "./components/details-screen.component";
+import { SpecialistCard } from "../../features/map/components/specialist-card.component";
+import FacilityCard from "../../components/facilities/facility-card.component";
+import { Spacer } from "../../components/spacer/spacer.component";
+import { SectionTitle } from "../components/details-screen.component";
 import React, { useEffect, useState } from "react";
 import { rgba } from "polished";
-import ServiceCard from "../components/service/service-card.component";
-import { ServiceDetailsModal } from "../components/service/service-info-modal.component";
-import { Text } from "../components/typography/typography.component";
+import ServiceCard from "../../components/service/service-card.component";
+import { ServiceDetailsModal } from "../../components/service/service-info-modal.component";
+import { Text } from "../../components/typography/typography.component";
 import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import DashedLine from "react-native-dashed-line";
 import {
   ActionButton,
   ButtonContainer,
-} from "../components/button/process-action-button.component";
+} from "../../components/button/process-action-button.component";
+import {setBookingStep} from "../../redux/booking/booking.actions";
+import BookingStepper from "../components/booking-step.component";
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -71,7 +73,7 @@ const EditButton = styled.TouchableOpacity`
   padding: ${({ theme }) => theme.space[2]};
 `;
 
-const BookingReviewScreen = ({ booking, navigation }) => {
+const BookingReviewScreen = ({ booking, setBookingStep, navigation }) => {
   const theme = useTheme();
   const [selectedService, setSelectedService] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -83,6 +85,7 @@ const BookingReviewScreen = ({ booking, navigation }) => {
         0
       )
     );
+    setBookingStep(3)
   }, []);
 
   const handleShowViewMore = (service) => {
@@ -93,6 +96,7 @@ const BookingReviewScreen = ({ booking, navigation }) => {
   };
   return (
     <>
+      <BookingStepper pageStep={3} navigation={navigation}/>
       <Container showsVerticalScrollIndicator={false}>
         <Content>
           <Spacer position="bottom" size="large" />
@@ -228,4 +232,8 @@ const mapStateToProps = (state) => ({
   booking: state.booking,
 });
 
-export default connect(mapStateToProps, null)(BookingReviewScreen);
+const mapDispatchToProps = dispatch => ({
+  setBookingStep: (step) => dispatch(setBookingStep(step))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingReviewScreen);

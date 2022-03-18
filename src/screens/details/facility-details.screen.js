@@ -10,7 +10,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-import { Gallery } from "./components/gallery.component";
+import { Gallery } from "../components/gallery.component";
 import {
   FavButton,
   PageContainer,
@@ -20,24 +20,24 @@ import {
   SectionTitle,
   Title,
   TitleContainer,
-} from "./components/details-screen.component";
-import { Spacer } from "../components/spacer/spacer.component";
+} from "../components/details-screen.component";
+import { Spacer } from "../../components/spacer/spacer.component";
 
-import { RatingComponent } from "./components/rating.component";
+import { RatingComponent } from "../components/rating.component";
 import {
   DescriptionContainer,
   QuoteIconContainer,
   Text,
-} from "../components/typography/typography.component";
+} from "../../components/typography/typography.component";
 import React, { useRef, useState } from "react";
-import { Suggestion } from "../features/map/components/suggestion.component";
+import { Suggestion } from "../../features/map/components/suggestion.component";
 import {
   TimeItemContainer,
   TimeItemMainContainer,
-} from "../components/chip/chip.component";
+} from "../../components/chip/chip.component";
 import { Dimensions, View } from "react-native";
-import { RatingRow } from "../components/rating/rating.component";
-import { ReviewCard } from "../components/reviews/review-card.component";
+import { RatingRow } from "../../components/rating/rating.component";
+import { ReviewCard } from "../../components/reviews/review-card.component";
 import Carousel from "react-native-snap-carousel";
 
 const ChipsRow = styled.View`

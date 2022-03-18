@@ -2,16 +2,17 @@ import styled from "styled-components/native";
 import { connect } from "react-redux";
 import React, { useEffect } from "react";
 
-import { selectFacility } from "../redux/booking/booking.actions";
-import Map from "../features/map/components/map.component";
-import { setMatchinFacilities } from "../redux/facilities/facilities.actions";
-import { facilitiesMock } from "./facilities.mock";
-import FacilityCard from "../components/facilities/facility-card.component";
+import {selectFacility, setBookingStep} from "../../redux/booking/booking.actions";
+import Map from "../../features/map/components/map.component";
+import { setMatchinFacilities } from "../../redux/facilities/facilities.actions";
+import { facilitiesMock } from "../mock/facilities.mock";
+import FacilityCard from "../../components/facilities/facility-card.component";
 import {
   ActionButton,
   ButtonContainer,
-} from "../components/button/process-action-button.component";
-import { Text } from "../components/typography/typography.component";
+} from "../../components/button/process-action-button.component";
+import { Text } from "../../components/typography/typography.component";
+import BookingStepper from "../components/booking-step.component";
 
 const PageContainer = styled.View`
   flex: 1;
@@ -33,9 +34,13 @@ const FacilitySelectionScreen = ({
   useEffect(() => {
     restProps.setMatchingFacilities(facilitiesMock);
     // restProps.setSelectedFacility(restProps.matchingFacilities[0]);
-  }, []);
+    if (!editBooking) {
+      restProps.setBookingStep(1)
+    }
+  }, [navigation.route]);
   return (
     <>
+      <BookingStepper pageStep={1} navigation={navigation}/>
       <PageContainer showActionButon={restProps.selectedFacility !== null}>
         <MapContainer>
           <Map
@@ -93,12 +98,14 @@ const FacilitySelectionScreen = ({
 const mapStateToProps = (state) => ({
   selectedFacility: state.booking.facility,
   matchingFacilities: state.facilities.facilities,
+  bookingStep: state.booking.step
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setMatchingFacilities: (facilities) =>
     dispatch(setMatchinFacilities(facilities)),
   setSelectedFacility: (facility) => dispatch(selectFacility(facility)),
+  setBookingStep: (step) => dispatch(setBookingStep(step))
 });
 
 export default connect(

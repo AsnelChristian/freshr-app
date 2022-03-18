@@ -28,3 +28,8 @@ export const setMeetingTime = (time) => ({
   type: BookingActionTypes.SET_MEETING_TIME,
   payload: time,
 });
+
+export const setBookingStep = (step) => ({
+  type: BookingActionTypes.SET_STEP,
+  payload: step
+})

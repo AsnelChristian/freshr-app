@@ -17,16 +17,16 @@ import {
   ServicesModal,
 } from "../features/map/components/filter-modal.component";
 import Map from "../features/map/components/map.component";
-import { specialistsMock } from "./specialists.mock";
+import { specialistsMock } from "./mock/specialists.mock";
 import { setMatchingSpecialists } from "../redux/specialists/specialists.action";
 import { SpecialistCard } from "../features/map/components/specialist-card.component";
-import { Dimensions } from "react-native";
 import {rgba} from "polished";
 
 const MapScreenContainer = styled.View`
   flex: 1;
   background-color: white;
 `;
+
 
 const MapScreenHeader = styled.View`
   padding: ${({ theme }) => theme.space[3]};

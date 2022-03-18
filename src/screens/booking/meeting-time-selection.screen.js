@@ -2,17 +2,18 @@ import styled, { useTheme } from "styled-components/native";
 import { connect } from "react-redux";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Spacer } from "../components/spacer/spacer.component";
-import { Text } from "../components/typography/typography.component";
+import { Spacer } from "../../components/spacer/spacer.component";
+import { Text } from "../../components/typography/typography.component";
 import DashedLine from "react-native-dashed-line";
 import { rgba } from "polished";
 import React, { useEffect, useState } from "react";
-import { SectionTitle } from "./components/details-screen.component";
+import { SectionTitle } from "../components/details-screen.component";
 import {
   ActionButton,
   ButtonContainer,
-} from "../components/button/process-action-button.component";
-import { setMeetingTime } from "../redux/booking/booking.actions";
+} from "../../components/button/process-action-button.component";
+import {setBookingStep, setMeetingTime} from "../../redux/booking/booking.actions";
+import BookingStepper from "../components/booking-step.component";
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -107,6 +108,9 @@ const MeetingTimeSelectionScreen = ({
 
   useEffect(() => {
     restProps.setMeetingTime(selectedFacility.time[travelWay]);
+    // if (!editBooking) {
+    restProps.setBookingStep(2)
+    // }
     return () => {
       restProps.setMeetingTime(null);
     };
@@ -151,6 +155,7 @@ const MeetingTimeSelectionScreen = ({
   const theme = useTheme();
   return (
     <>
+      <BookingStepper pageStep={2} navigation={navigation}/>
       <Container showsVerticalScrollIndicator={false}>
         <PageContentContainer>
           <Spacer position="bottom" size="large" />
@@ -342,10 +347,12 @@ const MeetingTimeSelectionScreen = ({
 const mapStateToProps = (state) => ({
   selectedFacility: state.booking.facility,
   meetingTime: state.booking.meetingTime,
+  bookingStep: state.booking.step
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setMeetingTime: (time) => dispatch(setMeetingTime(time)),
+  setBookingStep: (step) => dispatch(setBookingStep(step))
 });
 
 export default connect(

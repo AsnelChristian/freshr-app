@@ -3,16 +3,17 @@ import { connect } from "react-redux";
 import {rgba} from "polished";
 import {PaymentIcon} from 'react-native-payment-icons';
 
-import {Spacer} from "../components/spacer/spacer.component";
-import {Text} from '../components/typography/typography.component';
-import {SectionTitle} from "./components/details-screen.component";
+import {Spacer} from "../../components/spacer/spacer.component";
+import {Text} from '../../components/typography/typography.component';
+import {SectionTitle} from "../components/details-screen.component";
 import React, {useEffect} from "react";
 import {View} from "react-native";
 import {Entypo} from "@expo/vector-icons";
 import {
   ActionButton, ButtonContainer,
-} from "../components/button/process-action-button.component";
-import {useStripe} from "@stripe/react-stripe-js";
+} from "../../components/button/process-action-button.component";
+import {setBookingStep} from "../../redux/booking/booking.actions";
+import BookingStepper from "../components/booking-step.component";
 
 
 const Container = styled.ScrollView`
@@ -67,10 +68,15 @@ const Content = styled.View`
   padding: ${({theme}) => theme.space[3]};
 `
 
-const CheckoutScreen = ({ booking, navigation }) => {
+const CheckoutScreen = ({ booking, setBookingStep, navigation }) => {
   const theme = useTheme();
+
+  useEffect(() => {
+    setBookingStep(4);
+  }, [])
   return (
   <>
+    <BookingStepper pageStep={4} navigation={navigation}/>
   <Container showsVerticalScrollIndicator={false}>
     <Content>
       <Spacer position="top" size="large"/>
@@ -166,4 +172,8 @@ const mapStateToProps = (state) => ({
   booking: state.booking,
 });
 
-export default connect(null, null)(CheckoutScreen);
+const mapDispatchToProps = (dispatch) => ({
+  setBookingStep: (step) => dispatch(setBookingStep(step))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutScreen);

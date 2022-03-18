@@ -4,12 +4,12 @@ import { Platform, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { connect } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
-import FacilitySelectionScreen from "../../screens/facility-selection.screen";
-import SpecialistScreen from "../../screens/specialist-details.screen";
-import FacilityDetailsScreen from "../../screens/facility-details.screen";
-import MeetingTimeSelectionScreen from "../../screens/meeting-time-selection.screen";
-import BookingReviewScreen from "../../screens/booking-review.screen";
-import CheckoutScreen from "../../screens/checkout.screen";
+import FacilitySelectionScreen from "../../screens/booking/facility-selection.screen";
+import SpecialistScreen from "../../screens/booking/specialist-details.screen";
+import FacilityDetailsScreen from "../../screens/details/facility-details.screen";
+import MeetingTimeSelectionScreen from "../../screens/booking/meeting-time-selection.screen";
+import BookingReviewScreen from "../../screens/booking/booking-review.screen";
+import CheckoutScreen from "../../screens/booking/checkout.screen";
 
 const MainStack = createStackNavigator();
 

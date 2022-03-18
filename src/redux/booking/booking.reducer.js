@@ -10,6 +10,7 @@ const INITIAL_STATE = {
     scalpMassage: 0,
     beardSculpting: 0,
   },
+  step: 0,
   facility: null,
   meetingTime: null,
 };
@@ -49,6 +50,8 @@ export const bookingReducer = (state = INITIAL_STATE, action) => {
       return { ...state, facility: action.payload };
     case BookingActionTypes.SET_MEETING_TIME:
       return { ...state, meetingTime: action.payload };
+    case BookingActionTypes.SET_STEP:
+      return {...state, step: action.payload}
     default:
       return state;
   }

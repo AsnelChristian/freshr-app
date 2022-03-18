@@ -5,23 +5,23 @@ import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { rgba } from "polished";
 import Modal from "react-native-modal";
 
-import { Spacer } from "../components/spacer/spacer.component";
+import { Spacer } from "../../components/spacer/spacer.component";
 import {
   DescriptionContainer,
   QuoteIconContainer,
   Text,
-} from "../components/typography/typography.component";
-import { Suggestion } from "../features/map/components/suggestion.component";
-import ServiceCard from "../components/service/service-card.component";
-import { ServiceDetailsModal } from "../components/service/service-info-modal.component";
+} from "../../components/typography/typography.component";
+import { Suggestion } from "../../features/map/components/suggestion.component";
+import ServiceCard from "../../components/service/service-card.component";
+import { ServiceDetailsModal } from "../../components/service/service-info-modal.component";
 import { connect } from "react-redux";
-import { clearCart } from "../redux/booking/booking.actions";
+import {clearCart, setBookingStep} from "../../redux/booking/booking.actions";
 import {
   ActionButton,
   ButtonContainer,
   CartItemCountContainer,
   PositioningContainer,
-} from "../components/button/process-action-button.component";
+} from "../../components/button/process-action-button.component";
 import {
   PageContainer,
   SectionTitle,
@@ -31,11 +31,12 @@ import {
   PageContentContainer,
   ReviewButton,
   ReviewButtonText,
-} from "./components/details-screen.component";
-import { camelize } from "../utils/string-formatting";
-import { Gallery } from "./components/gallery.component";
-import { RatingComponent } from "./components/rating.component";
-import { RatingRow } from "../components/rating/rating.component";
+} from "../components/details-screen.component";
+import { camelize } from "../../utils/string-formatting";
+import { Gallery } from "../components/gallery.component";
+import { RatingComponent } from "../components/rating.component";
+import { RatingRow } from "../../components/rating/rating.component";
+import BookingStepper from "../components/booking-step.component";
 
 const CategoryButtonsContainer = styled.ScrollView`
   flex: 1;
@@ -110,6 +111,7 @@ const SpecialistDetailsScreen = ({
   cart,
   route,
   navigation,
+    setBookingStep
 }) => {
   const editBooking = route.params.edit;
   const theme = useTheme();
@@ -165,6 +167,9 @@ const SpecialistDetailsScreen = ({
   }, [cart]);
 
   useEffect(() => {
+    if (editBooking) {
+      setBookingStep(3)
+    }
     return () => {
       resetCart();
     };
@@ -172,6 +177,7 @@ const SpecialistDetailsScreen = ({
 
   return (
     <>
+      <BookingStepper pageStep={0} navigation={navigation}/>
       <PageContainer showsVerticalScrollIndicator={false}>
         <Modal isVisible={isModalVisible}>
 
@@ -351,10 +357,12 @@ const mapStateToProps = (state) => ({
   specialist: state.booking.specialist,
   cart: state.booking.services,
   servicesPerCategoryCnt: state.booking.servicesPerCategoryCnt,
+  bookingStep: state.booking.step
 });
 
 const mapDispatchToProps = (dispatch) => ({
   resetCart: () => dispatch(clearCart()),
+  setBookingStep: (step) => dispatch(setBookingStep(step))
 });
 
 export default connect(
