@@ -17,6 +17,7 @@ import {
 } from "../../components/button/process-action-button.component";
 import {setBookingStep} from "../../redux/booking/booking.actions";
 import BookingStepper from "../components/booking-step.component";
+import {View} from "react-native";
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -111,15 +112,18 @@ const BookingReviewScreen = ({ booking, setBookingStep, navigation }) => {
             </EditButton>
           </Row>
           <Spacer position="bottom" size="medium" />
-          {booking.services.map((service) => (
-            <Spacer key={service.id} position="bottom" size="medium">
-              <ServiceCard
-                service={service}
-                info={true}
-                press={() => handleShowViewMore(service)}
-              />
-            </Spacer>
-          ))}
+          <View>
+            {booking.services.map((service) => (
+                <Spacer key={service.id} position="bottom" size="medium">
+                  <ServiceCard
+                      service={service}
+                      info={true}
+                      press={() => handleShowViewMore(service)}
+                  />
+                </Spacer>
+            ))}
+          </View>
+
           <Spacer position="bottom" size="large" />
           <Spacer position="bottom" size="medium" />
           <Separator
