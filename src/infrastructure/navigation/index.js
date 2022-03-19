@@ -11,6 +11,7 @@ import MeetingTimeSelectionScreen from "../../screens/booking/meeting-time-selec
 import BookingReviewScreen from "../../screens/booking/booking-review.screen";
 import CheckoutScreen from "../../screens/booking/checkout.screen";
 import SpecialistsMapScreen from "../../screens/booking/professional-selection.screen";
+import ChatScreen from "../../screens/chat.screen";
 
 const MainStack = createStackNavigator();
 
@@ -59,6 +60,15 @@ const MainNavigator = () => {
         }}
         component={CheckoutScreen}
       />
+        <MainStack.Screen
+            name="Chat"
+            options={({ route }) =>
+                ({
+                    headerShown: true,
+                    headerTitle: route.params.user.name
+                })}
+            component={ChatScreen}
+        />
     </MainStack.Navigator>
   );
 };

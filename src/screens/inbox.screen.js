@@ -11,6 +11,7 @@ import {SafeArea} from "../components/utils/safearea.component";
 import {Text} from '../components/typography/typography.component';
 import {Time} from "react-native-gifted-chat";
 import {Avatar} from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
 
 
 const Container = styled.View`
@@ -82,23 +83,23 @@ const MessageCardStatusCnt = styled.View`
 const latestMessages = [
     {
         _id: 1,
-        text: 'Hello developer',
+        text: 'Hey there freshr',
         createdAt: new Date(),
         time: "3 min",
         user: {
             _id: 2,
-            name: 'React Native',
+            name: 'Alex dimitri',
             avatar: 'https://placeimg.com/140/140/any',
         },
         unreadCnt: 3,
     },{
         _id: 2,
-        text: 'Hello developer',
+        text: 'Hello client',
         createdAt: new Date(),
         time: "3 min",
         user: {
             _id: 3,
-            name: 'React Native',
+            name: 'Paul walker',
             avatar: 'https://placeimg.com/140/140/any',
         },
         unreadCnt: 3,
@@ -109,37 +110,40 @@ const latestMessages = [
         time: "3 min",
         user: {
             _id: 4,
-            name: 'React Native',
+            name: 'John doe',
             avatar: 'https://placeimg.com/140/140/any',
         },
         unreadCnt: 3,
     },
 ]
 
-const MessageCard = ({latestMessage}) => (
-    <>
-        <Spacer position="top" size="medium"/>
-        <MessageCardContainer>
-            <Avatar.Image source={{uri: latestMessage.user.avatar}}/>
-            <Spacer position="left" size="large"/>
-            <MessageCardContent>
-                <View>
-                    <Text variant="caption" style={{fontSize: 14}}>{latestMessage.user.name}</Text>
-                    <Spacer position="bottom" size="medium"/>
-                    <MessageCardMessagePreview numberOfLines={1} ellipsis="tail">{latestMessage.text}</MessageCardMessagePreview>
-                </View>
-            </MessageCardContent>
-            <MessageCardStatusContainer>
-                <Text variant="caption">{latestMessage.time}</Text>
-                <Spacer position="bottom" size="small"/>
+const MessageCard = ({latestMessage}) => {
+    const navigation = useNavigation()
+    return (
+        <>
+            <Spacer position="top" size="medium"/>
+            <MessageCardContainer onPress={() => navigation.navigate("Chat", {user: latestMessage.user})}>
+                <Avatar.Image source={{uri: latestMessage.user.avatar}}/>
+                <Spacer position="left" size="large"/>
+                <MessageCardContent>
+                    <View>
+                        <Text variant="caption" style={{fontSize: 14}}>{latestMessage.user.name}</Text>
+                        <Spacer position="bottom" size="medium"/>
+                        <MessageCardMessagePreview numberOfLines={1} ellipsis="tail">{latestMessage.text}</MessageCardMessagePreview>
+                    </View>
+                </MessageCardContent>
+                <MessageCardStatusContainer>
+                    <Text variant="caption">{latestMessage.time}</Text>
+                    <Spacer position="bottom" size="small"/>
 
-                <MessageCardStatusCnt><Text variant="caption" style={{color: "white"}}>{latestMessage.unreadCnt}</Text></MessageCardStatusCnt>
-            </MessageCardStatusContainer>
-        </MessageCardContainer>
-        <Separator/>
-    </>
+                    <MessageCardStatusCnt><Text variant="caption" style={{color: "white"}}>{latestMessage.unreadCnt}</Text></MessageCardStatusCnt>
+                </MessageCardStatusContainer>
+            </MessageCardContainer>
+            <Separator/>
+        </>
 
-)
+    )
+}
 
 
 const renderMessages = () => {
