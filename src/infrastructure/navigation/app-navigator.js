@@ -5,6 +5,7 @@ import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { SafeArea } from "../../components/utils/safearea.component";
 import { Text } from "../../components/typography/typography.component";
 import { HomeNavigator } from "./home-navigator";
+import InboxScreen from "../../screens/inbox.screen";
 
 const FavoritesScreen = () => (
   <SafeArea>
@@ -12,11 +13,6 @@ const FavoritesScreen = () => (
   </SafeArea>
 );
 
-const InboxScreen = () => (
-  <SafeArea>
-    <Text variant="label">Inbox screen</Text>
-  </SafeArea>
-);
 
 const OrdersScreen = () => (
   <SafeArea>

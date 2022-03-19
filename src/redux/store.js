@@ -22,9 +22,6 @@ const logger = createLogger({
         action: () => "#6e13ab",
         nextState: () => "#1a9134",
     },
-
-    // instead of colors - use cosole type
-    level: console.warn,
 });
 
 const middlewares = [logger];
