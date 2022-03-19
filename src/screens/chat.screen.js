@@ -35,7 +35,7 @@ const renderBubble = (props) => {
                     backgroundColor: rgba( "#E8AE4C", 0.8)
                 },
                 left: {
-                    backgroundColor: rgba("#262626", 0.8)
+                    backgroundColor: rgba("white", 0.8)
                 }
             }}
             textStyle={{
@@ -43,7 +43,7 @@ const renderBubble = (props) => {
                     color: "white"
                 },
                 left: {
-                    color: "white"
+                    color: "black"
                 }
             }}
         />

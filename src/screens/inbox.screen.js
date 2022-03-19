@@ -12,6 +12,7 @@ import {Text} from '../components/typography/typography.component';
 import {Time} from "react-native-gifted-chat";
 import {Avatar} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
+import {Ionicons} from "@expo/vector-icons";
 
 
 const Container = styled.View`
@@ -41,6 +42,8 @@ const MessagesListContainer = styled.View`
 
 const NotificationsContainer = styled.View`
   background-color: ${({theme}) => theme.colors.ui.quaternary};
+  padding: ${({theme}) => theme.space[3]} 0px;
+
   flex: 1
 `
 
@@ -79,6 +82,78 @@ const MessageCardStatusCnt = styled.View`
   border-radius: 100px;
   background-color: ${({theme}) => theme.colors.ui.primary};
 `
+
+const NotificationCardContainer = styled.View.attrs(props => ({
+    style: {
+        shadowColor: "#000",
+            shadowOffset: {
+            width: 0,
+                height: 5,
+        },
+        shadowOpacity: 0.34,
+            shadowRadius: 6.27,
+            elevation: 10,
+            width: 350,
+    }
+}))`
+  padding: ${({theme}) => theme.space[3]};
+  border-radius: ${({theme}) => theme.sizes[2]};
+  background-color: white;
+  margin-bottom: ${({theme}) => theme.space[3]} ;
+`
+
+const NotificationCardHeader = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const NotificationCardStatus = styled.View`
+  width: 10px;
+  height: 10px;
+  border-radius: 100px;
+  background-color: ${({active, theme}) => active ? theme.colors.brand.primary: "white"};
+  position: absolute;
+  top: ${({theme}) => theme.space[1]};
+  left: ${({theme}) => theme.space[1]};
+`
+
+const NotificationTimeContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`
+
+const NotificationCard = ({notification}) => {
+    const theme = useTheme();
+    const {
+        time="1 hour ago",
+        title="Information",
+        content="lorem ipsum",
+        icon
+    } = notification
+
+    return (
+        <NotificationCardContainer>
+            <NotificationCardStatus active={true}/>
+            <NotificationCardHeader>
+                <Ionicons name="md-information-circle" size={30} color={theme.colors.brand.primary}/>
+                <NotificationTimeContainer>
+                    <Ionicons name="md-time-outline" size={18} color={rgba(theme.colors.ui.primary, 0.4)}/>
+                    <Spacer position="left" size="small"/>
+                    <Text style={{fontSize: 12}}>{time}</Text>
+                </NotificationTimeContainer>
+            </NotificationCardHeader>
+            <Spacer position="bottom" size="large"/>
+            <Text variant="caption" styled={{fontSize: 20}}>{title}</Text>
+            <Spacer position="bottom" size="large"/>
+            <Text style={{fontSize: 14, lineHeight: 20}}>{content}</Text>
+            <Spacer position="bottom" size="large"/>
+
+        </NotificationCardContainer>
+    )
+}
+
+
 
 const latestMessages = [
     {
@@ -164,7 +239,42 @@ const renderMessages = () => {
         </MessagesListContainer>
     )
 }
-const renderNotifications = () =>  <NotificationsContainer/>
+
+const notificationsData = [{
+    id: 1,
+    title: "Informational",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit",
+    time: "2 hour ago"
+}, {
+    id: 2,
+    title: "Informational",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit",
+    time: "2 hour ago"
+},{
+    id: 3,
+    title: "Informational",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit",
+    time: "2 hour ago"
+}]
+
+const renderNotifications = () =>  {
+    const [notifications, setNotifications] = useState([])
+
+    useEffect(() => {
+        setNotifications(notificationsData)
+    }, [])
+
+    return (
+        <NotificationsContainer>
+            <FlatList
+                data={notifications}
+                renderItem={({item}) => <NotificationCard notification={item}/>}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+            />
+        </NotificationsContainer>
+    )
+}
 const renderTabBarItem = (props) => <TabBarItem {...props} style={{flex: 1, padding: 16}}/>
 const renderLabel= ({ route, focused, color }) => (
     <Text style={{ color, margin: 8 }}>
