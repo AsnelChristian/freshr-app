@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Entypo, FontAwesome, Octicons } from "@expo/vector-icons";
 
 import { connect } from "react-redux";
-import { clearCart, setSpecialist } from "../redux/booking/booking.actions";
+import {clearCart, setBookingStep, setSpecialist} from "../../redux/booking/booking.actions";
 
-import { Text } from "../components/typography/typography.component";
-import { Spacer } from "../components/spacer/spacer.component";
-import { SafeArea } from "../components/utils/safearea.component";
+import { Text } from "../../components/typography/typography.component";
+import { Spacer } from "../../components/spacer/spacer.component";
+import { SafeArea } from "../../components/utils/safearea.component";
 import {
   GenderModal,
   PriceRangeModal,
@@ -15,12 +15,14 @@ import {
   ServiceTypeModal,
   SortFilterModal,
   ServicesModal,
-} from "../features/map/components/filter-modal.component";
-import Map from "../features/map/components/map.component";
-import { specialistsMock } from "./mock/specialists.mock";
-import { setMatchingSpecialists } from "../redux/specialists/specialists.action";
-import { SpecialistCard } from "../features/map/components/specialist-card.component";
+} from "../../features/map/components/filter-modal.component";
+import Map from "../../features/map/components/map.component";
+import { specialistsMock } from "../mock/specialists.mock";
+import { setMatchingSpecialists } from "../../redux/specialists/specialists.action";
+import SpecialistCard from "../../features/map/components/specialist-card.component";
 import {rgba} from "polished";
+import BookingStepper from "../components/booking-step.component";
+import {View} from "react-native";
 
 const MapScreenContainer = styled.View`
   flex: 1;
@@ -30,6 +32,7 @@ const MapScreenContainer = styled.View`
 
 const MapScreenHeader = styled.View`
   padding: ${({ theme }) => theme.space[3]};
+  margin-top: -${({ theme }) => theme.space[3]};
   elevation: 2;
 `;
 const MapScreenSearchBar = styled.View`
@@ -49,7 +52,15 @@ const SearchButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const ResultFilterButton = styled.TouchableOpacity``;
+const ResultFilterButton = styled.TouchableOpacity`
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({theme, active}) => active ? theme.colors.ui.primary: rgba(theme.colors.ui.primary, 0.1)};;
+  border: 2px solid white;
+  border-radius: 100px;
+`;
 
 const SearchFilter = styled.TouchableOpacity`
   flex-direction: row;
@@ -69,15 +80,16 @@ const MapContainer = styled.View`
 
 const FilterContainer = styled.ScrollView``;
 
-const SpecialistsMapScreen = ({ navigation, ...props }) => {
+const ProfessionalSelectionScreen = ({ navigation, ...props }) => {
   const theme = useTheme();
+  const [showFilters, setShowFilters] = useState(false)
   const [showPriceFilter, setShowPriceFilter] = useState(false);
   const [showGenderFilter, setShowGenderFilter] = useState(false);
   const [showServiceTypeFilter, setShowServiceTypeFilter] = useState(false);
-  const [showLocationFilter, setShowLocationFilter] = useState(false);
+  // const [showLocationFilter, setShowLocationFilter] = useState(false);
   const [showServicesFilter, setShowServicesFilter] = useState(false);
   const [showSortFilter, setShowSortFilter] = useState(false);
-  const [locationFilter, setLocationFilter] = useState([]);
+  // const [locationFilter, setLocationFilter] = useState([]);
   const [priceRange, setPriceRange] = useState([8, 15]);
   const [sortFilter, setSortFilter] = useState({
     rating: false,
@@ -109,9 +121,13 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
     setShowServiceTypeFilter(!showServiceTypeFilter);
   };
 
-  const handleLocationFilterPress = () => {
-    setShowLocationFilter(!showLocationFilter);
-  };
+  // const handleLocationFilterPress = () => {
+  //   setShowLocationFilter(!showLocationFilter);
+  // };
+
+  const handleShowFiltersPress = () => {
+    setShowFilters(!showFilters)
+  }
 
   const handleSortFilterPress = () => {
     setShowSortFilter(!showSortFilter);
@@ -145,8 +161,7 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
 
   useEffect(() => {
     props.setMatchingSpecialists(specialistsMock);
-    props.setSpecialist(null);
-    props.clearCart();
+    props.setBookingStep(0.5);
   }, []);
 
   const filters = [
@@ -156,10 +171,15 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
       method: handleServiceTypeFilterPress,
     },
     {
-      name: "Location",
-      method: handleLocationFilterPress,
-      variant: showLocationFilter,
+      name: "Sort by",
+      variant: showSortFilter,
+      method: handleSortFilterPress
     },
+    // {
+    //   name: "Location",
+    //   method: handleLocationFilterPress,
+    //   variant: showLocationFilter,
+    // },
     {
       name: "Gender",
       method: handleGenderFilterPress,
@@ -202,7 +222,8 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
     );
   };
   return (
-    <SafeArea>
+    <View style={{flex: 1}}>
+      <BookingStepper pageStep={0.5} navigation={navigation}/>
       <MapScreenContainer>
         <MapScreenHeader>
           <MapScreenSearchBar>
@@ -210,32 +231,34 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
               <FontAwesome name="search" size={20} />
               <Spacer position="left" size="medium">
                 <Text variant="body" style={{ color: "gray" }}>
-                  Search services...
+                  Search professional by services...
                 </Text>
               </Spacer>
             </SearchButton>
             <Spacer position="left" size="large">
-              <ResultFilterButton onPress={handleSortFilterPress}>
-                <Octicons name="settings" size={25} />
+              <ResultFilterButton onPress={handleShowFiltersPress} active={showFilters}>
+                <Octicons name="settings" size={25} color={showFilters ? "white" : theme.colors.ui.primary}/>
               </ResultFilterButton>
             </Spacer>
           </MapScreenSearchBar>
-          <Spacer position="top" size="large">
+          {showFilters && <Spacer position="top" size="large">
             <FilterContainer
-              showsHorizontalScrollIndicator={false}
-              horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}
             >
               {filters.map((filter) => createFilterButton(filter))}
             </FilterContainer>
-          </Spacer>
+          </Spacer>}
         </MapScreenHeader>
 
         <MapContainer>
           <Map
+              page="specialists"
             data={props.matchingSpecialists}
             itemWidth={340}
             renderItem={({ item }) => (
               <SpecialistCard
+                  navigation={navigation}
                 onPress={() => {
                   props.setSpecialist(item);
                   navigation.navigate("SpecialistDetails", { edit: false });
@@ -264,11 +287,11 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
         toggleShowModal={handleServiceTypeFilterPress}
         updateValue={handleServiceTypeChange}
       />
-      <LocationModal
-        value={locationFilter}
-        showModal={showLocationFilter}
-        toggleShowModal={handleLocationFilterPress}
-      />
+      {/*<LocationModal*/}
+      {/*  value={locationFilter}*/}
+      {/*  showModal={showLocationFilter}*/}
+      {/*  toggleShowModal={handleLocationFilterPress}*/}
+      {/*/>*/}
       <SortFilterModal
         value={sortFilter}
         showModal={showSortFilter}
@@ -279,22 +302,24 @@ const SpecialistsMapScreen = ({ navigation, ...props }) => {
         showModal={showServicesFilter}
         toggleShowModal={handleShowServicesFilterPress}
       />
-    </SafeArea>
+    </View>
   );
 };
 
 const mapStateToProps = (state) => ({
   matchingSpecialists: state.specialists.specialists,
+  selectedSpecialist: state.booking.specialists,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setMatchingSpecialists: (specialists) =>
     dispatch(setMatchingSpecialists(specialists)),
   setSpecialist: (specialist) => dispatch(setSpecialist(specialist)),
+  setBookingStep: (step) => dispatch(setBookingStep(step)),
   clearCart: () => dispatch(clearCart()),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SpecialistsMapScreen);
+)(ProfessionalSelectionScreen);

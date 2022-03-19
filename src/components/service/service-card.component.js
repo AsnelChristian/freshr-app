@@ -134,7 +134,7 @@ const ServiceCard = ({
 
   useEffect(() => {
     setChecked(cart.filter((item) => item.id === service.id).length > 0);
-  }, []);
+  }, [cart]);
 
   const {
     name = "Dreadlocks",

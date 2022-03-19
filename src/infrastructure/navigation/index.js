@@ -10,6 +10,7 @@ import FacilityDetailsScreen from "../../screens/details/facility-details.screen
 import MeetingTimeSelectionScreen from "../../screens/booking/meeting-time-selection.screen";
 import BookingReviewScreen from "../../screens/booking/booking-review.screen";
 import CheckoutScreen from "../../screens/booking/checkout.screen";
+import SpecialistsMapScreen from "../../screens/booking/professional-selection.screen";
 
 const MainStack = createStackNavigator();
 
@@ -29,9 +30,8 @@ const MainNavigator = () => {
         component={SpecialistScreen}
       />
       <MainStack.Screen
-        name="SelectFacility"
-        options={{ headerShown: true, headerTitle: "Select facility" }}
-        component={FacilitySelectionScreen}
+        options={{ headerShown: true, headerTitle: "Filter professional by services" }}
+        name="ProfessionalSelection" component={SpecialistsMapScreen}
       />
       <MainStack.Screen
         name="FacilityDetails"

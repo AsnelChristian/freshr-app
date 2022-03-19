@@ -18,7 +18,18 @@ const INITIAL_STATE = {
 export const bookingReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case BookingActionTypes.SET_SPECIALIST:
-      return { ...state, specialist: action.payload };
+    {
+      if (state.specialist && state.specialist.id !== action.payload.id) {
+        return { ...state, specialist: action.payload, services: [], servicesPerCategoryCnt: {
+            haircut: 0,
+            hairColoring: 0,
+            scalpMassage: 0,
+            beardSculpting: 0,
+          } };
+      } else {
+        return { ...state, specialist: action.payload };
+      }
+    }
     case BookingActionTypes.ADD_CART_ITEM: {
       const categoryStr = camelize(action.payload.category);
       return {

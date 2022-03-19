@@ -36,8 +36,14 @@ export const Suggestion = ({
   children,
   size,
   pressable = true,
-  width = "100%",
+  width = null
 }) => {
+    const style = {fontSize: size ? size : 14}
+    if ( width ) {
+        style["width"] = width
+    } else {
+        style["flex"] = 1
+    }
   const content = (
     <>
       <SuggestionIconContainer>{children}</SuggestionIconContainer>
@@ -46,7 +52,7 @@ export const Suggestion = ({
         variant="caption"
         numberOfLines={1}
         ellipsis="tail"
-        style={{ fontSize: size ? size : 14, width: width }}
+        style={style}
       >
         {value}
       </Text>

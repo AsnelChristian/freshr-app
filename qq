@@ -8,7 +8,7 @@ warning: LF will be replaced by CRLF in src/screens/checkout.screen.js.
 The file will have its original line endings in your working directory
 warning: LF will be replaced by CRLF in src/screens/components/details-screen.component.js.
 The file will have its original line endings in your working directory
-warning: LF will be replaced by CRLF in src/screens/specialists-map.screen.js.
+warning: LF will be replaced by CRLF in src/screens/professional-selection.screen.js.
 The file will have its original line endings in your working directory
 [1mdiff --git a/App.js b/App.js[m
 [1mindex 08164d5..aaa7bd4 100644[m
@@ -419,7 +419,7 @@ The file will have its original line endings in your working directory
  `;[m
  [m
  export const ReviewButtonText = styled(Text).attrs((props) => ({[m
-[1mdiff --git a/src/screens/specialists-map.screen.js b/src/screens/specialists-map.screen.js[m
+[1mdiff --git a/src/screens/professional-selection.screen.js b/src/screens/specialists-map.screen.js[m
 [1mindex 7c39598..d5bcc99 100644[m
 [1m--- a/src/screens/specialists-map.screen.js[m
 [1m+++ b/src/screens/specialists-map.screen.js[m

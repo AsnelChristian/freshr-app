@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled, { useTheme } from "styled-components/native";
 
 import { AreaRheostat } from "react-native-rheostat";
-import { Dimensions, View } from "react-native";
+import {Dimensions, useWindowDimensions, View} from "react-native";
 import { Searchbar } from "react-native-paper";
 
 import { BottomModal } from "../../../components/modal/bottom-sheet-modalcomponent";
@@ -46,6 +46,7 @@ const ModalButton = styled.TouchableOpacity`
 `;
 
 export const FilterModal = ({ showModal, toggleShowModal, children }) => {
+  const dimensions = useWindowDimensions()
   const bottomSheetModalRef = useRef(null);
   useEffect(() => {
     if (showModal) {
@@ -67,7 +68,7 @@ export const FilterModal = ({ showModal, toggleShowModal, children }) => {
         </CloseButton>
       </Spacer>
 
-      <ModalContent showsVerticalScrollIndicator={false}>
+      <ModalContent showsVerticalScrollIndicator={false} style={{maxHeight: dimensions.height / 1.4}}>
         <Spacer position="top" size="medium" />
         {children}
         <Spacer position="bottom" size="large" />

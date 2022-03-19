@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import styled, { useTheme } from "styled-components/native";
-import { SpecialistCard } from "../../features/map/components/specialist-card.component";
+import SpecialistCard from "../../features/map/components/specialist-card.component";
 import FacilityCard from "../../components/facilities/facility-card.component";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { SectionTitle } from "../components/details-screen.component";
@@ -159,7 +159,7 @@ const BookingReviewScreen = ({ booking, setBookingStep, navigation }) => {
           <SectionTitle>Your specialist</SectionTitle>
           <Spacer position="bottom" size="medium" />
           <CenteredRow>
-            <SpecialistCard specialist={booking.specialist} active={true} />
+            <SpecialistCard specialist={booking.specialist} active={true} navigation={navigation} />
           </CenteredRow>
           <Spacer position="bottom" size="large" />
           <Spacer position="bottom" size="medium" />

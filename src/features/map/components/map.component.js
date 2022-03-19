@@ -21,10 +21,10 @@ const DataContainer = styled.View`
 
 const Map = ({
   location = {},
-  data,
+  data, page= "facility",
   renderItem,
   itemWidth,
-  selectedFacility,
+  selectedFacility
 }) => {
   const { lat = 46.829853, lng = -71.254028 } = location;
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -71,7 +71,7 @@ const Map = ({
           />
         ))}
       </MapContainer>
-      <DataContainer facilitySelected={selectedFacility}>
+      <DataContainer facilitySelected={(selectedFacility && page === "facility") }>
         <Carousel
           ref={flatList}
           data={data}

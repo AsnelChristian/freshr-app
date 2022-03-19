@@ -170,14 +170,11 @@ const SpecialistDetailsScreen = ({
     if (editBooking) {
       setBookingStep(3)
     }
-    return () => {
-      resetCart();
-    };
-  }, []);
+  }, [navigation.route]);
 
   return (
     <>
-      <BookingStepper pageStep={0} navigation={navigation}/>
+      <BookingStepper pageStep={1} navigation={navigation}/>
       <PageContainer showsVerticalScrollIndicator={false}>
         <Modal isVisible={isModalVisible}>
 
@@ -272,6 +269,7 @@ const SpecialistDetailsScreen = ({
                   {category}
                 </Text>
                 <Spacer position="left" size="medium" />
+
                 {servicesPerCategoryCnt[`${camelize(category)}`] > 0 && (
                   <CategorySelectedCount
                     active={category === categories[selectedCategory]}
@@ -295,15 +293,18 @@ const SpecialistDetailsScreen = ({
 
           <Spacer position="bottom" size="large" />
 
-          {shownServices.map((serviceItem) => (
-            <View key={serviceItem.id}>
-              <ServiceCard
-                service={serviceItem}
-                onMorePress={() => handleShowViewMore(serviceItem)}
-              />
-              <Spacer position="bottom" size="medium" />
-            </View>
-          ))}
+          <View style={{flex: 1}}>
+            {shownServices.map((serviceItem) => (
+                <View key={serviceItem.id}>
+                  <ServiceCard
+                      service={serviceItem}
+                      onMorePress={() => handleShowViewMore(serviceItem)}
+                  />
+                  <Spacer position="bottom" size="medium" />
+                </View>
+            ))}
+          </View>
+
 
           <Spacer position="bottom" size="large" />
         </PageContentContainer>
@@ -326,11 +327,11 @@ const SpecialistDetailsScreen = ({
             onPress={() =>
               editBooking
                 ? navigation.navigate("BookingReview")
-                : navigation.navigate("SelectFacility", { edit: false })
+                : navigation.navigate("MeetingTimeSelection", { edit: false })
             }
           >
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-              {editBooking ? "Back to review" : "Proceed to booking"}
+              {editBooking ? "Back to review" : "Proceed with booking"}
             </Text>
             <PositioningContainer>
               <CartItemCountContainer>

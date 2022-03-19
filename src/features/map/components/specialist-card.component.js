@@ -6,7 +6,9 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/typography.component";
 import { Suggestion } from "./suggestion.component";
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {connect} from "react-redux";
+import {useNavigation} from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
@@ -63,9 +65,10 @@ const InformationChip = styled.View`
   border-radius: ${({ theme }) => theme.sizes[2]};
 `;
 
-export const SpecialistCard = ({
+const SpecialistCard = ({
   specialist,
   active = false,
+    selectedSpecialist,
   ...restProps
 }) => {
   const theme = useTheme();
@@ -78,6 +81,7 @@ export const SpecialistCard = ({
     priceRange = [15, 60],
     serviceCnt = 20,
   } = specialist;
+
   return (
     <Wrapper {...restProps}>
       <SpecialistCardContainer
@@ -92,9 +96,9 @@ export const SpecialistCard = ({
           elevation: 10,
           width: 350,
         }}
-        active={active}
+        active={active || (selectedSpecialist && selectedSpecialist.id === specialist.id)}
       >
-        {active && (
+        {active || (selectedSpecialist && selectedSpecialist.id === specialist.id) && (
           <Ionicons
             name="checkmark-circle"
             size={24}
@@ -158,3 +162,9 @@ export const SpecialistCard = ({
     </Wrapper>
   );
 };
+
+const mapStateToProps = state => ({
+  selectedSpecialist : state.booking.specialist
+})
+
+export default connect(mapStateToProps, null)(SpecialistCard)
