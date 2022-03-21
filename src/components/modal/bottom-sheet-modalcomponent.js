@@ -13,11 +13,13 @@ const ModalBackground = styled.View`
   background-color: white;
 `;
 
-const { height } = Dimensions.get("window");
-const BackdropContentContainer = styled.ScrollView.attrs((props) => ({
-  maxHeight: height,
-}))`
+const BackdropContentContainer = styled.View`
   flex: 1;
+`;
+
+export const CloseButton = styled.TouchableOpacity`
+  margin-left: ${({ theme }) => theme.space[3]};
+  padding: 0px ${({ theme }) => theme.space[1]};
 `;
 
 export const BottomModal = React.forwardRef(({ children, onClose }, ref) => {

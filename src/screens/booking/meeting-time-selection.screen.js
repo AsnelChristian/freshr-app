@@ -155,7 +155,7 @@ const MeetingTimeSelectionScreen = ({
   const theme = useTheme();
   return (
     <>
-      <BookingStepper pageStep={2} navigation={navigation}/>
+      {/*<BookingStepper pageStep={2} navigation={navigation}/>*/}
       <Container showsVerticalScrollIndicator={false}>
         <PageContentContainer>
           <Spacer position="bottom" size="large" />

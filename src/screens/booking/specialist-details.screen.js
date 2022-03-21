@@ -174,7 +174,7 @@ const SpecialistDetailsScreen = ({
 
   return (
     <>
-      <BookingStepper pageStep={1} navigation={navigation}/>
+      {/*<BookingStepper pageStep={1} navigation={navigation}/>*/}
       <PageContainer showsVerticalScrollIndicator={false}>
         <Modal isVisible={isModalVisible}>
 

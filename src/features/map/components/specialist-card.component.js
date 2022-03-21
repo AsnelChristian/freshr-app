@@ -1,7 +1,7 @@
 import styled, { useTheme } from "styled-components/native";
 import { View, Dimensions } from "react-native";
 import { Rating } from "react-native-elements";
-import { rgba as rgbaConverter } from "polished";
+import {rgba, rgba as rgbaConverter} from "polished";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/typography.component";
 import { Suggestion } from "./suggestion.component";
@@ -12,24 +12,26 @@ import {useNavigation} from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
-const Wrapper = styled.TouchableWithoutFeedback``;
+const Wrapper = styled.TouchableOpacity``;
 const SpecialistCardContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-radius: ${({ theme }) => theme.sizes[1]};
   padding: 0px ${({ theme }) => theme.space[2]};
-  border: 2px solid
-    ${({ active, theme }) => (active ? theme.colors.ui.primary : "white")};
+  
   overflow: hidden;
   background-color: white;
-  height: 180px;
 `;
+
+const Separator = styled.View`
+  height: 1px;
+  background-color: ${({theme}) => rgba(theme.colors.ui.primary, 0.1)};
+`
 
 const SpecialistCardImage = styled.Image.attrs((props) => ({
   resizeMode: "cover",
 }))`
-  height: 140px;
+  height: 120px;
   aspect-ratio: 1;
   border-radius: ${({ theme }) => theme.sizes[1]};
 `;
@@ -84,81 +86,75 @@ const SpecialistCard = ({
 
   return (
     <Wrapper {...restProps}>
-      <SpecialistCardContainer
-        style={{
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 5,
-          },
-          shadowOpacity: 0.34,
-          shadowRadius: 6.27,
-          elevation: 10,
-          width: 350,
-        }}
-        active={active || (selectedSpecialist && selectedSpecialist.id === specialist.id)}
-      >
-        {active || (selectedSpecialist && selectedSpecialist.id === specialist.id) && (
-          <Ionicons
-            name="checkmark-circle"
-            size={24}
-            color={theme.colors.ui.primary}
-            style={{ position: "absolute", bottom: 0, right: 0, zIndex: 1 }}
-          />
-        )}
-        <SpecialistCardImage source={{ uri: coverImage }} />
-        <Spacer position="right" size="medium" />
-        <SpecialistCardInfoContainer>
-          <View>
-            <Spacer variant="caption" position="bottom" size="large">
-              <Title numberOfLines={1} ellipsizeMode="tail" width={140}>
-                {name}
-              </Title>
-            </Spacer>
-            <Spacer position="bottom" size="medium">
-              <RatingContainer>
-                <Spacer position="right" size="small">
-                  <Text variant="caption" style={{ fontSize: 16 }}>
-                    {rating}
+      <>
+        <Spacer position="bottom" size="medium"/>
+        <SpecialistCardContainer
+            active={active || (selectedSpecialist && selectedSpecialist.id === specialist.id)}
+        >
+          {active || (selectedSpecialist && selectedSpecialist.id === specialist.id) && (
+              <Ionicons
+                  name="checkmark-circle"
+                  size={24}
+                  color={theme.colors.ui.primary}
+                  style={{ position: "absolute", bottom: 0, right: 0, zIndex: 1 }}
+              />
+          )}
+          <SpecialistCardImage source={{ uri: coverImage }} />
+          <Spacer position="right" size="medium" />
+          <SpecialistCardInfoContainer>
+            <View>
+              <Spacer variant="caption" position="bottom" size="large">
+                <Title numberOfLines={1} ellipsizeMode="tail" width={140}>
+                  {name}
+                </Title>
+              </Spacer>
+              <Spacer position="bottom" size="medium">
+                <RatingContainer>
+                  <Spacer position="right" size="small">
+                    <Text variant="caption" style={{ fontSize: 16 }}>
+                      {rating}
+                    </Text>
+                  </Spacer>
+                  <Rating
+                      type="star"
+                      ratingColor={theme.colors.brand.primary}
+                      fractions={1}
+                      startingValue={rating}
+                      readonly
+                      imageSize={16}
+                  />
+                  <Spacer position="right" size="small" />
+                  <Text variant="caption" style={{ marginTop: 4 }}>
+                    ({ratingCnt})
                   </Text>
+                </RatingContainer>
+              </Spacer>
+              <InformationRow>
+                <Spacer position="right" size="medium">
+                  <InformationChip>
+                    <Text variant="caption">{serviceCnt} services</Text>
+                  </InformationChip>
                 </Spacer>
-                <Rating
-                  type="star"
-                  ratingColor={theme.colors.brand.primary}
-                  fractions={1}
-                  startingValue={rating}
-                  readonly
-                  imageSize={16}
-                />
-                <Spacer position="right" size="small" />
-                <Text variant="caption" style={{ marginTop: 4 }}>
-                  ({ratingCnt})
-                </Text>
-              </RatingContainer>
-            </Spacer>
-            <InformationRow>
-              <Spacer position="right" size="medium">
-                <InformationChip>
-                  <Text variant="caption">{serviceCnt} services</Text>
-                </InformationChip>
-              </Spacer>
-              <Spacer position="right" size="medium">
-                <InformationChip>
-                  <Text variant="caption">
-                    ${priceRange[0]} - ${priceRange[1]}
-                  </Text>
-                </InformationChip>
-              </Spacer>
-            </InformationRow>
-            <Spacer position="bottom" size="medium" />
-            <Spacer position="bottom" size="small" />
+                <Spacer position="right" size="medium">
+                  <InformationChip>
+                    <Text variant="caption">
+                      ${priceRange[0]} - ${priceRange[1]}
+                    </Text>
+                  </InformationChip>
+                </Spacer>
+              </InformationRow>
+              <Spacer position="bottom" size="medium" />
+              <Spacer position="bottom" size="small" />
 
-            <Suggestion value={address} pressable={false} width={140}>
-              <Ionicons name="location" size={12} />
-            </Suggestion>
-          </View>
-        </SpecialistCardInfoContainer>
-      </SpecialistCardContainer>
+              <Suggestion value={address} pressable={false} width={140}>
+                <Ionicons name="location" size={12} />
+              </Suggestion>
+            </View>
+          </SpecialistCardInfoContainer>
+        </SpecialistCardContainer>
+        <Separator/>
+        <Spacer position="bottom" size="medium"/>
+      </>
     </Wrapper>
   );
 };

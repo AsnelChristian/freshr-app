@@ -18,9 +18,8 @@ import { TimeItemContainer } from "../chip/chip.component";
 const { width } = Dimensions.get("window");
 
 const Container = styled.View`
-  height: 175px;
+  height: 140px;
   width: 350px;
-  padding: ${({ theme }) => theme.space[2]};
   background-color: white;
   border-radius: ${({ theme }) => theme.sizes[1]};
   overflow: hidden;
@@ -43,9 +42,10 @@ const MoreButton = styled.TouchableOpacity`
   justify-content: center;
   position: absolute;
   background-color: ${({ theme }) => theme.colors.ui.quaternary};
-  border-radius: ${({ theme }) => theme.sizes[1]};
+  border-radius: 100px;
+  height: 30px;
+  width: 30px;
 
-  padding: ${({ theme }) => theme.space[2]};
   top: 0;
   right: 0;
   z-index: 10;
@@ -54,10 +54,10 @@ const MoreButton = styled.TouchableOpacity`
 const CoverImage = styled.Image.attrs((props) => ({
   resizeMode: "cover",
 }))`
-  height: 135px;
+  height: 140px;
+  width: 125px;
   border-radius: ${({ theme }) => theme.sizes[1]};
   overflow: hidden;
-  aspect-ratio: 1;
 `;
 
 const ContentContainer = styled.View`
@@ -136,11 +136,10 @@ const FacilityCard = ({
           <Spacer position="bottom" size="medium" />
 
           <Spacer position="bottom" size="small">
-            <Suggestion value={address} pressable={false}>
+            <Suggestion value={address} pressable={false} padded={false} size={12}>
               <Ionicons name="location" size={12} />
             </Suggestion>
           </Spacer>
-
           <Row>
             <TimeItemContainer>
               <MaterialCommunityIcons name="map-marker-distance" size={20} />

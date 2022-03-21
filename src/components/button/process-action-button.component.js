@@ -9,7 +9,7 @@ export const ButtonContainer = styled.View`
   left: 0;
   position: absolute;
   z-index: 1;
-  padding: ${({ theme }) => theme.space[3]};
+  padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[3]};
 `;
 
 export const ActionButton = styled.TouchableOpacity`

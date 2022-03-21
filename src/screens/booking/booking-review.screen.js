@@ -97,7 +97,7 @@ const BookingReviewScreen = ({ booking, setBookingStep, navigation }) => {
   };
   return (
     <>
-      <BookingStepper pageStep={3} navigation={navigation}/>
+      {/*<BookingStepper pageStep={3} navigation={navigation}/>*/}
       <Container showsVerticalScrollIndicator={false}>
         <Content>
           <Spacer position="bottom" size="large" />
@@ -162,9 +162,7 @@ const BookingReviewScreen = ({ booking, setBookingStep, navigation }) => {
           <Spacer position="bottom" size="medium" />
           <SectionTitle>Your specialist</SectionTitle>
           <Spacer position="bottom" size="medium" />
-          <CenteredRow>
             <SpecialistCard specialist={booking.specialist} active={true} navigation={navigation} />
-          </CenteredRow>
           <Spacer position="bottom" size="large" />
           <Spacer position="bottom" size="medium" />
           <Separator

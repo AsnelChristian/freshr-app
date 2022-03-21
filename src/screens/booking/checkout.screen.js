@@ -76,7 +76,7 @@ const CheckoutScreen = ({ booking, setBookingStep, navigation }) => {
   }, [])
   return (
   <>
-    <BookingStepper pageStep={4} navigation={navigation}/>
+    {/*<BookingStepper pageStep={4} navigation={navigation}/>*/}
   <Container showsVerticalScrollIndicator={false}>
     <Content>
       <Spacer position="top" size="large"/>

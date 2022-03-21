@@ -11,7 +11,7 @@ export const MapMarker = (props) => {
     <Marker coordinate={coordinate} onPress={onPress}>
       <FontAwesome
         name="map-marker"
-        size={50}
+        size={30}
         color={
           isSelected ? theme.colors.brand.primary : theme.colors.ui.primary
         }

@@ -20,7 +20,7 @@ const SuggestionContainer = styled.TouchableOpacity`
 const SuggestionIconContainer = styled.View`
   align-items: center;
   justify-content: center;
-  padding: ${({ theme }) => theme.space[2]};
+  padding: ${({ padded, theme }) =>  padded ? theme.space[2] : "0px"};
   background-color: ${({ theme }) => theme.colors.ui.quaternary};
   margin-right: ${({ theme }) => theme.space[1]};
 `;
@@ -36,7 +36,8 @@ export const Suggestion = ({
   children,
   size,
   pressable = true,
-  width = null
+  width = null,
+    padded=true
 }) => {
     const style = {fontSize: size ? size : 14}
     if ( width ) {
@@ -46,7 +47,7 @@ export const Suggestion = ({
     }
   const content = (
     <>
-      <SuggestionIconContainer>{children}</SuggestionIconContainer>
+      <SuggestionIconContainer padded={padded}>{children}</SuggestionIconContainer>
       <Spacer position="left" size="small" />
       <Text
         variant="caption"

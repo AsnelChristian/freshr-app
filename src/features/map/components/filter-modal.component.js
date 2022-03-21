@@ -5,7 +5,7 @@ import { AreaRheostat } from "react-native-rheostat";
 import {Dimensions, useWindowDimensions, View} from "react-native";
 import { Searchbar } from "react-native-paper";
 
-import { BottomModal } from "../../../components/modal/bottom-sheet-modalcomponent";
+import {BottomModal, CloseButton} from "../../../components/modal/bottom-sheet-modalcomponent";
 import { Text } from "../../../components/typography/typography.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Ionicons } from "@expo/vector-icons";
@@ -24,10 +24,6 @@ const Separator = styled.View`
   background-color: #ccc;
 `;
 
-const CloseButton = styled.TouchableOpacity`
-  margin-left: ${({ theme }) => theme.space[3]};
-  padding: 0px ${({ theme }) => theme.space[1]};
-`;
 
 const ModalFooter = styled.View`
   flex-direction: row;

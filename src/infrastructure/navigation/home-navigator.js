@@ -27,7 +27,7 @@ export const HomeNavigator = () => {
       <HomeStack.Screen name="Home" component={HomeScreen} />
         <HomeStack.Screen
             name="SelectFacility"
-            options={{ headerShown: true, headerTitle: "Facilities near by" }}
+            options={{ headerShown: false}}
             component={FacilitySelectionScreen}
         />
     </HomeStack.Navigator>

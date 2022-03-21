@@ -13,10 +13,10 @@ const MapContainer = styled(MapView)`
 
 const DataContainer = styled.View`
   position: absolute;
-  bottom: ${({ theme }) => theme.space[3]};
+  bottom: ${({ theme }) => theme.space[2]};
   left: 0;
   right: 0;
-  ${({ facilitySelected }) => (facilitySelected ? "bottom: 100px" : "10px")};
+  ${({ facilitySelected }) => (facilitySelected ? "bottom: 80px" : "0px")};
 `;
 
 const Map = ({
