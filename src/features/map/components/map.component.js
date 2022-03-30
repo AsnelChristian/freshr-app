@@ -3,7 +3,7 @@ import MapView from "react-native-maps";
 
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
-import { MapMarker } from "./map-marker.component";
+import { MapMarker } from "../../../../../freshr-app-clone/src/screens/components/map-marker.component";
 import Carousel from "react-native-snap-carousel";
 import { connect } from "react-redux";
 
@@ -16,7 +16,6 @@ const DataContainer = styled.View`
   bottom: ${({ theme }) => theme.space[2]};
   left: 0;
   right: 0;
-  ${({ facilitySelected }) => (facilitySelected ? "bottom: 80px" : "0px")};
 `;
 
 const Map = ({

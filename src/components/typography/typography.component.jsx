@@ -49,12 +49,12 @@ export const Text = ({variant, children, style, ...restProps} ) => {
 }
 
 export const DescriptionContainer = styled.View`
-  padding: ${({ theme }) => theme.space[3]};
+  padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[3]};
   background-color: ${({ theme }) =>
     `${rgba(theme.colors.ui.quaternary, 0.9)}`};
   border-radius: ${({ theme }) => theme.space[2]};
   overflow: hidden;
-  border: 2px solid ${({theme}) => `${rgba(theme.colors.ui.primary, 0.15)}`};
+  border: 1px solid ${({theme}) => `${rgba(theme.colors.ui.primary, 0.15)}`};
 `;
 export const QuoteIconContainer = styled.View`
   padding: ${({ theme }) => theme.space[1]};

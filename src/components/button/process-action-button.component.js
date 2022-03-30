@@ -15,7 +15,7 @@ export const ButtonContainer = styled.View`
 export const ActionButton = styled.TouchableOpacity`
   position: relative;
   flex-direction: row;
-  width: 100%;
+  flex: 1;
   height: ${({ height }) => `${height}px`};
   align-items: center;
   justify-content: center;

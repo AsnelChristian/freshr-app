@@ -1,15 +1,37 @@
 import { SliderBox } from "react-native-image-slider-box";
 
-import { useTheme } from "styled-components/native";
+import styled, { useTheme } from "styled-components/native";
 import { SliderContainer } from "./details-screen.component";
 import { Dimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { IconButton } from "react-native-paper";
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
 
 const { height } = Dimensions.get("window");
 
+const BackButtonContainer = styled.TouchableOpacity`
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 100px;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+`;
+
 export const Gallery = ({ images }) => {
   const theme = useTheme();
+  const navigation = useNavigation();
+
   return (
-    <SliderContainer>
+    <SliderContainer style={{ position: "relative" }}>
+      <BackButtonContainer onPress={() => navigation.goBack()} elevation={2}>
+        <Ionicons name="arrow-back" size={20} />
+      </BackButtonContainer>
       <SliderBox
         images={images}
         sliderBoxHeight={height * 0.3}

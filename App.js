@@ -11,7 +11,6 @@ import Navigation from "./src/infrastructure/navigation";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
-import {StripeProvider} from "@stripe/stripe-react-native";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -27,13 +26,13 @@ export default function App() {
 
   return (
     <>
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <BottomSheetModalProvider>
-              <Navigation />
-            </BottomSheetModalProvider>
-          </ThemeProvider>
-        </Provider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <BottomSheetModalProvider>
+            <Navigation />
+          </BottomSheetModalProvider>
+        </ThemeProvider>
+      </Provider>
       <ExpoStatusBar style="auto" />
     </>
   );

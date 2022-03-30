@@ -6,9 +6,8 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/typography.component";
 import { Suggestion } from "./suggestion.component";
 import { Ionicons } from "@expo/vector-icons";
-import React, {useEffect, useState} from "react";
+import React,from "react";
 import {connect} from "react-redux";
-import {useNavigation} from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 

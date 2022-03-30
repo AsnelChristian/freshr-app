@@ -1,68 +1,88 @@
 import { BookingActionTypes } from "./booking.types";
-import { camelize } from "../../utils/string-formatting";
 
 const INITIAL_STATE = {
   specialist: null,
-  services: [],
-  servicesPerCategoryCnt: {
-    haircut: 0,
-    hairColoring: 0,
-    scalpMassage: 0,
-    beardSculpting: 0,
-  },
-  step: 0,
   facility: null,
   meetingTime: null,
+  services: [],
+
+  currentCategory: null,
+  currentService: null,
+  targetGender: "all",
+  proGender: "all",
+  priceRange: [8, 15],
+  searchRadius: 3,
+  sortBy: "",
+  sortFacilitiesBy: "",
+  step: 0,
 };
 
 export const bookingReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case BookingActionTypes.SET_SPECIALIST:
-    {
+    case BookingActionTypes.SET_SPECIALIST: {
       if (state.specialist && state.specialist.id !== action.payload.id) {
-        return { ...state, specialist: action.payload, services: [], servicesPerCategoryCnt: {
-            haircut: 0,
-            hairColoring: 0,
-            scalpMassage: 0,
-            beardSculpting: 0,
-          } };
+        return {
+          ...state,
+          specialist: action.payload,
+          services: [],
+        };
       } else {
         return { ...state, specialist: action.payload };
       }
     }
     case BookingActionTypes.ADD_CART_ITEM: {
-      const categoryStr = camelize(action.payload.category);
       return {
         ...state,
         services: [...state.services, action.payload],
         servicesPerCategoryCnt: {
           ...state.servicesPerCategoryCnt,
-          [categoryStr]: state.servicesPerCategoryCnt[categoryStr] + 1,
         },
       };
     }
     case BookingActionTypes.REMOVE_CART_ITEM: {
-      const categoryStr = camelize(action.payload.category);
       const newServices = state.services.filter(
         (item) => item.id !== action.payload.id
       );
       return {
         ...state,
         services: newServices,
-        servicesPerCategoryCnt: {
-          ...state.servicesPerCategoryCnt,
-          [categoryStr]: state.servicesPerCategoryCnt[categoryStr] - 1,
-        },
       };
     }
-    case BookingActionTypes.CLEAR_CART:
-      return { ...INITIAL_STATE };
+    case BookingActionTypes.CLEAR_CART: {
+      const selectedFacility = state.facility;
+      return { ...INITIAL_STATE, facility: selectedFacility };
+    }
     case BookingActionTypes.SELECT_FACILITY:
       return { ...state, facility: action.payload };
     case BookingActionTypes.SET_MEETING_TIME:
       return { ...state, meetingTime: action.payload };
     case BookingActionTypes.SET_STEP:
-      return {...state, step: action.payload}
+      return { ...state, step: action.payload };
+
+    case BookingActionTypes.SET_CURRENT_CATEGORY:
+      return {
+        ...state,
+        currentCategory: action.payload,
+        currentService: null,
+      };
+    case BookingActionTypes.SET_CURRENT_SERVICE:
+      return {
+        ...state,
+        currentService: action.payload.service,
+        currentCategory: action.payload.category,
+      };
+    case BookingActionTypes.SET_TARGET_GENDER:
+      return { ...state, targetGender: action.payload };
+    case BookingActionTypes.SET_PRICE_RANGE:
+      return { ...state, priceRange: action.payload };
+    case BookingActionTypes.SET_SORT_METHOD:
+      return { ...state, sortBy: action.payload };
+    case BookingActionTypes.SET_SORT_FACILITY_METHOD:
+      return { ...state, sortFacilitiesBy: action.payload };
+    case BookingActionTypes.SET_SEARCH_RADIUS:
+      return { ...state, searchRadius: action.payload };
+    case BookingActionTypes.SET_PRO_GENDER:
+      return { ...state, proGender: action.payload };
     default:
       return state;
   }

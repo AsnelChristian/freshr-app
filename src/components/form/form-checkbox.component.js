@@ -1,5 +1,6 @@
 import styled, { useTheme } from "styled-components/native";
 import { Checkbox } from "react-native-paper";
+import { View } from "react-native";
 
 const CheckBoxInputContainer = styled.TouchableOpacity`
   flex-direction: row;
@@ -21,7 +22,7 @@ const CheckBoxInputContent = styled.View`
 export const CheckBoxInput = ({ children, value, handleChange }) => {
   const theme = useTheme();
   return (
-    <>
+    <View>
       <Separator />
       <CheckBoxInputContainer onPress={handleChange} active={value}>
         <CheckBoxInputContent>{children}</CheckBoxInputContent>
@@ -31,6 +32,6 @@ export const CheckBoxInput = ({ children, value, handleChange }) => {
         />
       </CheckBoxInputContainer>
       <Separator />
-    </>
+    </View>
   );
 };
