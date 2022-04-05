@@ -10,9 +10,11 @@ import { selectFacility } from "../../redux/booking/booking.actions";
 import { FontAwesome } from "@expo/vector-icons";
 import { IconButton } from "../../components/button/button.component";
 import { useNavigation } from "@react-navigation/native";
-import { rgba } from "polished";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { Text } from "../../components/typography/typography.component";
+
+const mapStyles = require("./mapStyles.json");
+const { width } = Dimensions.get("window");
 
 const MapOuterContainer = styled.View`
   ${({ fullMap }) =>
@@ -30,12 +32,8 @@ const MapContainer = styled(MapView)`
 const DataContainer = styled.View`
   ${({ carouselBottom }) =>
     carouselBottom
-      ? `position: absolute; bottom: 12px;  left: 0;
-  right: 0;`
-      : `margin: 6px -18px; padding: 8px 0px; background-color: ${rgba(
-          "#E8AE4C",
-          0.05
-        )}`};
+      ? "position: absolute; bottom: 12px;  left: 0px; right: 0;"
+      : "margin: 6px -18px; padding: 8px 0px; background-color: #FaFaFa;"};
 `;
 
 const ExpandButtonContainer = styled.View`
@@ -55,7 +53,7 @@ const Map = ({
 }) => {
   const theme = useTheme();
   const navigation = useNavigation();
-  const { lat = 46.829853, lng = -71.254028 } = location;
+  const { lat = 37.788221, lng = -122.43232 } = location;
   const flatList = useRef();
   const map = useRef();
 
@@ -72,7 +70,7 @@ const Map = ({
     const region = {
       latitude: selectedData.location.lat,
       longitude: selectedData.location.lng,
-      latitudeDelta: 0.8,
+      latitudeDelta: 0.08,
       longitudeDelta: 0.02,
     };
     map.current?.animateToRegion(region);
@@ -83,6 +81,7 @@ const Map = ({
       <MapOuterContainer fullMap={fullMap}>
         <MapContainer
           fullMap={fullMap}
+          customMapStyle={mapStyles}
           ref={map}
           region={{
             latitude: lat,
@@ -145,7 +144,12 @@ const Map = ({
           keyExtractor={(item) => `bottom-flat-map-${item.id}`}
           horizontal
           showsHorizontalScrollIndicator={false}
-          sliderWidth={Dimensions.get("window").width}
+          sliderWidth={
+            !fullMap
+              ? Dimensions.get("window").width + 18
+              : Dimensions.get("window").width
+          }
+          containerCustomStyle={{ marginHorizontal: !fullMap ? -18 : 0 }}
           itemWidth={itemWidth}
           onSnapToItem={(index) => restProps.setFacility(data[index])}
         />

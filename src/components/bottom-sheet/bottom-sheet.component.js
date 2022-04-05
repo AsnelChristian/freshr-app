@@ -10,8 +10,9 @@ import { Rating } from "react-native-elements";
 import { useMemo } from "react";
 import styled, { useTheme } from "styled-components/native";
 import {
+  ActivityIndicator,
+  Dimensions,
   ScrollView,
-  TouchableWithoutFeedback,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -44,8 +45,17 @@ import {
 } from "../../redux/booking/booking.actions";
 import { connect } from "react-redux";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { CustomSearchBar, SearchInput } from "../form/input.component";
+import {
+  CustomSearchBar,
+  SearchInput,
+  SearchLocation,
+} from "../form/input.component";
 import { Searchbar } from "react-native-paper";
+import { ModalButton } from "../button/button.component";
+import { MediaType } from "expo-media-library";
+import { AssetsSelector } from "expo-images-picker";
+import { ImageBrowser } from "expo-image-picker-multiple";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const ModalBackground = styled.View`
   border-radius: 15px;
@@ -59,15 +69,6 @@ const BackdropContentContainer = styled.View`
 export const CloseButton = styled.TouchableOpacity`
   margin-left: ${({ theme }) => theme.space[3]};
   padding: 0px ${({ theme }) => theme.space[1]};
-`;
-
-const ModalButton = styled.TouchableOpacity`
-  background-color: ${({ variant, theme }) =>
-    variant === "primary"
-      ? theme.colors.ui.primary
-      : theme.colors.ui.quaternary};
-  padding: ${({ theme }) => theme.space[3]};
-  border-radius: ${({ theme }) => theme.sizes[1]};
 `;
 
 const SortFilterContainer = styled.View`
@@ -92,16 +93,6 @@ const SortButton = styled.TouchableOpacity`
   height: 100%;
   background-color: ${({ active, theme }) =>
     active ? theme.colors.brand.primary : "white"};
-`;
-
-const SearchLocation = styled(Searchbar).attrs((props) => ({
-  selectionColor: "black",
-}))`
-  border-radius: ${({ theme }) => theme.sizes[2]};
-  elevation: 0;
-  background-color: ${({ theme }) => theme.colors.ui.quaternary};
-  color: ${({ theme }) => theme.colors.ui.primary};
-  font-size: 12px;
 `;
 
 const mapStateToProps = (state) => ({
@@ -165,7 +156,12 @@ export const BottomModal = React.forwardRef(({ children, onClose }, ref) => {
   );
 });
 
-export const FilterModal = ({ showModal, toggleShowModal, children }) => {
+export const FilterModal = ({
+  showModal,
+  toggleShowModal,
+  children,
+  scrollView = true,
+}) => {
   const dimensions = useWindowDimensions();
   const bottomSheetModalRef = useRef(null);
   useEffect(() => {
@@ -188,13 +184,17 @@ export const FilterModal = ({ showModal, toggleShowModal, children }) => {
         </CloseButton>
       </Spacer>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ maxHeight: dimensions.height / 1.4, paddingHorizontal: 16 }}
-      >
-        <Spacer position="top" size="medium" />
-        {children}
-      </ScrollView>
+      {scrollView ? (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ maxHeight: dimensions.height / 1.4, paddingHorizontal: 16 }}
+        >
+          <Spacer position="top" size="medium" />
+          {children}
+        </ScrollView>
+      ) : (
+        <View style={{ flex: 1 }}>{children}</View>
+      )}
     </BottomModal>
   );
 };
@@ -843,3 +843,94 @@ export const SearchRadiusModal = connect(
   mapStateToProps,
   mapDispatchToProps
 )(SearchRadiusModalComponent);
+
+export const ImageSelectionModal = ({
+  showModal,
+  toggleShowModal,
+  updateValue,
+}) => {
+  const theme = useTheme();
+  const [images, setImages] = useState([]);
+
+  const uploadImages = () => {
+    console.log(images);
+    updateValue(images);
+    toggleShowModal();
+  };
+
+  const _getHeaderLoader = () => (
+    <ActivityIndicator size="small" color={"#0580FF"} />
+  );
+
+  const imagesCallback = (callback) => {
+    callback
+      .then(async (photos) => {
+        const cPhotos = [];
+        for (let photo of photos) {
+          const pPhoto = await _processImageAsync(photo.uri);
+          cPhotos.push({
+            uri: pPhoto.uri,
+            name: photo.filename,
+            type: "image/jpg",
+          });
+        }
+        setImages(cPhotos);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const updateHandler = (count, onSubmit) => {
+    onSubmit();
+  };
+
+  const _processImageAsync = async (uri) => {
+    const file = await ImageManipulator.manipulateAsync(
+      uri,
+      [{ resize: { width: 1000 } }],
+      { compress: 0.8, format: ImageManipulator.SaveFormat.JPEG }
+    );
+    return file;
+  };
+
+  return (
+    <FilterModal
+      showModal={showModal}
+      toggleShowModal={toggleShowModal}
+      scrollView={false}
+    >
+      <Spacer position="top" size="large" />
+      <View style={{ height: Dimensions.get("window").height - 200 }}>
+        <ImageBrowser
+          max={6}
+          onChange={updateHandler}
+          callback={imagesCallback}
+        />
+        {/*<AssetsSelector*/}
+        {/*  Settings={widgetSettings}*/}
+        {/*  Errors={widgetErrors}*/}
+        {/*  Styles={widgetStyles}*/}
+        {/*  // Resize={widgetResize} know how to use first , perform slower results.*/}
+        {/*/>*/}
+      </View>
+      <Separator />
+      <Row
+        style={{
+          justifyContent: "space-between",
+          paddingHorizontal: 8,
+          paddingVertical: 16,
+        }}
+      >
+        {/*<ModalButton onPress={() => null}>*/}
+        {/*  <Text>Clear all</Text>*/}
+        {/*</ModalButton>*/}
+        <ModalButton
+          variant="primary"
+          onPress={uploadImages}
+          style={{ flex: 1 }}
+        >
+          <Text style={{ color: "white" }}>Upload images</Text>
+        </ModalButton>
+      </Row>
+    </FilterModal>
+  );
+};

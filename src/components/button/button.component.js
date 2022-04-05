@@ -31,3 +31,15 @@ export const CancelButton = styled.TouchableOpacity`
   border-radius: 30px;
   background-color: ${({ theme }) => theme.colors.ui.primary};
 `;
+
+export const ModalButton = styled.TouchableOpacity`
+  background-color: ${({ variant, theme }) =>
+    variant === "primary"
+      ? theme.colors.ui.primary
+      : theme.colors.ui.quaternary};
+  padding: ${({ theme }) => theme.space[3]};
+  border-radius: ${({ theme }) => theme.sizes[1]};
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;

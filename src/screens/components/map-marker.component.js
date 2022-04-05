@@ -19,3 +19,17 @@ export const MapMarker = (props) => {
     </Marker>
   );
 };
+
+export const MapMarkerLocation = (props) => {
+  const theme = useTheme();
+  const { coordinate } = props;
+  return (
+    <Marker coordinate={coordinate} draggable>
+      <FontAwesome
+        name="map-marker"
+        size={30}
+        color={theme.colors.ui.primary}
+      />
+    </Marker>
+  );
+};

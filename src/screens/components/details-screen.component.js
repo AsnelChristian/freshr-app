@@ -67,3 +67,18 @@ export const PageTitle = styled(SectionTitle)`
   font-size: 35px;
   font-weight: 700;
 `;
+
+export const PaddedContainer = styled.View`
+  padding: 0px ${({ theme }) => theme.space[3]};
+`;
+
+export const Footer = styled.View`
+  background-color: white;
+  width: 100%;
+`;
+export const FooterRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+`;

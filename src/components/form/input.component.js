@@ -1,12 +1,9 @@
 import { Dimensions, StyleSheet, View } from "react-native";
-import { Input } from "galio-framework";
-import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 
 import { theme } from "../../infrastructure/theme";
 import styled from "styled-components/native";
 import { Searchbar } from "react-native-paper";
-
-const { width } = Dimensions.get("window");
 
 export const SearchBar = styled(Searchbar)`
   flex-direction: row;
@@ -74,3 +71,24 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
 });
+
+export const SearchLocation = styled(Searchbar).attrs((props) => ({
+  selectionColor: "black",
+  autoFocus: true,
+}))`
+  border-radius: ${({ theme }) => theme.sizes[2]};
+  elevation: 0;
+  background-color: ${({ theme }) => theme.colors.ui.quaternary};
+  color: ${({ theme }) => theme.colors.ui.primary};
+  font-size: 12px;
+`;
+
+export const SearchLocationNotAutoFocus = styled(Searchbar).attrs((props) => ({
+  selectionColor: "black",
+}))`
+  border-radius: ${({ theme }) => theme.sizes[2]};
+  elevation: 0;
+  background-color: ${({ theme }) => theme.colors.ui.quaternary};
+  color: ${({ theme }) => theme.colors.ui.primary};
+  font-size: 12px;
+`;

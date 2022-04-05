@@ -114,7 +114,6 @@ const SpecialistDetailsScreen = ({
   cart,
   route,
   navigation,
-  setBookingStep,
   ...restProps
 }) => {
   const editBooking = route.params.edit;
@@ -180,7 +179,7 @@ const SpecialistDetailsScreen = ({
 
   useEffect(() => {
     if (editBooking) {
-      setBookingStep(0);
+      restProps.setBookingStep(0);
     }
   }, [navigation.route]);
 

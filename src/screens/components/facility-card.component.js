@@ -20,6 +20,7 @@ const Container = styled.View`
   border-radius: ${({ theme }) => theme.sizes[1]};
   flex-direction: row;
   align-items: center;
+  overflow: hidden;
   position: relative;
   border: 2px solid
     ${({ active, theme }) => (active ? theme.colors.brand.primary : "white")};
@@ -51,7 +52,7 @@ const ShowResultsButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 44px;
   padding: 0px ${({ theme }) => theme.space[3]};
   background-color: ${({ theme }) => theme.colors.ui.primary};
 `;
@@ -68,6 +69,7 @@ const CoverImage = styled.Image.attrs((props) => ({
 const ContentContainer = styled.View`
   flex: 1;
   padding-right: ${({ theme }) => theme.space[2]};
+  background-color: white;
 `;
 
 const Title = styled(Text)`

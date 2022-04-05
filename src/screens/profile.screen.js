@@ -46,12 +46,12 @@ const LogoutButton = styled.TouchableOpacity`
   border: 1px solid ${({ theme }) => theme.colors.ui.border};
 `;
 
-const ProfileButton = ({ icon, label, description = "", link }) => {
+const ProfileButton = ({ icon, label, description = "", onPress }) => {
   const theme = useTheme();
   return (
     <View>
       <Separator />
-      <ProfileButtonContainer>
+      <ProfileButtonContainer onPress={onPress}>
         {icon}
         <Spacer position="left" size="medium" />
         <View style={{ flex: 1 }}>
@@ -77,7 +77,7 @@ const ProfileButton = ({ icon, label, description = "", link }) => {
   );
 };
 
-const ProfileScreen = () => {
+const ProfileScreen = (props) => {
   const theme = useTheme();
   const coverImage =
     "https://st2.depositphotos.com/1009634/7235/v/950/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg";
@@ -148,7 +148,23 @@ const ProfileScreen = () => {
         <View>
           <ProfileButton
             icon={<AntDesign name="swap" size={28} color="black" />}
-            label="Switch to pro account"
+            onPress={() =>
+              props.navigation.reset({
+                index: 0,
+                routes: [{ name: "proAppFacility" }],
+              })
+            }
+            label="Switch to host account"
+          />
+          <ProfileButton
+            icon={<AntDesign name="swap" size={28} color="black" />}
+            onPress={() =>
+              props.navigation.reset({
+                index: 0,
+                routes: [{ name: "proAppService" }],
+              })
+            }
+            label="Switch service provider account"
           />
           <Separator />
         </View>

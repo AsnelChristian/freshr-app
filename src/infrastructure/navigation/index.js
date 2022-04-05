@@ -3,9 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-import { SafeArea } from "../../components/utils/safearea.component";
 import { Text } from "../../components/typography/typography.component";
-import { Platform, StatusBar } from "react-native";
+import { Platform, StatusBar, View } from "react-native";
 import { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
@@ -26,6 +25,13 @@ import BookingCompletedScreen from "../../screens/booking-completed.screen";
 import OrderReviewScreen from "../../screens/order-review.screen";
 import ReviewScreen from "../../screens/review.screen";
 import ProfileScreen from "../../screens/profile.screen";
+import HomeFacilityScreen from "../../screens/pro-facility/home-facility.screen";
+import FacilityLocationScreen from "../../screens/pro-facility/facility-location.screen";
+import SeatsFacilityScreen from "../../screens/pro-facility/seats-facility.screen";
+import FacilityGalleryScreen from "../../screens/pro-facility/facility-gallery-screen";
+import FacilityNameScreen from "../../screens/pro-facility/facility-name.screen";
+import FacilityHighlightScreen from "../../screens/pro-facility/facility-highlight-screen";
+import FacilityDescriptionScreen from "../../screens/pro-facility/facility-description.screen";
 
 const TAB_ICON = {
   Explore: (size, color) => <Feather name="home" size={size} color={color} />,
@@ -43,9 +49,17 @@ const TAB_ICON = {
   ),
 };
 
-const getStyledScreenOptions = (theme) => {
+const PRO_TAB_ICON = {
+  Overview: (size, color) => <Feather name="home" size={size} color={color} />,
+  Analytics: (size, color) => (
+    <Ionicons name="analytics" size={size} color={color} />
+  ),
+  Menu: (size, color) => <Feather name="menu" size={size} color={color} />,
+};
+
+const getStyledScreenOptions = (icons, theme) => {
   return ({ route }) => {
-    const renderIcon = TAB_ICON[route.name];
+    const renderIcon = icons[route.name];
     return {
       headerShown: false,
       tabBarActiveTintColor: theme.colors.brand.primary,
@@ -87,13 +101,77 @@ const Tab = createBottomTabNavigator();
 const AppTabNavigator = () => {
   const theme = useTheme();
   return (
-    <Tab.Navigator screenOptions={getStyledScreenOptions(theme)}>
+    <Tab.Navigator screenOptions={getStyledScreenOptions(TAB_ICON, theme)}>
       <Tab.Screen name="Explore" component={HomeNavigator} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
       <Tab.Screen name="Orders" component={OrdersScreen} />
       <Tab.Screen name="Inbox" component={InboxScreen} />
       <Tab.Screen name="Account" component={ProfileScreen} />
     </Tab.Navigator>
+  );
+};
+
+const ProFacilityAnalyticsScreen = () => (
+  <View>
+    <Text>Stats</Text>
+  </View>
+);
+
+const ProFacilityMenuScreen = () => (
+  <View>
+    <Text>Menu</Text>
+  </View>
+);
+const HomeProFacilityStack = createStackNavigator();
+
+const HomeProFacilityNavigator = () => {
+  return (
+    <HomeProFacilityStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerBackTitle: "",
+      }}
+    >
+      <HomeProFacilityStack.Screen name="Home" component={HomeFacilityScreen} />
+    </HomeProFacilityStack.Navigator>
+  );
+};
+
+const ProTabFacility = createBottomTabNavigator();
+const ProAppFacilityTabNavigator = () => {
+  const theme = useTheme();
+  return (
+    <ProTabFacility.Navigator
+      screenOptions={getStyledScreenOptions(PRO_TAB_ICON, theme)}
+    >
+      <ProTabFacility.Screen
+        name="Overview"
+        component={HomeProFacilityNavigator}
+      />
+      <ProTabFacility.Screen
+        name="Analytics"
+        component={ProFacilityAnalyticsScreen}
+      />
+      <ProTabFacility.Screen name="Menu" component={ProFacilityMenuScreen} />
+    </ProTabFacility.Navigator>
+  );
+};
+
+const ProServiceHome = () => (
+  <View>
+    <Text>Pro service account</Text>
+  </View>
+);
+
+const ProTabService = createBottomTabNavigator();
+const ProAppServiceTabNavigator = () => {
+  const theme = useTheme();
+  return (
+    <ProTabService.Navigator
+      screenOptions={getStyledScreenOptions(PRO_TAB_ICON, theme)}
+    >
+      <ProTabService.Screen name="Overview" component={ProServiceHome} />
+    </ProTabService.Navigator>
   );
 };
 
@@ -107,6 +185,14 @@ const MainNavigator = () => {
       }}
     >
       <MainStack.Screen name="app" component={AppTabNavigator} />
+      <MainStack.Screen
+        name="proAppFacility"
+        component={ProAppFacilityTabNavigator}
+      />
+      <MainStack.Screen
+        name="proAppService"
+        component={ProAppServiceTabNavigator}
+      />
       <MainStack.Screen
         name="FacilityDetails"
         // options={{ headerShown: true, headerTitle: "" }}
@@ -157,6 +243,21 @@ const MainNavigator = () => {
           headerTitle: route.params.user.name,
         })}
         component={ChatScreen}
+      />
+      <MainStack.Screen name="SetLocation" component={FacilityLocationScreen} />
+      <MainStack.Screen name="SetSeatsNumber" component={SeatsFacilityScreen} />
+      <MainStack.Screen
+        name="CreateGalleryFacility"
+        component={FacilityGalleryScreen}
+      />
+      <MainStack.Screen name="SetFacilityName" component={FacilityNameScreen} />
+      <MainStack.Screen
+        name="SetFacilityHighlight"
+        component={FacilityHighlightScreen}
+      />
+      <MainStack.Screen
+        name="SetFacilityDescription"
+        component={FacilityDescriptionScreen}
       />
     </MainStack.Navigator>
   );

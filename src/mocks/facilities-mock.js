@@ -9,8 +9,8 @@ export const facilitiesMock = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit .",
     rating: 4.3,
     location: {
-      lat: 46.529853,
-      lng: -71.154028,
+      lat: 37.988251,
+      lng: -122.23242,
     },
     distance: 10,
     time: {
@@ -76,8 +76,8 @@ export const facilitiesMock = [
         ratingCnt: 1003,
         priceRange: [15, 60],
         location: {
-          lat: 46.829853,
-          lng: -71.254028,
+          lat: 37.788251,
+          lng: -122.43242,
         },
         gallery: [
           "https://i2-prod.manchestereveningnews.co.uk/incoming/article21411590.ece/ALTERNATES/s615/0_gettyimages-1207048163-170667a.jpg",
@@ -140,8 +140,8 @@ export const facilitiesMock = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit .",
     rating: 4.3,
     location: {
-      lat: 46.829853,
-      lng: -71.254028,
+      lat: 37.788241,
+      lng: -122.43222,
     },
     distance: 10,
     time: {
@@ -270,8 +270,8 @@ export const facilitiesMock = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit .",
     rating: 4.3,
     location: {
-      lat: 46.629853,
-      lng: -71.354028,
+      lat: 37.667221,
+      lng: -122.1232,
     },
     distance: 10,
     time: {

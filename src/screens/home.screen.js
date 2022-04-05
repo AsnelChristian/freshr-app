@@ -1,13 +1,11 @@
 import { connect } from "react-redux";
 import styled, { useTheme } from "styled-components/native";
 import {
-  AntDesign,
   Entypo,
   Feather,
   FontAwesome,
   MaterialIcons,
 } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
 
 import {
   FilterButton,
@@ -23,7 +21,6 @@ import {
   Separator,
 } from "../components/helpers/helpers.component";
 import { Spacer } from "../components/spacer/spacer.component";
-import { FlatGrid } from "react-native-super-grid";
 import { renderSearch } from "./utils";
 import {
   clearCart,
@@ -31,7 +28,7 @@ import {
   setCurrentCategory,
   setSpecialist,
 } from "../redux/booking/booking.actions";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { setMatchingFacilities } from "../redux/facilities/facilities.actions";
 import { setMatchingSpecialists } from "../redux/specialists/specialists.action";
 import {
@@ -44,12 +41,13 @@ import {
   SpecialistsModal,
 } from "../components/bottom-sheet/bottom-sheet.component";
 import { rgba } from "polished";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { Dimensions, ScrollView, TouchableOpacity, View } from "react-native";
 import Map from "./components/map.component";
 import FacilityCard from "./components/facility-card.component";
 import { facilitiesMock } from "../mocks/facilities-mock";
 import { specialistsMock } from "../mocks/specialists-mock";
 import { SectionTitle } from "./components/details-screen.component";
+import Carousel, { Pagination } from "react-native-snap-carousel";
 
 // const GradientBackground = styled(LinearGradient)`
 //   position: absolute;
@@ -84,6 +82,18 @@ import { SectionTitle } from "./components/details-screen.component";
 //   justify-content: center;
 // `;
 
+const WelcomeText = styled(Text)`
+  font-size: 30px;
+  line-height: 40px;
+  font-weight: bold;
+`;
+
+const AdContainer = styled.View`
+  height: 140px;
+  background-color: ${({ theme }) => theme.colors.brand.primary};
+  border-radius: 20px;
+`;
+
 const HomeScreen = (props) => {
   const theme = useTheme();
   const [showFilters, setShowFilters] = useState(true);
@@ -94,6 +104,27 @@ const HomeScreen = (props) => {
   const [showPriceRangeFilter, setShowPriceRangeFilter] = useState(false);
   const [showCategoryFilter, setShowCategoryFilter] = useState(false);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(0);
+
+  const [ads, setAds] = useState([
+    {
+      id: 1,
+      text: "Top services",
+    },
+    {
+      id: 2,
+      text: "Top services",
+    },
+    {
+      id: 3,
+      text: "Top services",
+    },
+    {
+      id: 4,
+      text: "Top services",
+    },
+  ]);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const adSliderRef = useRef(null);
 
   useEffect(() => {
     props.setMatchingFacilities(facilitiesMock);
@@ -396,6 +427,78 @@ const HomeScreen = (props) => {
     );
   };
 
+  const renderWelcome = () => {
+    return (
+      <WelcomeText>
+        Welcome to{" "}
+        <WelcomeText style={{ color: theme.colors.brand.primary }}>
+          Freshr
+        </WelcomeText>
+        , it's you just a little{" "}
+        <WelcomeText style={{ color: theme.colors.brand.primary }}>
+          lighter
+        </WelcomeText>
+      </WelcomeText>
+    );
+  };
+
+  const renderAd = ({ item, index }) => {
+    return <AdContainer key={`ad-${item.id}`} />;
+  };
+
+  const renderAds = () => {
+    const { width } = Dimensions.get("window");
+    return (
+      <View>
+        <Carousel
+          ref={adSliderRef}
+          data={ads}
+          renderItem={renderAd}
+          sliderWidth={width - 32}
+          itemWidth={(width - 32) * 0.96}
+          hasParallaxImages={true}
+          firstItem={0}
+          inactiveSlideScale={0.94}
+          inactiveSlideOpacity={0.7}
+          inactiveSlideShift={20}
+          containerCustomStyle={{
+            marginTop: 15,
+            overflow: "visible",
+          }}
+          contentContainerCustomStyle={{
+            paddingVertical: 10,
+          }}
+          // layout={"tinder"}
+          loop={true}
+          // loopClonesPerSide={2}
+          // autoplay={true}
+          // autoplayDelay={500}
+          autoplayInterval={3000}
+          onSnapToItem={(index) => setActiveSlide(index)}
+        />
+        <Pagination
+          dotsLength={ads.length}
+          activeDotIndex={activeSlide}
+          containerStyle={{
+            paddingVertical: 8,
+          }}
+          dotColor={theme.colors.brand.primary}
+          dotStyle={{
+            width: 8,
+            height: 8,
+            borderRadius: 4,
+            marginHorizontal: 8,
+          }}
+          inactiveDotColor={theme.colors.ui.primary}
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
+          carouselRef={adSliderRef}
+          tappableDots={!!adSliderRef}
+        />
+      </View>
+    );
+  };
+
   // const gradients = [
   //   ["#00C9FF", "#92FE9D"],
   //   ["#92FE9D", "#00C9FF"],
@@ -407,47 +510,59 @@ const HomeScreen = (props) => {
     <SafeArea>
       {renderHeader()}
       <PageContainer>
-        <Content>
-          {renderSearchBar()}
-          <Spacer position="bottom" size="medium" />
-          <Spacer position="bottom" size="small" />
-          {showFilters && renderFilters()}
-          <Spacer position="bottom" size="medium" />
-          <Spacer position="bottom" size="large" />
-          <SectionTitle>Facilities near by</SectionTitle>
-          <Spacer position="bottom" size="medium" />
-          <Text variant="caption">
-            Filter the facilities and professional by your preferences
-          </Text>
-          {/*<FlatGrid*/}
-          {/*  data={props.categories}*/}
-          {/*  spacing={4}*/}
-          {/*  renderItem={({ item, index }) =>*/}
-          {/*    renderCategoryButton(gradients[index], item)*/}
-          {/*  }*/}
-          {/*/>*/}
-          <Spacer position="bottom" size="large" />
-          <View>
-            <Map
-              fullMap={false}
-              carouselBottom={false}
-              data={props.facilities}
-              bottomMargin={30}
-              itemWidth={340}
-              renderItem={({ item }) => (
-                <FacilityCard
-                  handleMorePress={() =>
-                    props.navigation.navigate("FacilityDetails", {
-                      facility: item,
-                    })
-                  }
-                  facility={item}
-                  handleViewResultPress={() => setBottomSheetIndex(1)}
-                />
-              )}
-            />
-          </View>
-        </Content>
+        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+          <Content>
+            {renderWelcome()}
+            <Spacer position="bottom" size="large" />
+            {renderAds()}
+            <Spacer position="bottom" size="large" />
+            <Spacer position="bottom" size="medium" />
+
+            <Text variant="caption" style={{ fontSize: 16 }}>
+              Filter facilities & professionals by preference
+            </Text>
+            <Spacer position="bottom" size="medium" />
+
+            {renderSearchBar()}
+            <Spacer position="bottom" size="medium" />
+            <Spacer position="bottom" size="small" />
+            {showFilters && renderFilters()}
+            <Spacer position="bottom" size="medium" />
+
+            <Spacer position="bottom" size="large" />
+
+            {/*<FlatGrid*/}
+            {/*  data={props.categories}*/}
+            {/*  spacing={4}*/}
+            {/*  renderItem={({ item, index }) =>*/}
+            {/*    renderCategoryButton(gradients[index], item)*/}
+            {/*  }*/}
+            {/*/>*/}
+            <Spacer position="bottom" size="medium" />
+            <SectionTitle>Select a facility near you</SectionTitle>
+            <Spacer position="bottom" size="medium" />
+            <View>
+              <Map
+                fullMap={false}
+                carouselBottom={false}
+                data={props.facilities}
+                bottomMargin={30}
+                itemWidth={340}
+                renderItem={({ item }) => (
+                  <FacilityCard
+                    handleMorePress={() =>
+                      props.navigation.navigate("FacilityDetails", {
+                        facility: item,
+                      })
+                    }
+                    facility={item}
+                    handleViewResultPress={() => setBottomSheetIndex(1)}
+                  />
+                )}
+              />
+            </View>
+          </Content>
+        </ScrollView>
       </PageContainer>
 
       <PriceRangeModal

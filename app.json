@@ -23,10 +23,21 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.freshr.freshrapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "with-rn-image-crop-picker",
+        {
+          "PhotoLibraryUsageDescription": "Allow app XYZ to access your photos",
+          "CameraUsageDescription": "Allow app XYZ to access your camera",
+          "MicrophoneUsageDescription": "Allow app XYZ to access your microphone"
+        }
+      ]
+    ]
   }
 }
