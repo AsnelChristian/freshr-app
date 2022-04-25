@@ -45,12 +45,25 @@ const FloatTextMapContainer = styled.View`
 
 const Content = styled.View`
   flex: 1;
+  overflow: hidden;
+  background-color: white;
 `;
 const TextContainer = styled.View`
   background-color: ${({ theme }) => theme.colors.ui.primary};
   flex-direction: row;
   padding: 8px 16px;
   border-radius: 15px;
+`;
+
+const CustomButton = styled.TouchableOpacity`
+  height: 44px;
+  background-color: white;
+  border: 1px solid ${({ theme }) => theme.colors.ui.border};
+  border-radius: 30px;
+  padding: 0px ${({ theme }) => theme.space[3]};
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `;
 
 const FacilityLocationScreen = (props) => {
@@ -73,11 +86,11 @@ const FacilityLocationScreen = (props) => {
 
   return (
     <SafeArea>
-      <Container>
+      <Container style={{ backgroundColor: theme.colors.brand.primary }}>
         <View
           style={{ flex: 0.5, backgroundColor: theme.colors.brand.primary }}
         />
-        <Content>
+        <Content style={{ borderTopLeftRadius: 30, borderTopRightRadius: 30 }}>
           <Spacer position="bottom" size="medium" />
           <Spacer position="bottom" size="large" />
           <PaddedContainer>
@@ -92,6 +105,16 @@ const FacilityLocationScreen = (props) => {
                 handleShowLocationFilterChange();
               }}
             />
+            <Spacer position="bottom" size="medium" />
+            <Text variant="caption">
+              You can manually edit your address to provide more details
+            </Text>
+            <Spacer position="bottom" size="medium" />
+            <CustomButton
+              onPress={() => props.navigation.navigate("LocationManual")}
+            >
+              <Text>Manual input</Text>
+            </CustomButton>
           </PaddedContainer>
           <Spacer position="bottom" size="large" />
           <MapContainer>
@@ -110,6 +133,7 @@ const FacilityLocationScreen = (props) => {
               </TextContainer>
             </FloatTextMapContainer>
           </MapContainer>
+          <Spacer position="bottom" size="medium" />
         </Content>
         {renderFooter(props.navigation, "SetSeatsNumber")}
       </Container>

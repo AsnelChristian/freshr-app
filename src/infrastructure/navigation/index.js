@@ -3,28 +3,27 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-import { Text } from "../../components/typography/typography.component";
-import { Platform, StatusBar, View } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
-import SearchScreen from "../../screens/search.screen";
+import SearchScreen from "../../screens/normal-app/search.screen";
 import { setServices } from "../../redux/services/services.action";
 import { serviceListMock } from "../../mocks/service-list-mock";
-import HomeScreen from "../../screens/home.screen";
-import SearchMapScreen from "../../screens/search.map.screen";
-import FacilityDetailsScreen from "../../screens/facility-details.screen";
-import SpecialistDetailsScreen from "../../screens/specialist-details.screen";
-import MeetingTimeSelectionScreen from "../../screens/meeting-time.screen";
-import BookingReviewScreen from "../../screens/booking-review.screen";
-import InboxScreen from "../../screens/inbox.screen";
-import ChatScreen from "../../screens/chat.screen";
-import FavoritesScreen from "../../screens/favorites.screen";
-import OrdersScreen from "../../screens/orders.screen";
-import BookingCompletedScreen from "../../screens/booking-completed.screen";
-import OrderReviewScreen from "../../screens/order-review.screen";
-import ReviewScreen from "../../screens/review.screen";
-import ProfileScreen from "../../screens/profile.screen";
+import HomeScreen from "../../screens/normal-app/home.screen";
+import SearchMapScreen from "../../screens/normal-app/search.map.screen";
+import FacilityDetailsScreen from "../../screens/normal-app/facility-details.screen";
+import SpecialistDetailsScreen from "../../screens/normal-app/specialist-details.screen";
+import MeetingTimeSelectionScreen from "../../screens/normal-app/meeting-time.screen";
+import BookingReviewScreen from "../../screens/normal-app/booking-review.screen";
+import InboxScreen from "../../screens/normal-app/inbox.screen";
+import ChatScreen from "../../screens/normal-app/chat.screen";
+import FavoritesScreen from "../../screens/normal-app/favorites.screen";
+import OrdersScreen from "../../screens/normal-app/orders.screen";
+import BookingCompletedScreen from "../../screens/normal-app/booking-completed.screen";
+import OrderReviewScreen from "../../screens/normal-app/order-review.screen";
+import ReviewScreen from "../../screens/normal-app/review.screen";
+import ProfileScreen from "../../screens/normal-app/profile.screen";
 import HomeFacilityScreen from "../../screens/pro-facility/home-facility.screen";
 import FacilityLocationScreen from "../../screens/pro-facility/facility-location.screen";
 import SeatsFacilityScreen from "../../screens/pro-facility/seats-facility.screen";
@@ -32,6 +31,22 @@ import FacilityGalleryScreen from "../../screens/pro-facility/facility-gallery-s
 import FacilityNameScreen from "../../screens/pro-facility/facility-name.screen";
 import FacilityHighlightScreen from "../../screens/pro-facility/facility-highlight-screen";
 import FacilityDescriptionScreen from "../../screens/pro-facility/facility-description.screen";
+import FacilityAnalyticsScreen from "../../screens/pro-facility/analytics.screen";
+import FacilityMenuScreen from "../../screens/pro-facility/facility-menu.screen";
+import ProFacilityDetailsScreen from "../../screens/pro-facility/pro-facility-details.screen";
+import SubscriptionPlanFacilityScreen from "../../screens/pro-facility/subscription-plan-facility.screen";
+import FacilityHoursScreen from "../../screens/pro-facility/facility-hours.screen";
+import HomeSpecialistScreen from "../../screens/pro-specialist/home-specialist.screen";
+import AnalyticsSpecialistScreen from "../../screens/pro-specialist/analytics-specialist.screen";
+import InboxSpecialistScreen from "../../screens/pro-specialist/inbox-specialist.screen";
+import MenuSpecialistScreen from "../../screens/pro-specialist/menu-specialist.screen";
+import ServicesManagementScreen from "../../screens/pro-specialist/services-management.screen";
+import ServiceDetailsScreen from "../../screens/pro-specialist/service-details.screen";
+import LocationManualScreen from "../../screens/pro-facility/location-manual.screen";
+import SpecialistProfileSocialScreen from "../../screens/pro-specialist/specialist-profile-social.screen";
+import EditProfileScreen from "../../screens/pro-specialist/edit-profile.screen";
+import SpecialistStoryScreen from "../../screens/pro-specialist/specialist-story.screen";
+import CreateServiceScreen from "../../screens/pro-specialist/create-service.screen";
 
 const TAB_ICON = {
   Explore: (size, color) => <Feather name="home" size={size} color={color} />,
@@ -55,6 +70,12 @@ const PRO_TAB_ICON = {
     <Ionicons name="analytics" size={size} color={color} />
   ),
   Menu: (size, color) => <Feather name="menu" size={size} color={color} />,
+  Inbox: (size, color) => (
+    <Ionicons name="md-chatbox-outline" size={size} color={color} />
+  ),
+  Profile: (size, color) => (
+    <Ionicons name="md-person-outline" size={size} color={color} />
+  ),
 };
 
 const getStyledScreenOptions = (icons, theme) => {
@@ -62,20 +83,43 @@ const getStyledScreenOptions = (icons, theme) => {
     const renderIcon = icons[route.name];
     return {
       headerShown: false,
-      tabBarActiveTintColor: theme.colors.brand.primary,
-      tabBarInactiveTintColor: theme.colors.ui.secondary,
+      tabBarActiveTintColor: theme.colors.brand.quaternary,
+      tabBarInactiveTintColor: "white",
       tabBarIcon: ({ size, color }) => {
         return renderIcon(size, color);
       },
       tabBarStyle: {
-        paddingVertical: 4,
+        borderTopWidth: 0,
+        borderTopLeftRadius: 32,
+        alignItems: "center",
+        justifyContent: "center",
+        borderTopRightRadius: 32,
+        backgroundColor: theme.colors.brand.quaternary,
+        height: 60,
+        zIndex: 4,
+        marginTop: 2,
+        padding: 5,
+
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
+
+        elevation: 6,
       },
       tabBarItemStyle: {
         fontFamily: theme.fonts.body,
         alignItems: "center",
         justifyContent: "center",
+        height: "80%",
+        borderRadius: 30,
         padding: 4,
+        marginHorizontal: 6,
       },
+      tabBarActiveBackgroundColor: "white",
     };
   };
 };
@@ -111,17 +155,6 @@ const AppTabNavigator = () => {
   );
 };
 
-const ProFacilityAnalyticsScreen = () => (
-  <View>
-    <Text>Stats</Text>
-  </View>
-);
-
-const ProFacilityMenuScreen = () => (
-  <View>
-    <Text>Menu</Text>
-  </View>
-);
 const HomeProFacilityStack = createStackNavigator();
 
 const HomeProFacilityNavigator = () => {
@@ -150,18 +183,12 @@ const ProAppFacilityTabNavigator = () => {
       />
       <ProTabFacility.Screen
         name="Analytics"
-        component={ProFacilityAnalyticsScreen}
+        component={FacilityAnalyticsScreen}
       />
-      <ProTabFacility.Screen name="Menu" component={ProFacilityMenuScreen} />
+      <ProTabFacility.Screen name="Menu" component={FacilityMenuScreen} />
     </ProTabFacility.Navigator>
   );
 };
-
-const ProServiceHome = () => (
-  <View>
-    <Text>Pro service account</Text>
-  </View>
-);
 
 const ProTabService = createBottomTabNavigator();
 const ProAppServiceTabNavigator = () => {
@@ -170,7 +197,17 @@ const ProAppServiceTabNavigator = () => {
     <ProTabService.Navigator
       screenOptions={getStyledScreenOptions(PRO_TAB_ICON, theme)}
     >
-      <ProTabService.Screen name="Overview" component={ProServiceHome} />
+      <ProTabService.Screen name="Overview" component={HomeSpecialistScreen} />
+      <ProTabService.Screen
+        name="Analytics"
+        component={AnalyticsSpecialistScreen}
+      />
+      <ProTabService.Screen name="Inbox" component={InboxSpecialistScreen} />
+      {/*<ProTabService.Screen name="Menu" component={MenuSpecialistScreen} />*/}
+      <ProTabService.Screen
+        name="Profile"
+        component={SpecialistProfileSocialScreen}
+      />
     </ProTabService.Navigator>
   );
 };
@@ -244,6 +281,10 @@ const MainNavigator = () => {
         })}
         component={ChatScreen}
       />
+      <MainStack.Screen
+        name="LocationManual"
+        component={LocationManualScreen}
+      />
       <MainStack.Screen name="SetLocation" component={FacilityLocationScreen} />
       <MainStack.Screen name="SetSeatsNumber" component={SeatsFacilityScreen} />
       <MainStack.Screen
@@ -258,6 +299,45 @@ const MainNavigator = () => {
       <MainStack.Screen
         name="SetFacilityDescription"
         component={FacilityDescriptionScreen}
+      />
+      <MainStack.Screen
+        name="SetFacilityHours"
+        component={FacilityHoursScreen}
+      />
+      <MainStack.Screen
+        name="ProFacilityDetails"
+        component={ProFacilityDetailsScreen}
+      />
+      <MainStack.Screen
+        name="SubscriptionPlanFacility"
+        component={SubscriptionPlanFacilityScreen}
+      />
+
+      <MainStack.Screen
+        name="SpecialistServiceManagement"
+        component={ServicesManagementScreen}
+      />
+
+      <MainStack.Screen
+        name="SpecialistServiceDetails"
+        component={ServiceDetailsScreen}
+      />
+
+      <MainStack.Screen
+        name="SpecialistMenu"
+        component={MenuSpecialistScreen}
+      />
+      <MainStack.Screen
+        name="SpecialistEditProfile"
+        component={EditProfileScreen}
+      />
+      <MainStack.Screen
+        name="SpecialistStory"
+        component={SpecialistStoryScreen}
+      />
+      <MainStack.Screen
+        name="SpecialistCreateService"
+        component={CreateServiceScreen}
       />
     </MainStack.Navigator>
   );
@@ -278,7 +358,10 @@ const Navigation = ({ cart, showCart, showNext, ...restProps }) => {
   }, []);
 
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer
+      ref={navigationRef}
+      theme={{ colors: { background: "transparent" } }}
+    >
       <MainNavigator />
     </NavigationContainer>
   );

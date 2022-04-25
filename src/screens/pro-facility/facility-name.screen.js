@@ -9,8 +9,12 @@ import {
 } from "../components/details-screen.component";
 import { Text } from "../../components/typography/typography.component";
 import React, { useState } from "react";
-import { TextInput } from "react-native-paper";
 import { View } from "react-native";
+import {
+  FormContainer,
+  FormInput,
+  LengthIndicator,
+} from "./components/pro-facility-form-helper";
 
 const Container = styled.View`
   flex: 1;
@@ -21,37 +25,7 @@ const Container = styled.View`
 
 const Content = styled.View`
   flex: 1;
-`;
-
-const FormContainer = styled.View`
-  position: relative;
-`;
-
-const FormInput = styled(TextInput).attrs((props) => ({
-  mode: "outlined",
-  color: props.theme.colors.ui.primary,
-  maxLength: 50,
-  numberOfLines: 3,
-  multiline: true,
-  textAlign: { undefined },
-  theme: {
-    colors: {
-      primary: props.theme.colors.ui.primary,
-      text: props.theme.colors.ui.primary,
-    },
-  },
-}))`
-  width: 100%;
-  height: 200px;
-  font-size: 40px;
-  font-weight: bold;
-  padding: 0 10px;
-`;
-
-const LengthIndicator = styled.View`
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
+  background-color: white;
 `;
 
 const FacilityNameScreen = (props) => {
@@ -76,11 +50,11 @@ const FacilityNameScreen = (props) => {
   );
   return (
     <SafeArea>
-      <Container>
+      <Container style={{ backgroundColor: theme.colors.brand.primary }}>
         <View
-          style={{ flex: 0.7, backgroundColor: theme.colors.brand.primary }}
+          style={{ flex: 1, backgroundColor: theme.colors.brand.primary }}
         />
-        <Content>
+        <Content style={{ borderTopLeftRadius: 30, borderTopRightRadius: 30 }}>
           <Spacer position="bottom" size="medium" />
           <Spacer position="bottom" size="large" />
           <PaddedContainer>

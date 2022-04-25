@@ -1,12 +1,14 @@
 export const colors = {
   brand: {
-    primary: "#3EB489",
-    secondary: "#03FCBA",
-    muted: "#8898AA",
+    primary: "#4FCCC4",
+    secondary: "#FAE881",
+    tertiary: "#ffddd2",
+    quaternary: "#006d77",
+    muted: "#edf6f9",
   },
   ui: {
     header: "#2c2c2c",
-    primary: "#262626",
+    primary: "#0F4747",
     secondary: "#757575",
     tertiary: "#F1F1F1",
     quaternary: "#fafafa",
@@ -25,7 +27,7 @@ export const colors = {
     input: "#DCDCDC",
     inputSuccess: "#1be611",
     inputError: "#ff3636",
-    primary: "#262626",
+    primary: "#0F4747",
     secondary: "#757575",
     disabled: "#9C9C9C",
     inverse: "#FFFFFF",

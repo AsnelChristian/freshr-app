@@ -4,7 +4,7 @@ import {rgba} from "polished";
 
 const defaultTextStyles = (theme) => `
   font-weight: ${theme.fontWeights.regular};
-  color: ${theme.colors.text.primary};
+  color: ${theme.colors.ui.primary};
   flex-wrap: wrap;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -70,3 +70,15 @@ export const QuoteIconContainer = styled.View`
 Text.defaultProps = {
   variant : "body"
 }
+
+export const SpecialTitleContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const LineView = styled.View`
+  height: 1px;
+  flex: 1;
+  background-color: ${({ theme }) => theme.colors.brand.muted};
+`;

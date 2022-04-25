@@ -1,5 +1,6 @@
 import styled, { useTheme } from "styled-components/native";
 import {
+  AntDesign,
   Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
@@ -12,18 +13,39 @@ import { Spacer } from "../../components/spacer/spacer.component";
 import { Row } from "../../components/helpers/helpers.component";
 import { Text } from "../../components/typography/typography.component";
 import { TimeItemContainer } from "./chip.component";
+import { rgba } from "polished";
+import { Dimensions } from "react-native";
 
-const Container = styled.View`
-  height: 140px;
-  width: 350px;
+const { width } = Dimensions.get("window");
+
+const SlideContainer = styled.View.attrs((props) => ({
+  shadowColor: rgba(props.theme.colors.brand.primary, 0.5),
+  shadowOffset: {
+    width: 10,
+    height: 10,
+  },
+  shadowOpacity: 0.3,
+  shadowRadius: 5,
+  elevation: 10,
+}))`
+  height: 130px;
+  width: ${width - 48}px;
   background-color: white;
-  border-radius: ${({ theme }) => theme.sizes[1]};
-  flex-direction: row;
-  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  border-radius: 15px;
   overflow: hidden;
   position: relative;
-  border: 2px solid
-    ${({ active, theme }) => (active ? theme.colors.brand.primary : "white")};
+`;
+const Container = styled.View`
+  height: 130px;
+  width: ${width - 48}px;
+  background-color: ${({ active, theme }) =>
+    active ? rgba(theme.colors.brand.primary, 0.06) : "white"};
+  border-radius: 15px;
+  flex-direction: row;
+  align-items: center;
+  padding: ${({ theme }) => theme.space[2]};
 `;
 
 const Button = styled.TouchableOpacity`
@@ -42,39 +64,48 @@ const MoreButton = styled.TouchableOpacity`
   height: 30px;
   width: 30px;
 
-  top: 0;
-  right: 0;
+  top: 4px;
+  right: 4px;
   z-index: 10;
 `;
 
 const ShowResultsButton = styled.TouchableOpacity`
-  border-radius: 30px;
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  border-radius: 15px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   height: 44px;
   padding: 0px ${({ theme }) => theme.space[3]};
-  background-color: ${({ theme }) => theme.colors.ui.primary};
+  background-color: ${({ theme }) => theme.colors.brand.primary};
 `;
 
 const CoverImage = styled.Image.attrs((props) => ({
   resizeMode: "cover",
 }))`
-  height: 130px;
-  width: 125px;
+  height: 100px;
+  width: 100px;
   border-radius: ${({ theme }) => theme.sizes[1]};
   overflow: hidden;
 `;
 
 const ContentContainer = styled.View`
   flex: 1;
-  padding-right: ${({ theme }) => theme.space[2]};
-  background-color: white;
+  justify-content: center;
 `;
 
 const Title = styled(Text)`
   font-size: 16px;
   font-weight: bold;
+`;
+
+const RatingContainer = styled.View`
+  flex-direction: row;
+  padding: ${({ theme }) => theme.space[2]} 10px;
+  background-color: ${({ theme }) => rgba(theme.colors.brand.primary, 0.1)};
+  border-radius: 30px;
 `;
 
 const FacilityCard = ({
@@ -83,6 +114,7 @@ const FacilityCard = ({
   setSelectedFacility,
   handleMorePress,
   handleViewResultPress,
+  info = false,
 }) => {
   const theme = useTheme();
   const [selected, setSelected] = useState(false);
@@ -101,74 +133,72 @@ const FacilityCard = ({
   }, [selectedFacility]);
 
   return (
-    <Container
-      active={selected}
-      style={{
-        elevation: 2,
-      }}
-    >
-      <MoreButton onPress={handleMorePress}>
-        <MaterialIcons name="more-vert" size={24} />
-      </MoreButton>
+    <SlideContainer>
+      <Container active={selected}>
+        <MoreButton onPress={handleMorePress}>
+          <MaterialIcons name="more-vert" size={24} />
+        </MoreButton>
 
-      {selected && (
-        <Ionicons
-          name="checkmark-circle"
-          size={24}
-          color={theme.colors.brand.primary}
-          style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
-        />
-      )}
-      <Button onPress={handlePress}>
-        <CoverImage source={{ uri: coverImage }} />
-        <Spacer position="left" size="medium" />
-        <ContentContainer>
-          <Spacer position="top" size="small" />
-          <Title numberOfLines={1}>{name}</Title>
-          <Spacer position="bottom" size="large" />
-          <Row style={{ flexWrap: "wrap" }}>
-            <Spacer position="right" size="small">
-              <Text variant="caption" style={{ fontSize: 16 }}>
-                {rating}
-              </Text>
-            </Spacer>
-            <Rating
-              type="star"
-              ratingColor={theme.colors.brand.primary}
-              fractions={1}
-              startingValue={rating}
-              readonly
-              imageSize={16}
-            />
-          </Row>
-          <Spacer position="bottom" size="medium" />
-
-          <Spacer position="bottom" size="small">
+        {selected && (
+          <Ionicons
+            name="checkmark-circle"
+            size={24}
+            color={theme.colors.brand.primary}
+            style={{ position: "absolute", top: 4, left: 4, zIndex: 1 }}
+          />
+        )}
+        <Button onPress={handlePress}>
+          <CoverImage source={{ uri: coverImage }} />
+          <Spacer position="left" size="medium" />
+          <ContentContainer>
+            <Title numberOfLines={1}>{name}</Title>
+            <Spacer position="bottom" size="large" />
             <Row>
-              <Ionicons name="location" size={12} />
+              <Ionicons
+                name="location"
+                size={12}
+                color={theme.colors.brand.primary}
+              />
               <Spacer position="left" size="small" />
-              <Text variant="caption">{address}</Text>
-            </Row>
-          </Spacer>
-          <Row style={{ justifyContent: "space-between" }}>
-            <TimeItemContainer>
-              <MaterialCommunityIcons name="map-marker-distance" size={20} />
-              <Spacer position="left" size="small" />
-              <Text variant="caption">{distance} km</Text>
-            </TimeItemContainer>
-            <Spacer position="right" size="medium" />
-            <ShowResultsButton onPress={handleViewResultPress}>
-              <Text
-                variant="caption"
-                style={{ color: "white", fontWeight: "bold" }}
-              >
-                Show results {facility.professionals.length}
+              <Text variant="caption" style={{ fontWeight: "normal" }}>
+                {address}
               </Text>
-            </ShowResultsButton>
-          </Row>
-        </ContentContainer>
-      </Button>
-    </Container>
+            </Row>
+            <Spacer position="bottom" size="large" />
+
+            <Row style={{ flexWrap: "wrap" }}>
+              <RatingContainer>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    color: theme.colors.brand.primary,
+                  }}
+                >
+                  {rating}
+                </Text>
+                <Spacer position="left" size="small" />
+                <AntDesign
+                  name="star"
+                  size={16}
+                  color={theme.colors.brand.primary}
+                />
+              </RatingContainer>
+            </Row>
+          </ContentContainer>
+        </Button>
+      </Container>
+      {!info && (
+        <ShowResultsButton onPress={handleViewResultPress}>
+          <Text
+            variant="caption"
+            style={{ color: "white", fontWeight: "bold" }}
+          >
+            Show results {facility.professionals.length}
+          </Text>
+        </ShowResultsButton>
+      )}
+    </SlideContainer>
   );
 };
 

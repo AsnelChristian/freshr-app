@@ -20,6 +20,7 @@ import { Spacer } from "../spacer/spacer.component";
 import {
   Entypo,
   Feather,
+  FontAwesome,
   Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
@@ -31,7 +32,10 @@ import SpecialistCard from "../../screens/components/specialist-card.component";
 import { DescriptionContainer, Text } from "../typography/typography.component";
 import { RatingContainer } from "../rating/rating.component";
 import ServiceCard from "../../screens/components/service-card.component";
-import { SectionTitle } from "../../screens/components/details-screen.component";
+import {
+  PaddedContainer,
+  SectionTitle,
+} from "../../screens/components/details-screen.component";
 import { rgba } from "polished";
 import {
   setCurrentCategory,
@@ -56,6 +60,8 @@ import { MediaType } from "expo-media-library";
 import { AssetsSelector } from "expo-images-picker";
 import { ImageBrowser } from "expo-image-picker-multiple";
 import * as ImageManipulator from "expo-image-manipulator";
+import { BookingCard } from "../../screens/pro-facility/components/pro-booking-card";
+import * as ImagePicker from "expo-image-picker";
 
 const ModalBackground = styled.View`
   border-radius: 15px;
@@ -68,7 +74,13 @@ const BackdropContentContainer = styled.View`
 
 export const CloseButton = styled.TouchableOpacity`
   margin-left: ${({ theme }) => theme.space[3]};
-  padding: 0px ${({ theme }) => theme.space[1]};
+  height: 40px;
+  width: 40px;
+  border-radius: 30px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.ui.quaternary};
+  border: 1px solid ${({ theme }) => theme.colors.ui.border};
 `;
 
 const SortFilterContainer = styled.View`
@@ -225,6 +237,9 @@ const SpecialistsModalComponent = (props) => {
       index={props.index}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
+      style={{ borderRadius: 30, overflow: "hidden" }}
+      elevation={1}
+      enablePanDownToClose={true}
     >
       <View style={{ flex: 1 }}>
         <View style={{ padding: 16 }}>
@@ -858,10 +873,6 @@ export const ImageSelectionModal = ({
     toggleShowModal();
   };
 
-  const _getHeaderLoader = () => (
-    <ActivityIndicator size="small" color={"#0580FF"} />
-  );
-
   const imagesCallback = (callback) => {
     callback
       .then(async (photos) => {
@@ -931,6 +942,198 @@ export const ImageSelectionModal = ({
           <Text style={{ color: "white" }}>Upload images</Text>
         </ModalButton>
       </Row>
+    </FilterModal>
+  );
+};
+
+export const FacilityBookingList = ({
+  showModal,
+  toggleShowModal,
+  navigation,
+  date,
+}) => {
+  const theme = useTheme();
+
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="top" size="large" />
+      <SectionTitle>{date}</SectionTitle>
+      <Spacer position="bottom" size="large" />
+      <BookingCard facility={null} navigation={navigation} />
+      <Spacer position="top" size="medium" />
+      <BookingCard facility={null} navigation={navigation} />
+      <Spacer position="top" size="medium" />
+      <Spacer position="bottom" size="medium" />
+      <Spacer position="bottom" size="large" />
+    </FilterModal>
+  );
+};
+
+const FileButton = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: ${({ theme }) => theme.space[3]};
+  background-color: ${({ theme }) => theme.colors.brand.quaternary};
+  border-radius: 10px;
+`;
+
+export const ImageUploadModal = ({
+  showModal,
+  toggleShowModal,
+  addImage,
+  noGallery = false,
+  allowVideo = false,
+}) => {
+  const theme = useTheme();
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      // allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      addImage(result);
+      toggleShowModal();
+    }
+  };
+
+  const takeImage = async (mediaType) => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: mediaType,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      addImage(result);
+      toggleShowModal();
+    }
+  };
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="bottom" size="large" />
+      <View>
+        <FileButton
+          onPress={() => takeImage(ImagePicker.MediaTypeOptions.Images)}
+        >
+          <Feather name="image" size={20} color="white" />
+          <Spacer position="left" size="large" />
+          <Text variant="caption" style={{ color: "white", fontSize: 16 }}>
+            Take photo
+          </Text>
+        </FileButton>
+
+        <Spacer position="bottom" size="large" />
+
+        {allowVideo && (
+          <>
+            <FileButton
+              onPress={() => takeImage(ImagePicker.MediaTypeOptions.Videos)}
+            >
+              <Feather name="video" size={20} color="white" />
+              <Spacer position="left" size="large" />
+
+              <Text variant="caption" style={{ color: "white", fontSize: 16 }}>
+                Take video
+              </Text>
+            </FileButton>
+
+            <Spacer position="bottom" size="large" />
+          </>
+        )}
+        {!noGallery && (
+          <>
+            <FileButton onPress={pickImage}>
+              <Text variant="caption" style={{ color: "white", fontSize: 16 }}>
+                Choose from gallery
+              </Text>
+            </FileButton>
+            <Spacer position="bottom" size="large" />
+          </>
+        )}
+        <FileButton onPress={toggleShowModal}>
+          <Text variant="caption" style={{ color: "white", fontSize: 16 }}>
+            Cancel
+          </Text>
+        </FileButton>
+      </View>
+      <Spacer position="bottom" size="large" />
+      <Spacer position="bottom" size="large" />
+      <Spacer position="bottom" size="medium" />
+    </FilterModal>
+  );
+};
+
+export const EditImageModal = ({ showModal, toggleShowModal }) => {
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="bottom" size="large" />
+      <View>
+        <FileButton onPress={() => null}>
+          <Text variant="caption" style={{ color: "white", fontSize: 16 }}>
+            Delete image
+          </Text>
+        </FileButton>
+
+        <Spacer position="bottom" size="large" />
+        <FileButton onPress={toggleShowModal}>
+          <Text variant="caption" style={{ color: "white", fontSize: 16 }}>
+            Cancel
+          </Text>
+        </FileButton>
+      </View>
+      <Spacer position="bottom" size="large" />
+      <Spacer position="bottom" size="large" />
+      <Spacer position="bottom" size="medium" />
+    </FilterModal>
+  );
+};
+
+export const EditServiceModal = ({ showModal, toggleShowModal }) => {
+  return (
+    <FilterModal showModal={showModal} toggleShowModal={toggleShowModal}>
+      <Spacer position="bottom" size="large" />
+      <View>
+        <FileButton onPress={() => null}>
+          <MaterialCommunityIcons
+            name="square-edit-outline"
+            size={20}
+            color="white"
+          />
+          <Spacer position="left" size="medium" />
+          <Text variant="caption" style={{ color: "white", fontSize: 16 }}>
+            Edit Service
+          </Text>
+        </FileButton>
+        <Spacer position="bottom" size="large" />
+        <FileButton onPress={toggleShowModal}>
+          <MaterialCommunityIcons
+            name="delete-empty-outline"
+            size={20}
+            color="white"
+          />
+          <Spacer position="left" size="medium" />
+          <Text variant="caption" style={{ color: "white", fontSize: 16 }}>
+            Delete service
+          </Text>
+        </FileButton>
+        <Spacer position="bottom" size="large" />
+        <FileButton onPress={toggleShowModal}>
+          <Text variant="caption" style={{ color: "white", fontSize: 16 }}>
+            Cancel
+          </Text>
+        </FileButton>
+      </View>
+      <Spacer position="bottom" size="large" />
+      <Spacer position="bottom" size="large" />
+      <Spacer position="bottom" size="medium" />
     </FilterModal>
   );
 };

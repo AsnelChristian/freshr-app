@@ -1,7 +1,8 @@
 import "react-native-gesture-handler";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { ThemeProvider } from "styled-components";
-import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import { DefaultTheme } from "react-native-paper";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import {
   useFonts as useOswald,
@@ -43,9 +44,11 @@ export default function App() {
     <>
       <Provider store={store}>
         <ThemeProvider theme={completeTheme}>
-          <BottomSheetModalProvider>
-            <Navigation />
-          </BottomSheetModalProvider>
+          <SafeAreaProvider>
+            <BottomSheetModalProvider>
+              <Navigation />
+            </BottomSheetModalProvider>
+          </SafeAreaProvider>
         </ThemeProvider>
       </Provider>
       <ExpoStatusBar style="auto" />

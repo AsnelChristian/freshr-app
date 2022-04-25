@@ -6,7 +6,7 @@ export const facilitiesMock = [
     name: "Barbershop 1",
     address: "Koblenz metternich",
     about:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit .",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat justo ac tortor hendrerit.",
     rating: 4.3,
     location: {
       lat: 37.988251,

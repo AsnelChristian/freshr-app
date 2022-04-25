@@ -20,6 +20,7 @@ const Container = styled.View`
 `;
 const Content = styled.View`
   flex: 1;
+  background-color: white;
 `;
 
 const FacilityHighlightCard = styled.TouchableOpacity`
@@ -145,11 +146,11 @@ const FacilityHighlightScreen = (props) => {
 
   return (
     <SafeArea>
-      <Container>
+      <Container style={{ backgroundColor: theme.colors.brand.primary }}>
         <View
-          style={{ flex: 0.7, backgroundColor: theme.colors.brand.primary }}
+          style={{ flex: 1, backgroundColor: theme.colors.brand.primary }}
         />
-        <Content>
+        <Content style={{ borderTopLeftRadius: 30, borderTopRightRadius: 30 }}>
           <Spacer position="bottom" size="medium" />
           <Spacer position="bottom" size="large" />
           <PaddedContainer style={{ flex: 1 }}>

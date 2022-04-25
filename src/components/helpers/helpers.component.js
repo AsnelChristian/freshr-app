@@ -3,7 +3,6 @@ import { rgba } from "polished";
 
 export const PageContainer = styled.View`
   flex: 1;
-  padding: ${({ theme }) => theme.space[3]} 0px;
   background-color: white;
 `;
 

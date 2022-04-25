@@ -4,6 +4,7 @@ import { rgba } from "polished";
 
 export const PageContainer = styled.ScrollView`
   flex: 1;
+  padding-top: 16px;
   background-color: white;
 `;
 export const PageContentContainer = styled.View`
@@ -55,6 +56,7 @@ export const SectionTitle = styled(Text).attrs((props) => ({
   font-size: ${({ theme }) => theme.fontSizes.title};
   font-weight: bold;
   letter-spacing: 1px;
+  color: ${({ theme }) => theme.colors.brand.quaternary};
 `;
 
 export const FavButton = styled.TouchableOpacity``;

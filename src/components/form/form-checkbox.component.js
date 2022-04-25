@@ -28,7 +28,7 @@ export const CheckBoxInput = ({ children, value, handleChange }) => {
         <CheckBoxInputContent>{children}</CheckBoxInputContent>
         <Checkbox
           status={value ? "checked" : "unchecked"}
-          color={theme.colors.ui.primary}
+          color={theme.colors.brand.primary}
         />
       </CheckBoxInputContainer>
       <Separator />

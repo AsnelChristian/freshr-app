@@ -4,14 +4,15 @@ import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { theme } from "../../infrastructure/theme";
 import styled from "styled-components/native";
 import { Searchbar } from "react-native-paper";
+import { rgba } from "polished";
 
 export const SearchBar = styled(Searchbar)`
   flex-direction: row;
-  height: 48px;
+  height: 44px;
   flex: 1;
   border-width: 1px;
   border-radius: 30px;
-  border-color: ${({ theme }) => theme.colors.ui.border};
+  border-color: ${({ theme }) => theme.colors.brand.quaternary};
 `;
 
 export const CustomSearchBar = (props) => {
@@ -30,10 +31,14 @@ export const CustomSearchBar = (props) => {
     <SearchBar
       placeholder="Search services..."
       style={inputStyles}
-      color={theme.colors.ui.header}
+      color={theme.colors.brand.quaternary}
       clearIcon={() => <MaterialIcons name="clear" size={16} color={"black"} />}
       icon={() => (
-        <Feather name="search" size={16} color={theme.colors.brand.muted} />
+        <Feather
+          name="search"
+          size={16}
+          color={theme.colors.brand.quaternary}
+        />
       )}
       {...props}
     />
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
   input: {
     borderRadius: 30,
     height: 44,
-    borderColor: theme.colors.ui.border,
+    borderColor: theme.colors.brand.quaternary,
     backgroundColor: "#FFFFFF",
   },
   success: {
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.brand.primary,
   },
   shadow: {
-    shadowColor: theme.colors.ui.primary,
+    shadowColor: theme.colors.brand.quaternary,
     shadowOffset: { width: 0, height: 0.5 },
     shadowRadius: 1,
     shadowOpacity: 0.13,

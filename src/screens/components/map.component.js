@@ -12,28 +12,40 @@ import { IconButton } from "../../components/button/button.component";
 import { useNavigation } from "@react-navigation/native";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { Text } from "../../components/typography/typography.component";
+import { rgba } from "polished";
 
 const mapStyles = require("./mapStyles.json");
 const { width } = Dimensions.get("window");
 
-const MapOuterContainer = styled.View`
+const MapOuterContainer = styled.View.attrs((props) => ({
+  shadowColor: props.theme.colors.ui.border,
+  shadowOffset: {
+    width: 10,
+    height: 10,
+  },
+  shadowOpacity: 1,
+  shadowRadius: 5,
+}))`
   ${({ fullMap }) =>
     fullMap
       ? "flex: 1"
-      : "height: 280px; border-radius: 15px; overflow: hidden"};
+      : "elevation: 50; flex-direction: row; align-items: center; justify-content: center; margin: 16px; height: 270px; border-radius: 30px; overflow: hidden;"};
 `;
 const MapContainer = styled(MapView)`
   ${({ fullMap }) =>
     fullMap
       ? "flex: 1"
-      : "height: 280px; border-radius: 15px; overflow: hidden"};
+      : "height: 270px; flex: 1; border-radius: 30px; overflow: hidden"};
 `;
 
 const DataContainer = styled.View`
-  ${({ carouselBottom }) =>
+  ${({ carouselBottom, theme }) =>
     carouselBottom
       ? "position: absolute; bottom: 12px;  left: 0px; right: 0;"
-      : "margin: 6px -18px; padding: 8px 0px; background-color: #FaFaFa;"};
+      : `padding-top: 8px; background-color:  ${rgba(
+          theme.colors.brand.primary,
+          0.02
+        )}; border-radius: 30px`};
 `;
 
 const ExpandButtonContainer = styled.View`
@@ -144,13 +156,8 @@ const Map = ({
           keyExtractor={(item) => `bottom-flat-map-${item.id}`}
           horizontal
           showsHorizontalScrollIndicator={false}
-          sliderWidth={
-            !fullMap
-              ? Dimensions.get("window").width + 18
-              : Dimensions.get("window").width
-          }
-          containerCustomStyle={{ marginHorizontal: !fullMap ? -18 : 0 }}
-          itemWidth={itemWidth}
+          sliderWidth={width}
+          itemWidth={(width - 48) * 0.97}
           onSnapToItem={(index) => restProps.setFacility(data[index])}
         />
       </DataContainer>
