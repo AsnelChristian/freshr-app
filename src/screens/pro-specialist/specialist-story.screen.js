@@ -9,11 +9,9 @@ import { rgba } from "polished";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { Text } from "../../components/typography/typography.component";
-import {
-  EditImageModal,
-  ImageUploadModal,
-} from "../../components/bottom-sheet/bottom-sheet.component";
 import { Video } from "expo-av";
+import { EditImageModal } from "../../components/bottom-sheet/EditImageModal";
+import { ImageUploadModal } from "../../components/bottom-sheet/ImageUploadModal";
 
 const Container = styled.View`
   flex: 1;

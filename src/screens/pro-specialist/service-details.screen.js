@@ -8,7 +8,6 @@ import {
   Entypo,
   Feather,
   Ionicons,
-  MaterialIcons,
 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
@@ -110,6 +109,11 @@ const ServiceDetailsScreen = (props) => {
     const serviceMock = facilitiesMock[0].professionals[0].services[0];
     setService(serviceMock);
   }, []);
+
+  useEffect(() => {
+    console.log(props.route.params)
+  }, [])
+
   const renderTopNav = () => {
     return (
       <TopNavContainer

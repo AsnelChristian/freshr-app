@@ -40,8 +40,7 @@ const SlideContainer = styled.View.attrs((props) => ({
 const Container = styled.View`
   height: 130px;
   width: ${width - 48}px;
-  background-color: ${({ active, theme }) =>
-    active ? rgba(theme.colors.brand.primary, 0.06) : "white"};
+  background-color: white;
   border-radius: 15px;
   flex-direction: row;
   align-items: center;
@@ -59,7 +58,7 @@ const MoreButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   position: absolute;
-  background-color: ${({ theme }) => theme.colors.ui.quaternary};
+  background-color: white;
   border-radius: 100px;
   height: 30px;
   width: 30px;
@@ -79,7 +78,7 @@ const ShowResultsButton = styled.TouchableOpacity`
   justify-content: center;
   height: 44px;
   padding: 0px ${({ theme }) => theme.space[3]};
-  background-color: ${({ theme }) => theme.colors.brand.primary};
+  background-color: ${({ theme }) => theme.colors.brand.secondary};
 `;
 
 const CoverImage = styled.Image.attrs((props) => ({
@@ -104,7 +103,7 @@ const Title = styled(Text)`
 const RatingContainer = styled.View`
   flex-direction: row;
   padding: ${({ theme }) => theme.space[2]} 10px;
-  background-color: ${({ theme }) => rgba(theme.colors.brand.primary, 0.1)};
+  background-color: ${({ theme }) => rgba(theme.colors.brand.secondary, 0.1)};
   border-radius: 30px;
 `;
 
@@ -136,17 +135,21 @@ const FacilityCard = ({
     <SlideContainer>
       <Container active={selected}>
         <MoreButton onPress={handleMorePress}>
-          <MaterialIcons name="more-vert" size={24} />
+          <MaterialIcons
+            name="more-horiz"
+            size={24}
+            color={theme.colors.brand.secondary}
+          />
         </MoreButton>
 
-        {selected && (
-          <Ionicons
-            name="checkmark-circle"
-            size={24}
-            color={theme.colors.brand.primary}
-            style={{ position: "absolute", top: 4, left: 4, zIndex: 1 }}
-          />
-        )}
+        {/*{selected && (*/}
+        {/*  <Ionicons*/}
+        {/*    name="checkmark-circle"*/}
+        {/*    size={24}*/}
+        {/*    color={theme.colors.brand.primary}*/}
+        {/*    style={{ position: "absolute", top: 4, left: 4, zIndex: 1 }}*/}
+        {/*  />*/}
+        {/*)}*/}
         <Button onPress={handlePress}>
           <CoverImage source={{ uri: coverImage }} />
           <Spacer position="left" size="medium" />
@@ -157,7 +160,7 @@ const FacilityCard = ({
               <Ionicons
                 name="location"
                 size={12}
-                color={theme.colors.brand.primary}
+                color={theme.colors.brand.secondary}
               />
               <Spacer position="left" size="small" />
               <Text variant="caption" style={{ fontWeight: "normal" }}>
@@ -172,7 +175,7 @@ const FacilityCard = ({
                   style={{
                     fontSize: 16,
                     fontWeight: "bold",
-                    color: theme.colors.brand.primary,
+                    color: theme.colors.brand.secondary,
                   }}
                 >
                   {rating}
@@ -181,7 +184,7 @@ const FacilityCard = ({
                 <AntDesign
                   name="star"
                   size={16}
-                  color={theme.colors.brand.primary}
+                  color={theme.colors.brand.secondary}
                 />
               </RatingContainer>
             </Row>

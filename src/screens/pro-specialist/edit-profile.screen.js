@@ -24,16 +24,14 @@ import MapView, { Circle } from "react-native-maps";
 import mapStyles from "../components/mapStyles.json";
 import { rgba } from "polished";
 import { MapMarker } from "../components/map-marker.component";
-import {
-  EditServiceModal,
-  ImageUploadModal,
-} from "../../components/bottom-sheet/bottom-sheet.component";
 import { FlatGrid } from "react-native-super-grid";
 import {
   ServiceCardGallery,
   ServiceCardGalleryInfoContainer,
   ServiceCardGalleryMoreButton,
 } from "./components/service-gallery.component";
+import { EditServiceModal } from "../../components/bottom-sheet/EditServiceModal";
+import { ImageUploadModal } from "../../components/bottom-sheet/ImageUploadModal";
 
 const Container = styled.View`
   flex: 1;

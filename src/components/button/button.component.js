@@ -5,7 +5,8 @@ export const IconButton = styled.TouchableOpacity`
   height: 44px;
   width: 44px;
   border-radius: 100px;
-  border: 1px solid ${({ theme }) => theme.colors.brand.quaternary};
+  overflow: hidden;
+  // border: 1px solid ${({ theme }) => theme.colors.brand.quaternary};
   align-items: center;
   justify-content: center;
   background-color: ${({ active, activeColor, inactiveColor }) =>
@@ -17,6 +18,7 @@ export const FilterButton = styled.TouchableOpacity`
   align-items: center;
   height: 35px;
   border-radius: 40px;
+  overflow: hidden;
   padding: 0px 10px;
   background-color: white;
   border: 1px solid
@@ -93,4 +95,14 @@ export const CTAButton = styled.TouchableOpacity.attrs((props) => ({
   justify-content: center;
   padding: ${({ theme }) => theme.space[3]};
   border-radius: 15px;
+`;
+
+export const NavButton = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  border-radius: 60px;
+  overflow: hidden;
+  position: relative;
 `;

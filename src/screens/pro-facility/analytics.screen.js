@@ -19,7 +19,7 @@ import { rgba } from "polished";
 import { renderCalendar, StatsBarChart } from "./utils";
 import { View } from "react-native";
 import React, { useCallback, useState } from "react";
-import { FacilityBookingList } from "../../components/bottom-sheet/bottom-sheet.component";
+import { FacilityBookingList } from "../../components/bottom-sheet/FacilityBookingListModal";
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -304,7 +304,7 @@ const FacilityAnalyticsScreen = (props) => {
           {renderOverAllStats()}
           <Spacer position="top" size="large" />
           <Spacer position="top" size="large" />
-          {renderRevenueChart()}
+          {/*{renderRevenueChart()}*/}
         </PaddedContainer>
       </Container>
       <FacilityBookingList

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Animated, FlatList, View } from "react-native";
 import { connect } from "react-redux";
 import { useTheme } from "styled-components/native";
@@ -35,7 +35,7 @@ const SearchScreen = (props) => {
   };
 
   const handleSearchChange = (inputText) => {
-    const results = props.services.filter(
+    const results = props.serviceTypes.filter(
       (item) => inputText && item.name.toLowerCase().includes(inputText)
     );
     setSearchInput(inputText);
@@ -85,7 +85,7 @@ const SearchScreen = (props) => {
     return (
       <ServiceButton
         onPress={() => {
-          const serviceCategory = props.categories.filter(
+          const serviceCategory = props.serviceCategories.filter(
             (item) => item.id === service.category
           )[0];
           props.setCurrentService(service, serviceCategory);
@@ -93,7 +93,7 @@ const SearchScreen = (props) => {
         }}
       >
         <Row>
-          <ServiceImage source={{ uri: service.image }} />
+          <ServiceImage source={{ uri: service.photo }} />
           <Spacer position="left" size="medium" />
           <Text variant="caption" style={{ fontSize: 16 }}>
             {service.name}
@@ -132,11 +132,11 @@ const SearchScreen = (props) => {
         <View>
           <Spacer position="top" size="large" />
           {renderNotFound()}
-          {renderServices({ services: props.services })}
+          {renderServices({ services: props.serviceTypes })}
         </View>
       );
     } else if (searchResults.length === 0) {
-      return <View>{renderServices({ services: props.services })}</View>;
+      return <View>{renderServices({ services: props.serviceTypes })}</View>;
     } else {
       return renderServices({ services: searchResults });
     }
@@ -155,9 +155,10 @@ const SearchScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  services: state.services.services,
-  categories: state.categories.categories,
+  serviceCategories: state.services.serviceCategories,
+  serviceTypes: state.services.serviceTypes,
 });
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentService: (service, category) =>
     dispatch(setCurrentService(service, category)),

@@ -1,0 +1,5 @@
+export const AuthActionTypes = {
+  SET_AUTHORIZED: "SET_AUTHORIZED",
+  SET_UNAUTHORIZED: "SET_UNAUTHORIZED",
+  SET_USER: "SET_USER",
+};

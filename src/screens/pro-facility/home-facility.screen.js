@@ -18,7 +18,6 @@ import ProFacilityCard from "./components/pro-facility-card";
 import { rgba } from "polished";
 import { Row, Separator } from "../../components/helpers/helpers.component";
 import { Calendar } from "react-native-calendars/src/index";
-import { FacilityBookingList } from "../../components/bottom-sheet/bottom-sheet.component";
 import { BookingCard } from "./components/pro-booking-card";
 import { renderCalendar } from "./utils";
 import {
@@ -31,6 +30,7 @@ import {
   WelcomeMessageContainer,
   WelcomeText,
 } from "../components/pro/pro-details-screen.component";
+import { FacilityBookingList } from "../../components/bottom-sheet/FacilityBookingListModal";
 
 const Container = styled.ScrollView`
   flex: 1;

@@ -3,7 +3,7 @@ import { rgba } from "polished";
 
 export const PageContainer = styled.View`
   flex: 1;
-  background-color: white;
+  background-color: #fafafa;
 `;
 
 export const Content = styled.View`

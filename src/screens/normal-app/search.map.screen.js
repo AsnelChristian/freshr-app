@@ -18,15 +18,6 @@ import {
 } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { Spacer } from "../../components/spacer/spacer.component";
-import {
-  CategoryModal,
-  GenderModal,
-  LocationModal,
-  PriceRangeModal,
-  SearchRadiusModal,
-  SortFacilityModal,
-  SpecialistsModal,
-} from "../../components/bottom-sheet/bottom-sheet.component";
 import Map from "../components/map.component";
 import FacilityCard from "../components/facility-card.component";
 import { setMatchingFacilities } from "../../redux/facilities/facilities.actions";
@@ -43,6 +34,13 @@ import {
   FilterButton,
   IconButton,
 } from "../../components/button/button.component";
+import { SpecialistsModal } from "../../components/bottom-sheet/SpecialistModal";
+import { SearchRadiusModal } from "../../components/bottom-sheet/SearchRadiusModal";
+import { CategoryModal } from "../../components/bottom-sheet/CategoryModal";
+import { SortFacilityModal } from "../../components/bottom-sheet/SortFacilityModal";
+import { LocationModal } from "../../components/bottom-sheet/LocationModal";
+import { GenderModal } from "../../components/bottom-sheet/GenderModal";
+import { PriceRangeModal } from "../../components/bottom-sheet/PriceRangeModal";
 
 const FiltersContainer = styled.ScrollView``;
 
@@ -58,7 +56,6 @@ const SearchCategory = styled.View`
 
 const SearchMapScreen = (props) => {
   const theme = useTheme();
-  const [showFilters, setShowFilters] = useState(true);
   const [showSortFacilityFilter, setShowSortFacilityFilter] = useState(false);
   const [showSearchRadiusFilter, setShowSearchRadiusFilter] = useState(false);
   const [showGenderFilter, setShowGenderFilter] = useState(false);
@@ -66,16 +63,6 @@ const SearchMapScreen = (props) => {
   const [showLocationFilter, setShowLocationFilter] = useState(false);
   const [showCategoryFilter, setShowCategoryFilter] = useState(false);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(0);
-
-  useEffect(() => {
-    props.setMatchingFacilities(facilitiesMock);
-    props.setMatchingSpecialists(specialistsMock);
-    props.setFacility(facilitiesMock[0]);
-
-    return () => {
-      props.resetCart();
-    };
-  }, [props.navigation.route]);
 
   const handleShowGenderFilterChange = () => {
     setShowGenderFilter(!showGenderFilter);
@@ -238,16 +225,6 @@ const SearchMapScreen = (props) => {
           "Search services...",
           renderSearchBarLeft
         )}
-        <Spacer position="left" size="medium" />
-
-        <IconButton
-          active={false}
-          activeColor={theme.colors.ui.primary}
-          inactiveColor={theme.colors.ui.quaternary}
-          onPress={() => setShowFilters(!showFilters)}
-        >
-          <FontAwesome name="filter" size={20} />
-        </IconButton>
       </Row>
     );
   };
@@ -327,7 +304,7 @@ const SearchMapScreen = (props) => {
           {renderSearchBar()}
           <Spacer position="bottom" size="medium" />
           <Spacer position="bottom" size="small" />
-          {showFilters && renderFilters()}
+          { renderFilters()}
           <Spacer position="bottom" size="medium" />
         </Content>
         {renderMap()}

@@ -4,7 +4,6 @@ import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { theme } from "../../infrastructure/theme";
 import styled from "styled-components/native";
 import { Searchbar } from "react-native-paper";
-import { rgba } from "polished";
 
 export const SearchBar = styled(Searchbar)`
   flex-direction: row;

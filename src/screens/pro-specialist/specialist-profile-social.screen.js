@@ -27,12 +27,7 @@ import { Switch } from "react-native-paper";
 
 // import moment from "moment";
 // import * as Progress from "react-native-progress";
-import {
-  EditServiceModal,
-  ImageSelectionModal,
-  ImageUploadModal,
-  SearchRadiusModal,
-} from "../../components/bottom-sheet/bottom-sheet.component";
+
 import { rgba } from "polished";
 import { IconButton } from "../../components/button/button.component";
 import {
@@ -46,6 +41,9 @@ import {
   ModalView,
   ModalViewPositioning,
 } from "../pro-facility/components/pro-facility-form-helper";
+import { EditServiceModal } from "../../components/bottom-sheet/EditServiceModal";
+import { SearchRadiusModal } from "../../components/bottom-sheet/SearchRadiusModal";
+import { ImageUploadModal } from "../../components/bottom-sheet/ImageUploadModal";
 
 const Container = styled.View`
   flex: 1;

@@ -2,16 +2,15 @@ import styled, { useTheme } from "styled-components/native";
 import { connect } from "react-redux";
 import { SafeArea } from "../../components/utils/safearea.component";
 import { NavButton, TopNavContainer } from "./components/top-nav.component";
-import { TouchableOpacity, View } from "react-native";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { FlatList, TouchableOpacity, View } from "react-native";
+import { AntDesign, Fontisto, Ionicons } from "@expo/vector-icons";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { Text } from "../../components/typography/typography.component";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   PaddedContainer,
   SectionTitle,
 } from "../components/details-screen.component";
-import { ImageUploadModal } from "../../components/bottom-sheet/bottom-sheet.component";
 import { rgba } from "polished";
 import DropDownPicker from "react-native-dropdown-picker";
 import CurrencyInput from "react-native-currency-input/src/CurrencyInput";
@@ -21,12 +20,17 @@ import {
   ButtonContainer,
 } from "../../components/button/process-action-button.component";
 import { LinearGradient } from "expo-linear-gradient";
+import { LongSelectButton, SelectButton } from "../onboarding/set-gender-screen";
+import { AppContext } from "../../providers/app-provider";
+import { LoadingScreen } from "../loading.screen";
+import { ImageUploadModal } from "../../components/bottom-sheet/ImageUploadModal";
+import { renderConfirmModal } from "./components/modal.component";
 
-const Container = styled.ScrollView``;
+const Container = styled.FlatList``;
 
 const CoverImage = styled.ImageBackground`
-  height: 250px;
-  border-radius: 10px;
+  height: 200px;
+  border-radius: 0;
   overflow: hidden;
   width: 100%;
   background-color: black;
@@ -60,7 +64,6 @@ const Gradient = styled(LinearGradient)`
 `;
 
 export const DescriptionInput = styled(TextInput).attrs((props) => ({
-  mode: "outlined",
   color: props.theme.colors.ui.primary,
   maxLength: 280,
   multiline: true,
@@ -73,51 +76,80 @@ export const DescriptionInput = styled(TextInput).attrs((props) => ({
   },
 }))`
   width: 100%;
-  height: 120px;
+  height: 100px;
   font-size: 14px;
 `;
 
 const CreateServiceScreen = (props) => {
   const { isEdit = false } = props.route.params;
   const theme = useTheme();
+  const {onCreateService,  loading, error} = useContext(AppContext)
   const mockImage =
     "https://i.pinimg.com/originals/83/1b/5d/831b5dfdc5a785b1603054452698d5a8.jpg";
+
+  const choices = [
+    {
+      value: "none",
+      title: "No preference",
+      description: "Search styles for all genders",
+    },
+    {
+      value: "male",
+      title: "Styles for male",
+    },
+    {
+      value: "female",
+      title: "Styles for female",
+    },
+  ];
   const [showImageUploadModal, setShowImageUploadModal] = useState(false);
   const [coverImage, setCoverImage] = useState({
     uri: mockImage,
   });
   const [open, setOpen] = useState(false);
+  const [gender, setGender] = useState(choices[0].value)
   const [value, setValue] = useState(null);
   const [price, setPrice] = React.useState(23.5); // can also be null
   const [serviceDescription, setServiceDescription] = useState("");
+  const [isFormCompleted, setIsFormCompleted] = useState(false);
+  const [showCreateServiceModal, setShowCreateServiceModal] = useState(false);
+  const [service, setService] = useState(null);
 
   const renderServiceIcon = (icon) => {
     return <ServiceItemIcon source={{ uri: icon }} />;
   };
 
-  const [items, setItems] = useState([
-    {
-      label: "Dreadlocks",
-      value: "dreadlocks",
-      icon: () => renderServiceIcon(mockImage),
-    },
-    {
-      label: "Clean shave",
-      value: "clean shave",
-      icon: () => renderServiceIcon(mockImage),
-    },
-  ]);
+  const verifyForm = () => {
+    return !!value && serviceDescription;
+  }
+
+  useEffect(() => {
+    setIsFormCompleted(verifyForm())
+  }, [value, serviceDescription])
+
+  useEffect(() => {
+    if (service) {
+      props.navigation.navigate('SpecialistServiceDetails', {id: service.id})
+    }
+  }, [service])
+
+
+  const [items, setItems] = useState(props.serviceTypes.map(service => ({label: service.name, value: service.id, id: service.id, icon: () => renderServiceIcon(service.photo)})));
 
   const renderSelectService = () => {
     return (
-      <PaddedContainer>
+      <View>
         <Spacer position="top" size="large" />
         <Spacer position="top" size="large" />
         <DropDownPicker
+          listMode="MODAL"
           searchPlaceholder="search service"
           placeholder="Select service"
           listItemContainer={{
             height: 60,
+          }}
+          dropDownContainerStyle={{
+            height: 600
           }}
           listItemContainerStyle={{
             height: 60,
@@ -125,12 +157,24 @@ const CreateServiceScreen = (props) => {
           searchable={true}
           open={open}
           value={value}
+          style={{
+            height: 70,
+            borderColor: 'transparent',
+            backgroundColor: !value ? "white" : theme.colors.brand.secondary,
+            color: "white"
+          }}
+          label ={{
+            color: "white"
+          }}
+          listItemLabel={{
+            color: !value ? theme.colors.brand.quaternary : 'white',
+          }}
           items={items}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
         />
-      </PaddedContainer>
+      </View>
     );
   };
 
@@ -203,7 +247,7 @@ const CreateServiceScreen = (props) => {
       <View style={{ flex: 1 }}>
         <Spacer position="top" size="large" />
 
-        <PaddedContainer style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
           <CoverImage source={coverImage} resizeMode="contain">
             <TouchableOpacity
               style={{ width: "100%", height: "100%" }}
@@ -215,7 +259,7 @@ const CreateServiceScreen = (props) => {
               <Text>Change image</Text>
             </CoverImageIndicator>
           </CoverImage>
-        </PaddedContainer>
+        </View>
       </View>
     );
   };
@@ -223,18 +267,14 @@ const CreateServiceScreen = (props) => {
   const renderFinishButton = () => {
     return (
       <ButtonContainer
-        style={{
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 5,
-          },
-          shadowOpacity: 0.34,
-          shadowRadius: 6.27,
-          elevation: 10,
-        }}
+        style={theme.shadows.default}
       >
-        <ActionButton height={55} onPress={() => null}>
+        <ActionButton
+          height={55}
+          disabled={!isFormCompleted}
+          onPress={() => {
+            setShowCreateServiceModal(true);
+          }}>
           <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
             {isEdit ? "Complete edit" : "Create service"}
           </Text>
@@ -264,42 +304,183 @@ const CreateServiceScreen = (props) => {
       </TouchableOpacity>
     );
   };
+
+  const renderSelectGender = () => {
+    return (
+      <PaddedContainer>
+        <LongSelectButton
+          active={gender === choices[0].value}
+          onPress={() => setGender(choices[0].value)}
+        >
+          <Text
+            variant="caption"
+            style={{
+              fontSize: 16,
+              color:
+                gender !== choices[0].value
+                  ? theme.colors.brand.quaternary
+                  : "white",
+            }}
+          >
+            {choices[0].title}
+          </Text>
+          <Spacer position="bottom" size="large" />
+          <Text
+            variant="caption"
+            style={{
+              fontSize: 12,
+              color:
+                gender !== "none" ? theme.colors.brand.quaternary : "white",
+            }}
+          >
+            {choices[0].description}
+          </Text>
+        </LongSelectButton>
+        <Spacer position="bottom" size="large" />
+
+        <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between"}}>
+          <SelectButton
+            active={gender === choices[1].value}
+            onPress={() => setGender(choices[1].value)}
+          >
+            <Fontisto
+              name={choices[1].value}
+              size={80}
+              color={
+                gender !== choices[1].value
+                  ? theme.colors.brand.quaternary
+                  : "white"
+              }
+            />
+            <Spacer position="bottom" size="large" />
+            <Text
+              variant="caption"
+              style={{
+                fontSize: 14,
+                color:
+                  gender !== choices[1].value
+                    ? theme.colors.brand.quaternary
+                    : "white",
+              }}
+            >
+              {choices[1].title}
+            </Text>
+          </SelectButton>
+          <Spacer position="right" size="large" />
+          <SelectButton
+            active={gender === choices[2].value}
+            onPress={() => setGender(choices[2].value)}
+          >
+            <Fontisto
+              name="female"
+              size={80}
+              color={
+                gender !== choices[2].value
+                  ? theme.colors.brand.quaternary
+                  : "white"
+              }
+            />
+            <Spacer position="bottom" size="large" />
+            <Text
+              variant="caption"
+              style={{
+                fontSize: 14,
+                color:
+                  gender !== "female"
+                    ? theme.colors.brand.quaternary
+                    : "white",
+              }}
+            >
+              {choices[2].title}
+            </Text>
+          </SelectButton>
+        </View>
+      </PaddedContainer>
+    )
+  }
+
+  const renderFlatListHeader = () => {
+    return (<>
+      {!isEdit && renderSelectService()}
+
+      {renderPriceInput()}
+      <Spacer position="top" size="large" />
+
+
+      {renderForm()}
+      <Spacer position="bottom" size="large" />
+      <PaddedContainer>
+        <DescriptionInput
+          label="Service's description"
+          value={serviceDescription}
+          style={{
+            borderColor: 'transparent',
+            backgroundColor: 'white'
+          }}
+          onChangeText={(text) => {
+            setServiceDescription(text);
+          }}
+        />
+      </PaddedContainer>
+      <Spacer position="bottom" size="large" />
+      <Spacer position="top" size="large" />
+      <PaddedContainer>
+        <Text variant="caption" style={{fontSize: 16}}>Select taget gender</Text>
+      </PaddedContainer>
+      <Spacer position="bottom" size="large" />
+      {renderSelectGender()}
+      <Spacer position="bottom" size="large" />
+      <Spacer position="bottom" size="large" />
+      <Spacer position="bottom" size="large" />
+      <Spacer position="bottom" size="large" />
+      <ImageUploadModal
+        showModal={showImageUploadModal}
+        toggleShowModal={() => setShowImageUploadModal(false)}
+        addImage={replaceCoverImage}
+        noGallery={false}
+      />
+      <Spacer position="bottom" size="large" />
+      {isEdit && renderDeleteButton()}
+    </>)
+  }
+
+  if (loading) {
+    return <LoadingScreen/>
+  }
+
   return (
     <SafeArea>
       {renderTopNav()}
-      <Container>
-        {!isEdit && renderSelectService()}
-        <Spacer position="bottom" size="large" />
-
-        {renderPriceInput()}
-        <Spacer position="top" size="large" />
-
-        <PaddedContainer>
-          <DescriptionInput
-            label="Service's description"
-            value={serviceDescription}
-            onChangeText={(text) => {
-              setServiceDescription(text);
-            }}
-          />
-        </PaddedContainer>
-        <Spacer position="top" size="large" />
-        {renderForm()}
-        <ImageUploadModal
-          showModal={showImageUploadModal}
-          toggleShowModal={() => setShowImageUploadModal(false)}
-          addImage={replaceCoverImage}
-          noGallery={false}
-        />
-        <Spacer position="bottom" size="large" />
-        {isEdit && renderDeleteButton()}
+      {renderConfirmModal(
+        showCreateServiceModal,
+        setShowCreateServiceModal,
+        "Create service",
+        "Creating a service will reduce your total number of possible service.",
+        () => {
+          const data = {
+            serviceType: value,
+            forMale: gender === 'male' || gender === 'none',
+            forFemale: gender === 'female' || gender === 'none',
+            price: price
+          }
+          onCreateService(data).then(res => setService(res));
+        }
+      )}
+      <Container
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={renderFlatListHeader()}
+        data={[]}
+        renderItem={() => null}>
       </Container>
       {renderFinishButton()}
     </SafeArea>
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  serviceTypes: state.services.serviceTypes,
+});
 const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(

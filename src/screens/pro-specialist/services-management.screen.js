@@ -4,7 +4,7 @@ import { SafeArea } from "../../components/utils/safearea.component";
 import { NavButton, TopNavContainer } from "./components/top-nav.component";
 import { Dimensions, View } from "react-native";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   HeaderContainer,
   PaddedContainer,
@@ -19,6 +19,7 @@ import ServiceCard from "../components/service-card.component";
 import { renderConfirmModal } from "./components/modal.component";
 import { SwitchInput } from "./components/switch-component";
 import { toggleBottomNavBackground } from "./utils";
+import { AppContext } from "../../providers/app-provider";
 
 const Container = styled.View`
   flex: 1;
@@ -41,14 +42,16 @@ const ServicesManagementScreen = (props) => {
     useState(false);
   const [showUnavailableConfirmation, setShowUnavailableConfirmation] =
     useState(false);
+  const {onGetServices} = useContext(AppContext);
 
   useEffect(() => {
     toggleBottomNavBackground(available, props.navigation, theme);
   }, [available]);
 
   useEffect(() => {
-    const servicesMock = facilitiesMock[0].professionals[0].services;
-    setServices(servicesMock);
+    onGetServices().then(res => {
+      setServices(res);
+    })
   }, []);
 
   const renderTopNav = () => {

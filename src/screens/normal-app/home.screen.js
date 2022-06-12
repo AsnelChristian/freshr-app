@@ -14,8 +14,6 @@ import {
 
 import { SafeArea } from "../../components/utils/safearea.component";
 import {
-  LineView,
-  SpecialTitleContainer,
   Text,
 } from "../../components/typography/typography.component";
 import { PageContainer, Row } from "../../components/helpers/helpers.component";
@@ -25,20 +23,15 @@ import {
   clearCart,
   selectFacility,
   setCurrentCategory,
+  setProGender,
+  setSearchRadius,
   setSpecialist,
+  setTargetGender,
 } from "../../redux/booking/booking.actions";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { setMatchingFacilities } from "../../redux/facilities/facilities.actions";
 import { setMatchingSpecialists } from "../../redux/specialists/specialists.action";
-import {
-  CategoryModal,
-  GenderModal,
-  LocationModal,
-  PriceRangeModal,
-  SearchRadiusModal,
-  SortFacilityModal,
-  SpecialistsModal,
-} from "../../components/bottom-sheet/bottom-sheet.component";
+
 import { rgba } from "polished";
 import {
   Dimensions,
@@ -59,6 +52,20 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
+import { AppContext } from "../../providers/app-provider";
+import {
+  setServicesCategories,
+  setServicesTypes,
+} from "../../redux/services/services.action";
+import { LoadingScreen } from "../loading.screen";
+import { setUser } from "../../redux/auth/auth.actions";
+import { SpecialistsModal } from "../../components/bottom-sheet/SpecialistModal";
+import { SearchRadiusModal } from "../../components/bottom-sheet/SearchRadiusModal";
+import { CategoryModal } from "../../components/bottom-sheet/CategoryModal";
+import { SortFacilityModal } from "../../components/bottom-sheet/SortFacilityModal";
+import { LocationModal } from "../../components/bottom-sheet/LocationModal";
+import { GenderModal } from "../../components/bottom-sheet/GenderModal";
+import { PriceRangeModal } from "../../components/bottom-sheet/PriceRangeModal";
 
 // const GradientBackground = styled(LinearGradient)`
 //   position: absolute;
@@ -100,14 +107,14 @@ const WelcomeText = styled(Text)`
 `;
 
 const AdSlideContainer = styled.View.attrs((props) => ({
-  shadowColor: props.theme.colors.ui.border,
+  shadowColor: props.theme.colors.brand.quaternary,
   shadowOffset: {
-    width: 10,
-    height: 10,
+    width: 4,
+    height: 2,
   },
   shadowOpacity: 1,
   shadowRadius: 5,
-  elevation: 6,
+  elevation: 1,
 }))`
   height: 170px;
   background-color: white;
@@ -143,7 +150,8 @@ const GlassBackground = styled(BlurView)`
 const HomeScreen = (props) => {
   const theme = useTheme();
   const { width } = useNavigation();
-  const [showFilters, setShowFilters] = useState(true);
+  const { loadFilters, getUser, isLoading } = useContext(AppContext);
+  const [fullMap, setFullMap] = useState(false)
   const [showSortFacilityFilter, setShowSortFacilityFilter] = useState(false);
   const [showSearchRadiusFilter, setShowSearchRadiusFilter] = useState(false);
   const [showGenderFilter, setShowGenderFilter] = useState(false);
@@ -152,28 +160,40 @@ const HomeScreen = (props) => {
   const [showCategoryFilter, setShowCategoryFilter] = useState(false);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(0);
 
-  const [ads, setAds] = useState([
-    {
-      id: 1,
-      text: "Top services",
-    },
-    {
-      id: 2,
-      text: "Top services",
-    },
-    {
-      id: 3,
-      text: "Top services",
-    },
-    {
-      id: 4,
-      text: "Top services",
-    },
-  ]);
+  // const [ads, setAds] = useState([
+  //   {
+  //     id: 1,
+  //     text: "Top services",
+  //   },
+  //   {
+  //     id: 2,
+  //     text: "Top services",
+  //   },
+  //   {
+  //     id: 3,
+  //     text: "Top services",
+  //   },
+  //   {
+  //     id: 4,
+  //     text: "Top services",
+  //   },
+  // ]);
   const [activeSlide, setActiveSlide] = useState(0);
   const adSliderRef = useRef(null);
 
   useEffect(() => {
+    const loadAndSetFilters = async () => {
+      const { serviceCategories, serviceTypes } = await loadFilters();
+      const { user } = await getUser();
+      console.log(user);
+      props.setServicesCategories(serviceCategories);
+      props.setServicesTypes(serviceTypes);
+      props.setTargetGender(user.searchStylesFor);
+      props.setProGender(user.searchProGender);
+      props.setSearchRadius(user.searchRadius);
+      props.setUser(user);
+    };
+    loadAndSetFilters();
     props.setMatchingFacilities(facilitiesMock);
     props.setMatchingSpecialists(specialistsMock);
     props.setFacility(facilitiesMock[0]);
@@ -182,6 +202,13 @@ const HomeScreen = (props) => {
       props.resetCart();
     };
   }, [props.navigation.route]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+  const toggleFullMap = () => {
+    setFullMap(!fullMap);
+  }
 
   const handleShowGenderFilterChange = () => {
     setShowGenderFilter(!showGenderFilter);
@@ -418,18 +445,6 @@ const HomeScreen = (props) => {
         }}
       >
         {renderSearch(props.navigation, true, "Search services...")}
-        <Spacer position="left" size="medium" />
-        <IconButton
-          active={false}
-          activeColor={"transparent"}
-          inactiveColor={"transparent"}
-          onPress={() => setShowFilters(!showFilters)}
-          style={{ position: "relative" }}
-        >
-          <GlassBackground intensity={100} style={{ borderRadius: 200 }} />
-
-          <FontAwesome name="filter" size={20} color="white" />
-        </IconButton>
       </Row>
     );
   };
@@ -607,53 +622,53 @@ const HomeScreen = (props) => {
   return (
     <SafeArea>
       <PageContainer>
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-          <View>
-            {renderAddress()}
-
-            <View
+        <View>
+          {!fullMap && renderAddress()}
+          <View
+            style={{
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <ContainerGradient
+              colors={[
+                theme.colors.brand.primary,
+                theme.colors.brand.quaternary,
+              ]}
+              start={[0, 1]}
+              end={[1, 0]}
+            />
+            <PaddedContainer
               style={{
-                position: "relative",
-                overflow: "hidden",
+                backgroundColor: rgba(theme.colors.brand.quaternary, 0),
               }}
             >
-              <ContainerGradient
-                colors={[
-                  theme.colors.brand.primary,
-                  theme.colors.brand.quaternary,
-                ]}
-                start={[0, 1]}
-                end={[1, 0]}
-              />
-              <PaddedContainer
-                style={{
-                  backgroundColor: rgba(theme.colors.brand.quaternary, 0),
-                }}
-              >
-                <Spacer position="bottom" size="medium" />
-                <Spacer position="bottom" size="medium" />
-                {renderSearchBar()}
-                <Spacer position="bottom" size="medium" />
-              </PaddedContainer>
-              <View
-                style={{
-                  backgroundColor: rgba(theme.colors.brand.quaternary, 0),
-                }}
-              >
-                <Spacer position="bottom" size="medium" />
-                {showFilters && renderFilters()}
-                <Spacer position="bottom" size="medium" />
-              </View>
               <Spacer position="bottom" size="medium" />
-
-              <PaddedContainer style={{ backgroundColor: "transparent" }}>
-                <Spacer position="bottom" size="medium" />
-                {renderAds()}
-                <Spacer position="bottom" size="small" />
-              </PaddedContainer>
+              <Spacer position="bottom" size="medium" />
+              {renderSearchBar()}
+              <Spacer position="bottom" size="medium" />
+            </PaddedContainer>
+            <View
+              style={{
+                backgroundColor: rgba(theme.colors.brand.quaternary, 0),
+              }}
+            >
+              <Spacer position="bottom" size="medium" />
+              {renderFilters()}
               <Spacer position="bottom" size="medium" />
             </View>
+            <Spacer position="bottom" size="medium" />
 
+            {/*<PaddedContainer style={{ backgroundColor: "transparent" }}>*/}
+            {/*  <Spacer position="bottom" size="medium" />*/}
+            {/*  {renderAds()}*/}
+            {/*  <Spacer position="bottom" size="small" />*/}
+            {/*</PaddedContainer>*/}
+            <Spacer position="bottom" size="medium" />
+          </View>
+        </View>
+        {!fullMap && <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+          <View>
             <PaddedContainer>
               {/*<Spacer position="bottom" size="large" />*/}
               {/*<Spacer position="bottom" size="medium" />*/}
@@ -689,6 +704,7 @@ const HomeScreen = (props) => {
                 carouselBottom={false}
                 data={props.facilities}
                 bottomMargin={30}
+                resizeMap={toggleFullMap}
                 renderItem={({ item }) => (
                   <FacilityCard
                     handleMorePress={() =>
@@ -705,8 +721,26 @@ const HomeScreen = (props) => {
             </View>
           </View>
           <Spacer position="bottom" size="large" />
-          <Spacer position="bottom" size="large" />
-        </ScrollView>
+        </ScrollView>}
+        {fullMap && <View style={{flex: 1}}><Map
+          fullMap={true}
+          carouselBottom={true}
+          data={props.facilities}
+          bottomMargin={30}
+          resizeMap={toggleFullMap}
+          renderItem={({ item }) => (
+            <FacilityCard
+              handleMorePress={() =>
+                props.navigation.navigate("FacilityDetails", {
+                  facility: item,
+                })
+              }
+              style={{ marginBottom: 18 }}
+              facility={item}
+              handleViewResultPress={() => setBottomSheetIndex(1)}
+            />
+          )}
+        /></View>}
       </PageContainer>
 
       <PriceRangeModal
@@ -758,6 +792,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setTargetGender: (gender) => dispatch(setTargetGender(gender)),
+  setSearchRadius: (radius) => dispatch(setSearchRadius(radius)),
+  setProGender: (gender) => dispatch(setProGender(gender)),
+  setUser: (user) => dispatch(setUser(user)),
+  setServicesCategories: (serviceCategories) =>
+    dispatch(setServicesCategories(serviceCategories)),
+  setServicesTypes: (servicesTypes) =>
+    dispatch(setServicesTypes(servicesTypes)),
   setMatchingFacilities: (facilities) =>
     dispatch(setMatchingFacilities(facilities)),
   setMatchingSpecialists: (specialists) =>

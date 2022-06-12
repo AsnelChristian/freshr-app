@@ -13,7 +13,7 @@ export const MapMarker = (props) => {
         name="map-marker"
         size={30}
         color={
-          isSelected ? theme.colors.brand.primary : theme.colors.ui.primary
+          isSelected ? theme.colors.brand.secondary : theme.colors.ui.primary
         }
       />
     </Marker>

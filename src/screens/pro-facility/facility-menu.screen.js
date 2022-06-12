@@ -23,7 +23,8 @@ import {
 } from "@expo/vector-icons";
 import { Separator } from "../../components/helpers/helpers.component";
 import { Text } from "../../components/typography/typography.component";
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../../providers/app-provider";
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -31,6 +32,7 @@ const Container = styled.ScrollView`
 `;
 
 const FacilityMenuScreen = (props) => {
+  const {changeApp} = useContext(AppContext)
   const renderHeader = () => {
     return (
       <HeaderContainer>
@@ -75,21 +77,21 @@ const FacilityMenuScreen = (props) => {
         <View>
           <ProfileButton
             icon={<AntDesign name="swap" size={28} color="black" />}
-            onPress={() =>
-              props.navigation.reset({
-                index: 0,
-                routes: [{ name: "app" }],
-              })
+            onPress={() => changeApp('normal')
+              // props.navigation.reset({
+              //   index: 0,
+              //   routes: [{ name: "app" }],
+              // })
             }
             label="Switch to customer's account"
           />
           <ProfileButton
             icon={<AntDesign name="swap" size={28} color="black" />}
-            onPress={() =>
-              props.navigation.reset({
-                index: 0,
-                routes: [{ name: "proAppService" }],
-              })
+            onPress={() => changeApp('specialist')
+              // props.navigation.reset({
+              //   index: 0,
+              //   routes: [{ name: "proAppService" }],
+              // })
             }
             label="Switch service provider account"
           />

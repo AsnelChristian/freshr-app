@@ -28,14 +28,14 @@ export const renderSearch = (
         navigation.navigate("Search");
       }}
       style={{
-        shadowColor: theme.colors.ui.border,
+        shadowColor: theme.colors.brand.quaternary,
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: 4,
+          height: 2,
         },
         shadowOpacity: 1,
         shadowRadius: 5,
-        elevation: 6,
+        elevation: 1,
       }}
       iconContent={
         <View

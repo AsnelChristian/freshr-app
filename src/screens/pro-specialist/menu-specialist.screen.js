@@ -24,10 +24,11 @@ import {
 import { Separator } from "../../components/helpers/helpers.component";
 import { Text } from "../../components/typography/typography.component";
 import { NavButton, TopNavContainer } from "./components/top-nav.component";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { renderConfirmModal } from "./components/modal.component";
 import { SwitchInput } from "./components/switch-component";
 import { toggleBottomNavBackground } from "./utils";
+import { AppContext } from "../../providers/app-provider";
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -37,6 +38,7 @@ const Container = styled.ScrollView`
 const MenuSpecialistScreen = (props) => {
   const theme = useTheme();
 
+  const {changeApp} = useContext(AppContext)
   const [available, setAvailable] = useState(false);
   const [showAvailableConfirmation, setShowAvailableConfirmation] =
     useState(false);
@@ -105,10 +107,11 @@ const MenuSpecialistScreen = (props) => {
               />
             }
             onPress={() =>
-              props.navigation.reset({
-                index: 0,
-                routes: [{ name: "app" }],
-              })
+              changeApp('normal')
+              // props.navigation.reset({
+              //   index: 0,
+              //   routes: [{ name: "app" }],
+              // })
             }
             label="Switch to customer's account"
           />
@@ -121,10 +124,11 @@ const MenuSpecialistScreen = (props) => {
               />
             }
             onPress={() =>
-              props.navigation.reset({
-                index: 0,
-                routes: [{ name: "proAppFacility" }],
-              })
+              changeApp('host')
+              // props.navigation.reset({
+              //   index: 0,
+              //   routes: [{ name: "proAppFacility" }],
+              // })
             }
             label="Switch host account"
           />

@@ -19,7 +19,7 @@ export const ActionButton = styled.TouchableOpacity`
   height: ${({ height }) => `${height}px`};
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.brand.primary};
+  background-color: ${({ theme, disabled }) => disabled ? 'gray' : theme.colors.brand.primary};
   border-radius: ${({ theme }) => theme.sizes[1]};
 `;
 

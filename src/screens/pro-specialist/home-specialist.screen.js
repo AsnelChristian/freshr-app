@@ -248,7 +248,7 @@ const HomeSpecialistScreen = (props) => {
               <Spacer position="bottom" size="large" />
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text
-                  style={{ color: "white", fontSize: 50, fontWeight: "bold" }}
+                  style={{ color: "white", fontSize: 35, fontWeight: "bold" }}
                 >
                   $ {balance}
                 </Text>
@@ -268,20 +268,20 @@ const HomeSpecialistScreen = (props) => {
           </HeaderSectionContainer>
         </PaddedContainer>
 
-        <Spacer position="bottom" size="large" />
-        <PaddedContainer>{renderStats()}</PaddedContainer>
-        <Spacer position="bottom" size="large" />
-        {graphData.length > 0 && (
-          <LineChart
-            height={GRAPH_HEIGHT}
-            width={GRAPH_WIDTH}
-            data={graphData}
-            fill="transparent"
-            stroke="black"
-            strokeWidth={3}
-            setBalance={updateBalance}
-          />
-        )}
+        {/*<Spacer position="bottom" size="large" />*/}
+        {/*<PaddedContainer>{renderStats()}</PaddedContainer>*/}
+        {/*<Spacer position="bottom" size="large" />*/}
+        {/*{graphData.length > 0 && (*/}
+        {/*  <LineChart*/}
+        {/*    height={GRAPH_HEIGHT}*/}
+        {/*    width={GRAPH_WIDTH}*/}
+        {/*    data={graphData}*/}
+        {/*    fill="transparent"*/}
+        {/*    stroke="black"*/}
+        {/*    strokeWidth={3}*/}
+        {/*    setBalance={updateBalance}*/}
+        {/*  />*/}
+        {/*)}*/}
       </MainSection>
     );
   };

@@ -17,6 +17,10 @@ import {
   ProfileButton,
   Avatar,
 } from "../components/profile.helper.component";
+import { AuthContext } from "../../providers/auth/auth.context";
+import { useContext } from "react";
+import { LoadingScreen } from "../loading.screen";
+import { AppContext } from "../../providers/app-provider";
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -29,6 +33,8 @@ const Header = styled.View`
 
 const ProfileScreen = (props) => {
   const theme = useTheme();
+  const {currentApp, changeApp} = useContext(AppContext);
+  const {isLoading, user} = useContext(AuthContext)
   const coverImage =
     "https://st2.depositphotos.com/1009634/7235/v/950/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg";
   const name = "John doe";
@@ -67,6 +73,10 @@ const ProfileScreen = (props) => {
     );
   };
 
+  if (isLoading) {
+    return <LoadingScreen/>
+  }
+
   return (
     <SafeArea>
       <Container showsVerticalScrollIndicator={false}>
@@ -102,7 +112,7 @@ const ProfileScreen = (props) => {
         <SectionTitle variant="label">Pro</SectionTitle>
         <Spacer position="bottom" size="large" />
         <View>
-          <ProfileButton
+          {user && user.isHost && <ProfileButton
             icon={
               <AntDesign
                 name="swap"
@@ -111,14 +121,26 @@ const ProfileScreen = (props) => {
               />
             }
             onPress={() =>
-              props.navigation.reset({
-                index: 0,
-                routes: [{ name: "proAppFacility" }],
-              })
+              changeApp('host')
+              // props.navigation.reset({
+              //   index: 0,
+              //   routes: [{ name: "ProAppFacility" }],
+              // })
             }
             label="Switch to host account"
-          />
-          <ProfileButton
+          />}
+          {user && !user.isHost && <ProfileButton
+            icon={
+              <AntDesign
+                name="swap"
+                size={28}
+                color={theme.colors.ui.primary}
+              />
+            }
+            onPress={() => props.navigation.navigate("HostVerification")}
+            label="Become a host"
+          />}
+          {user && user.isSpecialist &&<ProfileButton
             icon={
               <AntDesign
                 name="swap"
@@ -127,13 +149,25 @@ const ProfileScreen = (props) => {
               />
             }
             onPress={() =>
-              props.navigation.reset({
-                index: 0,
-                routes: [{ name: "proAppService" }],
-              })
+              changeApp('specialist')
+              // props.navigation.reset({
+              //   index: 0,
+              //   routes: [{ name: "ProAppSpecialist" }],
+              // })
             }
             label="Switch service provider account"
-          />
+          />}
+          {user && !user.isSpecialist && <ProfileButton
+            icon={
+              <AntDesign
+                name="swap"
+                size={28}
+                color={theme.colors.ui.primary}
+              />
+            }
+            onPress={() => props.navigation.navigate("SpecialistVerification")}
+            label="Become a specialist"
+          />}
           <Separator />
         </View>
         <Spacer position="bottom" size="large" />

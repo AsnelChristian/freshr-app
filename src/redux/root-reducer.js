@@ -4,6 +4,7 @@ import { specialistsReducer } from "./specialists/specialists.reducer";
 import { facilitiesReducer } from "./facilities/facilities.reducer";
 import { servicesReducer } from "./services/services.reducer";
 import { categoriesReducer } from "./categories/categories.reducer";
+import authReducer from "./auth/auth.reducer";
 
 export default combineReducers({
   booking: bookingReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   services: servicesReducer,
   facilities: facilitiesReducer,
   categories: categoriesReducer,
+  auth: authReducer,
 });

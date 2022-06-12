@@ -3,19 +3,15 @@ import styled, { useTheme } from "styled-components/native";
 import {
   ScrollView,
   TouchableOpacity,
-  useWindowDimensions,
   View,
 } from "react-native";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { rgba } from "polished";
 import Modal from "react-native-modal";
-import { camelize } from "../../utils/string-formatting";
 import {
   FavButton,
   PageContainer,
   PageContentContainer,
-  ReviewButton,
-  ReviewButtonText,
   SectionTitle,
   TitleContainer,
 } from "../components/details-screen.component";
@@ -24,12 +20,10 @@ import { Text } from "../../components/typography/typography.component";
 import { Gallery } from "../components/gallery.component";
 import { Title } from "react-native-paper";
 import { RatingRow } from "../../components/rating/rating.component";
-import { RatingComponent } from "../components/rating.component";
 import {
   DescriptionContainer,
   QuoteIconContainer,
 } from "../../components/typography/typography.component";
-import { ServiceDetailsModal } from "../../components/bottom-sheet/bottom-sheet.component";
 import ServiceCard from "../components/service-card.component";
 import { connect } from "react-redux";
 import { clearCart, setBookingStep } from "../../redux/booking/booking.actions";
@@ -47,6 +41,7 @@ import {
   CustomTabButtonsContainer,
   CustomTabSeparator,
 } from "../components/custom-tab,component";
+import { ServiceDetailsModal } from "../../components/bottom-sheet/ServiceDetailsModal";
 
 const CategorySelectedCount = styled.View`
   height: 30px;
